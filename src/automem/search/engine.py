@@ -80,9 +80,13 @@ BENCHMARK_RUNNER_MODULES = {
     "xbench-deepsearch": "automem.benchmarks.xbench_deepsearch.runner",
     "xbench_deepsearch": "automem.benchmarks.xbench_deepsearch.runner",
     "xbench": "automem.benchmarks.xbench_deepsearch.runner",
+    "appworld": "automem.benchmarks.appworld.runner",
 }
 DEFAULT_SPLIT_SIZES = (19, 100, 30, 15)
 XBENCH_DEFAULT_SPLIT_SIZES = (10, 70, 10, 10)
+# AppWorld train split has 90 tasks. Small-budget reproduction defaults:
+# warmup / search / validation / test.
+APPWORLD_DEFAULT_SPLIT_SIZES = (10, 40, 20, 20)
 
 WARMUP_ARCHITECTURE = {
     "extract_types": ["tip"],
@@ -242,6 +246,22 @@ def _apply_benchmark_split_defaults(args: argparse.Namespace) -> None:
         logger.info(
             "Applied current xBench split defaults: warmup/search/validation/test=%s",
             "/".join(str(value) for value in XBENCH_DEFAULT_SPLIT_SIZES),
+        )
+    elif (
+        benchmark == "appworld"
+        and not getattr(args, "data_split", None)
+        and not getattr(args, "_split_sizes_explicit", False)
+        and current == DEFAULT_SPLIT_SIZES
+    ):
+        (
+            args.warmup_n,
+            args.search_n,
+            args.validation_n,
+            args.test_n,
+        ) = APPWORLD_DEFAULT_SPLIT_SIZES
+        logger.info(
+            "Applied AppWorld split defaults: warmup/search/validation/test=%s",
+            "/".join(str(value) for value in APPWORLD_DEFAULT_SPLIT_SIZES),
         )
 
 
