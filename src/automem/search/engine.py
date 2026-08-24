@@ -44,6 +44,13 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from dotenv import load_dotenv
+
+# Match the benchmark runners: load .env so the parent process's proposer /
+# diagnosis model calls resolve credentials. override=False keeps a sourced
+# shell environment authoritative.
+load_dotenv(override=False)
+
 from automem.architecture.compiler import ArchitectureCompiler, RuntimeConfig
 from automem.architecture.models import ArchitectureSpec
 from automem.architecture_space import (
