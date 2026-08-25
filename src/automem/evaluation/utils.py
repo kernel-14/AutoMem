@@ -178,6 +178,13 @@ def require_complete_task_run(
         )
 
 
+# AppWorld freezes the world clock by patching time.time/time.monotonic
+# while a world is open. Capture the real functions at import time so
+# duration measurement is unaffected by the patch.
+_REAL_MONOTONIC = time.monotonic
+_REAL_TIME = time.time
+
+
 class TaskTimer:
     """Timer for tracking task execution time"""
     
@@ -187,11 +194,11 @@ class TaskTimer:
     
     def start(self):
         """Start the timer"""
-        self.start_time = time.time()
+        self.start_time = _REAL_MONOTONIC()
     
     def stop(self):
         """Stop the timer and return elapsed time"""
-        self.end_time = time.time()
+        self.end_time = _REAL_MONOTONIC()
         return self.elapsed()
     
     def elapsed(self):
