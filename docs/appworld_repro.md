@@ -58,6 +58,39 @@
 3. **lift 偏弱但检索端起效**：+2.5 点在 40 任务上只有 1 个任务的差距（统计弱）；hit rate 翻倍说明瓶颈在注入后的利用（FGMD 分类中的 injection_bad），而非检索。
 4. **工程**：三次中断（引擎父进程 .env 未加载、faiss-cpu 缺失、运行中改代码触发协议指纹清空）均靠断点续跑恢复；运行期间不可修改仓库代码。
 
+## 经典记忆系统基线对比（held-out 40 任务，统一运行时）
+
+映射方式：按论文 Table 1 把各系统映射为架构空间中的固定点，在与 AutoMem 候选完全相同的
+automem-runtime-v1 下评测（学习阶段 = warmup+search 70 任务、演化开；测试 = held-out 40 任务、
+演化关、纯检索）。`scripts/parallel_baseline.py` 为执行脚本。
+
+| 系统 | 架构（extract / store / retrieve / manage） | 池规模 | held-out | vs 无记忆 |
+| --- | --- | --- | --- | --- |
+| **AutoMem (r2_c2)** | 4 类 / json / hybrid / lightweight | 36 | **22.5%** | +2.5 |
+| AWM | workflow / json / hybrid / json_full | 19 | **22.5%** | +2.5 |
+| Voyager | shortcut / vector / hybrid / tool_manager | 11 | **22.5%** | +2.5 |
+| Mem0 | tip / vector / hybrid / lightweight | 7 | 20.0% | +0.0 |
+| MemoryBank | trajectory / vector / hybrid / lightweight | 4 | 20.0% | +0.0 |
+| 无记忆 | — | — | 20.0% | — |
+| ExpeL | tip+insight / hybrid / contrastive / json_full | 54 | 15.0% | **−5.0** |
+
+结论：
+
+1. AutoMem 与 AWM、Voyager 并列第一（均 9/40），但 40 样本下与无记忆（8/40）的差异
+   在噪声范围内（±1 任务），任何 SOTA 宣称都不成立。
+2. 模式信号：拿到 +1 任务的三个系统（AutoMem / AWM / Voyager）记忆里都含**过程性知识**
+   （workflow、shortcut、多类型混合），而纯语义性记忆（tip、trajectory）零增益、
+   未管理的失败 insight（ExpeL，54 单元）净伤害 5 个点——与 AppWorld 的操作型任务
+   分布一致。
+3. 主瓶颈（与 AutoMem 自身的 hit rate 0.88 对照）：检索命中但未转化为正确操作
+   （FGMD 分类中的 injection_bad），指向任务模型对注入记忆的利用能力而非记忆架构本身。
+
+工程注记：vector 存储的 `metadata.json` 不持久化 embedding，跨进程迁移记忆池时
+`VectorStorage.add` 会静默跳过全部无 embedding 单元（HybridStorage 用零向量兜底，
+VectorStorage 直接丢弃）；`parallel_baseline.py` 的合并步骤已补算 embedding。
+此问题同样潜伏在搜索引擎对纯 vector 候选的 canonical 导入路径中（本次搜索未触发，
+五轮冠军均为 json/hybrid 存储）。
+
 ## 复现命令
 
 ```bash
