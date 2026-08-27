@@ -320,6 +320,18 @@ class Model:
         # Finally, use the passed-in kwargs to override all settings
         completion_kwargs.update(kwargs)
 
+        # Opt-in reasoning-effort control (e.g. taiji hy3 defaults to slow
+        # thinking, which dominates wall-clock on agentic loops). Env-gated so
+        # behavior is unchanged unless explicitly requested. NOTE: this file is
+        # covered by the engine's package_source_sha256 protocol digest -- any
+        # change here invalidates resume for in-flight runs (deliberately
+        # accepted for the no_think rerun on the webwalkerqa branch).
+        _reasoning = os.environ.get("LLM_REASONING_EFFORT", "").strip()
+        if _reasoning:
+            extra_body = dict(completion_kwargs.get("extra_body") or {})
+            extra_body.setdefault("reasoning_effort", _reasoning)
+            completion_kwargs["extra_body"] = extra_body
+
         return completion_kwargs
 
     def reset_total_counts(self):
