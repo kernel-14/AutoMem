@@ -42,11 +42,16 @@
 纪律：①改 .env/代码前先 `cp -al` 备份 run 目录；②重启命令必须与首次启动一字不差；
 ③运行期间不碰任何实验条件。
 
-## 阶段二：taiji OpenAPI 全量重跑（2026-08-25 15:23 启动，进行中）
+## 阶段二：taiji OpenAPI 全量重跑（2026-08-27 15:40 以 no_think 模式重启，进行中）
 
 - 端点：`http://api.taiji.woa.com/openapi/v2`（OpenAI 兼容，Bearer key 见 repo `.env`）
-- 限流：~10 QPM（实测成功调用 ~10-19 次/分钟，429 由重试吸收）
-- 并发 8（延迟瓶颈：默认 high 思考模式单次调用 30-90s；QPM 与延迟双重约束）
+- 限流：~10 QPM（服务端硬上限，错误信息确认，可申请提额；429 由重试吸收）
+- 并发 8；**reasoning_effort=no_think**（commit 56b6355，env `LLM_REASONING_EFFORT` 门控）——
+  high 思考模式单次调用 30-90s 是延迟瓶颈（~8 调用/分钟），no_think 后转为 QPM 硬顶
+  （~10 调用/分钟），全量 ETA ~3-5 天。曾中途诊断：阶段二第一版（high thinking）跑到
+  baseline 116/170 后被放弃，备份在 runs/search/webwalkerqa-full.bak-highthink
+- 阶段二期间的 high-thinking 版 baseline 部分结果（116/170 有效、通过率 52.6%
+  大样本）可作为 no_think 版的对照参考：**thinking 模式对无记忆基线影响约 ±2 点内**
 - 页面磁盘缓存（`.cache/`）在指纹清空中幸存，爬取近乎免费
 - 页面缓存复用使阶段二与阶段一的爬取条件一致
 
