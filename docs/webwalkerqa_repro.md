@@ -50,8 +50,9 @@
   high 思考模式单次调用 30-90s 是延迟瓶颈（~8 调用/分钟），no_think 后转为 QPM 硬顶
   （~10 调用/分钟），全量 ETA ~3-5 天。曾中途诊断：阶段二第一版（high thinking）跑到
   baseline 116/170 后被放弃，备份在 runs/search/webwalkerqa-full.bak-highthink
-- 阶段二期间的 high-thinking 版 baseline 部分结果（116/170 有效、通过率 52.6%
-  大样本）可作为 no_think 版的对照参考：**thinking 模式对无记忆基线影响约 ±2 点内**
+- 阶段二期间的 high-thinking 版 baseline 部分结果（116/170 有效、通过率 52.6%）
+  备份在 runs/search/webwalkerqa-full.bak-highthink，待 no_think 版 baseline 完成后
+  可量化 thinking 模式对无记忆基线的影响
 - 页面磁盘缓存（`.cache/`）在指纹清空中幸存，爬取近乎免费
 - 页面缓存复用使阶段二与阶段一的爬取条件一致
 
