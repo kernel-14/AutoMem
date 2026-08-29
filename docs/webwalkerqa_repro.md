@@ -89,3 +89,16 @@ json 原地补判（独占 QPM，~10 秒/个）→ resume 后新 pass 跳过全�
 - [ ] 六轮搜索轨迹
 - [ ] runoff 胜者与最终架构
 - [ ] final validation（170 held-out）：无记忆 vs 带记忆 → memory lift
+
+## 阶段三：judge 分流 venus（2026-08-30 00:07 重启，进行中）
+
+阶段二的死结：taiji 10 QPM 全被 agent 吃满，judge（3 次重试 × 5s）永远抢不到额度 →
+每轮候选 30/30 跑完但判分不足 → 门禁 exit 1 → 引擎把候选整体排除（R1/R2 两轮 180 个
+rollout 白跑，canonical 池始终为 0）。门禁读内存结果列表，磁盘补判无法阻止候选级失败。
+
+**解法（方案 B）**：`JUDGE_API_KEY`/`JUDGE_API_BASE` 指向 venus（同模型 hy3、无限流、
+判分调用小 ≈ 每日 2-3 元额度），agent 留 taiji。digest 变化（judge_role_configured
+False→True）→ 全量重启（第三次，备份 runs/search/webwalkerqa-full.bak-r1r2）。
+已验证：agent 340 调用走 taiji / judge 走 venus，首批任务判分全部即时成功。
+旧 rejudge 补判工具不再需要（判分端无限流）。venus 日额度烧穿风险：判分调用总量
+~2k 次、每次 ~1k token，远低于 200 元/日。
