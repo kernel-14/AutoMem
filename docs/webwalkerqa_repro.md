@@ -72,3 +72,20 @@
 - [ ] runoff 胜者与最终架构
 - [ ] final validation（170 held-out）：无记忆 vs 带记忆 → memory lift
 - [ ] 与 venus 阶段参照系的对比（同名模型、不同端点的行为差异）
+
+## 运维技术：离线补判（rejudge，2026-08-29）
+
+10 QPM 下 agent 调用会饿死 judge 调用（judge 失败率高达 60%+），每个阶段收尾都会触发
+fail-closed 门禁并浪费数小时重跑。对策：暂停引擎 → 用 runner 原生的
+`judge_webwalkerqa_answer`（同模型同 prompt 同 exact-match fallback）对未判分任务
+json 原地补判（独占 QPM，~10 秒/个）→ resume 后新 pass 跳过全部有效任务直接过门禁。
+`scripts/rejudge.py <tasks目录/*.json>`，脚本在 /tmp 不影响指纹，入库仅作参考副本。
+实测把 baseline 收尾从 10-15 小时压到 ~20 分钟。
+
+## 结果（更新中）
+
+- [x] taiji 全量 baseline：**50.0%**（170 任务；85 easy / 85 memory-sensitive）
+  - 对照：high-thinking 版中断数据 52.6%（116 任务）、venus 版 43.5%（170 任务）
+- [ ] 六轮搜索轨迹
+- [ ] runoff 胜者与最终架构
+- [ ] final validation（170 held-out）：无记忆 vs 带记忆 → memory lift
