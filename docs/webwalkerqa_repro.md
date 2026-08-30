@@ -84,7 +84,7 @@ json 原地补判（独占 QPM，~10 秒/个）→ resume 后新 pass 跳过全�
 
 ## 结果（更新中）
 
-- [x] taiji 全量 baseline：**50.0%**（170 任务；85 easy / 85 memory-sensitive）
+- [x] 阶段三 baseline（judge@venus）：**39.4%**（170 任务；67 easy / 103 memory-sensitive）
   - 对照：high-thinking 版中断数据 52.6%（116 任务）、venus 版 43.5%（170 任务）
 - [ ] 六轮搜索轨迹
 - [ ] runoff 胜者与最终架构
@@ -102,3 +102,9 @@ False→True）→ 全量重启（第三次，备份 runs/search/webwalkerqa-ful
 已验证：agent 340 调用走 taiji / judge 走 venus，首批任务判分全部即时成功。
 旧 rejudge 补判工具不再需要（判分端无限流）。venus 日额度烧穿风险：判分调用总量
 ~2k 次、每次 ~1k token，远低于 200 元/日。
+
+### 阶段三 baseline 说明
+
+- 阶段二中断版（judge@taiji）baseline 为 50.0%；阶段三（judge@venus）为 39.4%，差 ~10 点，
+  归因于两个端点的 hy3 判分尺度差异（venus 更严格）。跨阶段对比时以判分端一致为准。
+- 阶段三 run 内部（baseline/各轮/runoff/final）全部使用同一 venus judge，自洽。
