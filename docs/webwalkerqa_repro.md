@@ -108,3 +108,53 @@ False→True）→ 全量重启（第三次，备份 runs/search/webwalkerqa-ful
 - 阶段二中断版（judge@taiji）baseline 为 50.0%；阶段三（judge@venus）为 39.4%，差 ~10 点，
   归因于两个端点的 hy3 判分尺度差异（venus 更严格）。跨阶段对比时以判分端一致为准。
 - 阶段三 run 内部（baseline/各轮/runoff/final）全部使用同一 venus judge，自洽。
+
+## 阶段四：解析健壮性修复后重启（2026-08-31 09:23 启动，run #4）
+
+### 阶段三 R1 再次全灭的真正原因（不是 judge）
+
+judge 分流 venus 后判分不再是瓶颈，但 R1 三个候选仍全部 exit 1。统计 23 条 agent 级错误，
+全部是同一条：
+
+```
+Unsupported step output: <class 'list'>: 'NoneType' object has no attribute 'content'
+```
+
+根因在 `src/flashoagents/agents.py`：模型偶发返回无法被 `json_repair` 解析的内容时，
+旧代码直接 `raise`，整条任务判死。该现象约占 0.3% 的调用，但**带记忆的候选 prompt 更容易
+触发畸形输出**，导致 20–30% 的任务报错 → 每个候选都过不了 runner 的 30/30 完成门 →
+搜索陷入"候选全排除 → canonical 池 0 → 下一轮仍 0"的死循环。
+
+修复：把单次解析改成最多 5 次重试（每次重新发起模型调用），commit `a632951`。
+因为 digest 哈希 `automem/`、`flashoagents/` 下所有 `.py`，源码改动必然导致指纹变化，
+必须全量重启（第四次清档）。新增 `scripts/verify_digest.py` 用于改代码前离线预检指纹。
+
+### run #4 baseline（2026-08-31 09:23 → 2026-09-01 00:59）
+
+| 项 | 值 |
+|---|---|
+| 任务数 | 170 / 170 |
+| error | **0** |
+| unjudged | **0** |
+| accuracy | **43.5%**（74 easy / 96 memory-sensitive） |
+| 解析重试触发次数 | **0** |
+
+对比各次 baseline（判分端必须一致才能横向比）：
+
+| 阶段 | 判分端 | baseline |
+|---|---|---|
+| 阶段二（中断） | taiji | 50.0% |
+| 阶段三 | venus | 39.4% |
+| 阶段四 run #4 | venus | **43.5%** |
+
+### 稳定性措施
+
+`scripts/watchdog.sh` + 系统 crontab（每 10 分钟）：沙箱曾在 02:47 无 Traceback 地杀掉
+引擎进程树，看门狗检测到 `automem.search.engine` 不在即自动 `--resume`。
+需要人工介入时 `touch /tmp/NO_AUTORESUME` 暂停。
+
+### Round 1 进度（2026-09-01 00:59 进入）
+
+三个候选**并行**评测（3 个 runner 子进程 × concurrency 8 = 24 条任务同时在跑，
+共享 taiji 10 QPM）。Round 1 首见 `canonical pool has 0 units` 属**预期**——第一轮池本就为空；
+危险信号是 Round 2 之后仍为 0（那才意味着候选被排除）。
