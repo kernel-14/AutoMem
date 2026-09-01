@@ -158,3 +158,61 @@ Unsupported step output: <class 'list'>: 'NoneType' object has no attribute 'con
 三个候选**并行**评测（3 个 runner 子进程 × concurrency 8 = 24 条任务同时在跑，
 共享 taiji 10 QPM）。Round 1 首见 `canonical pool has 0 units` 属**预期**——第一轮池本就为空；
 危险信号是 Round 2 之后仍为 0（那才意味着候选被排除）。
+
+### 阶段四 Round 1 全灭（2026-09-01 07:37-07:44）—— 并发过载，不是代码
+
+Round 1 三个候选全部 `Eval subprocess failed (exit 1)`：
+
+| 候选 | 完成 | 有效 | 错误 |
+|---|---|---|---|
+| r1_c0 | 30/30 | 22 | **8** |
+| r1_c1 | 30/30 | 22 | **8** |
+| r1_c2 | 30/30 | 21 | **9** |
+
+错误内容全部是 `Task agent failed before producing an answer: {'error': 'WARNING'}`。
+这个 `'WARNING'` 具有误导性——在 `run.log` 里它紧跟在
+`WARNING - API status error occurred: Error code: 429 - {'error': {'message': '该 API key 已达到该模型每分钟请求数(QPM)上限…'}}`
+之后。真实链条是：
+
+1. 引擎把 3 个候选**并行**评测（3 个 runner 子进程），每个 `--concurrency 8`
+   → **24 条任务同时请求 taiji 的 10 QPM**；
+2. `models.py` 的 `APIStatusError` 分支 5 次重试、每次 `sleep(60)` 全部落空；
+3. 循环的 `if attempt < max_retries` 恒为真（`attempt` 最大 4 < 5），5 次之后
+   **函数走到末尾隐式返回 None**，而不是抛出；
+4. `model_message` 为 None → 任务级异常 → `BaseAgent.forward` 3 次重试后
+   返回 `{"error": str(last_error)}`，`str()` 取到的是日志级别字符串 `WARNING`。
+
+基线阶段（单 runner、8 并发）170 条零错误，可作对照：8 并发是安全的，24 并发是 3 倍过载。
+
+### 迁移：webwalkerqa-full → webwalkerqa-full-c3（2026-09-01 09:56）
+
+降并发必然改变 digest（`concurrency` 在 `behavior_fields` 里）→ 不能原地 resume。
+但 `baseline_digest` **刻意不包含 concurrency**（见 `_compute_eval_protocol_signature`
+的 `baseline_material`），所以可以用引擎官方支持的 `--baseline_from` 复用已完成基线。
+
+离线预检（`scripts/verify_digest.py --concurrency 3`，已扩展为同时打印两个 digest）：
+
+```
+digest          = e92cb43deb8e38817269b8b5  CHANGED (replay required)
+baseline_digest = dc7139cb41cbf05f4fe089a7  SAME (baseline reusable via --baseline_from)
+```
+
+新 run：`--concurrency 3`（3 候选 × 3 = 9 并发，贴近基线验证过安全的 8 并发）
++ `--data_split` 指向旧 run 的 split（保证 baseline_indices 与 fold 完全一致）
++ `--baseline_from runs/search/webwalkerqa-full/baseline`。
+
+启动日志确认基线被复用，15.6 小时的基线**没有重跑**：
+
+```
+[INFO] automem: Loaded custom data split from runs/search/webwalkerqa-full/data_split.json (search=60 val=110 test=170)
+[INFO] automem: [baseline_reuse] reused baseline from runs/search/webwalkerqa-full/baseline/baseline_done.json (covers 170/170 needed indices; prior backbone=hy3)
+[INFO] automem: === Search Round 1 / 6 ===
+```
+
+损失：Round 1 的 6.7 小时 + Round 2 的 2 小时。旧 run 完整备份在
+`runs/search/webwalkerqa-full-conc8.bak2`（含 R1 全量、R2 部分结果，可供复盘）。
+
+**待办**：`models.py` 的 429 分支应在重试耗尽后显式抛出而不是隐式返回 None
+（`if attempt < max_retries` → `if attempt < max_retries - 1`），让上层能区分
+"限流"与"解析失败"。此改动会改变 `package_source_sha256` → baseline_digest 变化
+→ 必须重跑基线，因此留到下一次全量重跑时一并处理。
