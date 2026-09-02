@@ -172,15 +172,23 @@ Round 1 三个候选全部 `Eval subprocess failed (exit 1)`：
 错误内容全部是 `Task agent failed before producing an answer: {'error': 'WARNING'}`。
 这个 `'WARNING'` 具有误导性——在 `run.log` 里它紧跟在
 `WARNING - API status error occurred: Error code: 429 - {'error': {'message': '该 API key 已达到该模型每分钟请求数(QPM)上限…'}}`
-之后。真实链条是：
+之后。
+
+> **勘误（2026-09-02）**：下面 1–4 的描述只对了一半。当时把「并发过载」当成唯一根因，
+> 且误判了 `str(last_error) == 'WARNING'` 的来源（并非"取到日志级别字符串"）。
+> 完整链条已于 2026-09-02 逐环实测验证，见
+> [根因链完整版](#根因链完整版2026-09-02-实测确认)。**真正的杀手是
+> `LogLevel.WARNING` 这个不存在的枚举成员**，并发过载只是触发条件。
 
 1. 引擎把 3 个候选**并行**评测（3 个 runner 子进程），每个 `--concurrency 8`
    → **24 条任务同时请求 taiji 的 10 QPM**；
-2. `models.py` 的 `APIStatusError` 分支 5 次重试、每次 `sleep(60)` 全部落空；
+2. `models.py`（实际路径 `src/flashoagents/models.py`）的 `APIStatusError` 分支
+   5 次重试、每次 `sleep(60)` 全部落空；
 3. 循环的 `if attempt < max_retries` 恒为真（`attempt` 最大 4 < 5），5 次之后
    **函数走到末尾隐式返回 None**，而不是抛出；
-4. `model_message` 为 None → 任务级异常 → `BaseAgent.forward` 3 次重试后
-   返回 `{"error": str(last_error)}`，`str()` 取到的是日志级别字符串 `WARNING`。
+4. `model_message` 为 None → 任务级异常 → 上层异常处理**自身**抛
+   `AttributeError: WARNING` → `BaseAgent.forward` 3 次重试后
+   返回 `{"error": str(last_error)}` → `{'error': 'WARNING'}`。
 
 基线阶段（单 runner、8 并发）170 条零错误，可作对照：8 并发是安全的，24 并发是 3 倍过载。
 
@@ -212,7 +220,168 @@ baseline_digest = dc7139cb41cbf05f4fe089a7  SAME (baseline reusable via --baseli
 损失：Round 1 的 6.7 小时 + Round 2 的 2 小时。旧 run 完整备份在
 `runs/search/webwalkerqa-full-conc8.bak2`（含 R1 全量、R2 部分结果，可供复盘）。
 
-**待办**：`models.py` 的 429 分支应在重试耗尽后显式抛出而不是隐式返回 None
-（`if attempt < max_retries` → `if attempt < max_retries - 1`），让上层能区分
-"限流"与"解析失败"。此改动会改变 `package_source_sha256` → baseline_digest 变化
-→ 必须重跑基线，因此留到下一次全量重跑时一并处理。
+**待办**：见下节「根因链完整版」——已定位到真正的杀手，修复方案从 1 处变为 2 处，
+但同样受 `package_source_sha256` 约束，按决策 A 推迟到下一次全量重跑。
+
+---
+
+## 阶段五：run #5 `webwalkerqa-full-c3` 搜索进展（2026-09-01 09:56 起，进行中）
+
+配置：`--concurrency 3`（3 候选 × 3 = 9 并发）、baseline 通过 `--baseline_from` 复用
+（170 任务 43.5%，**未重跑**）、judge 仍走 venus、agent 走 taiji。
+
+### 根因链完整版（2026-09-02 实测确认）
+
+上一节第 4 步当时是猜的。逐环验证后，真正的链条是**两个独立缺陷叠加**，
+且第二个比第一个严重得多。
+
+```
+taiji QPM 硬顶 → 429
+  ↓  openai SDK 内部自重试 2 次后抛 APIStatusError(429)
+
+[缺陷 A]  src/flashoagents/models.py:733-739
+    except (APIStatusError, EmptyContentError) as e:
+        if attempt < max_retries:      # attempt ∈ {0,1,2,3,4}，恒为真
+            ...; time.sleep(60)
+        else:
+            raise                      # ← 死代码，永不执行
+  ↓  5 次 × 60s = 300s 耗尽后 for 循环正常结束 → 函数【隐式 return None】
+
+  src/flashoagents/agents.py:863-867
+    model_message = self.model(...)    # None
+    json_repair.loads(model_message.content)   → AttributeError
+  ↓
+[缺陷 B]  src/flashoagents/agents.py:871-878   ★★★ 真正的杀手 ★★★
+    except Exception as e:
+        self.logger.log(Text(...), level=LogLevel.WARNING)
+                                       #                    ↑ 该成员不存在
+  ↓  LogLevel（src/flashoagents/monitoring.py:35-39）是 IntEnum，
+     只有 OFF=-1 / ERROR=0 / INFO=1 / DEBUG=2 → AttributeError: WARNING
+     【在异常处理器内部抛出】
+
+  src/flashoagents/base_agent.py:88-94
+    3 次重试，每次再烧 300s；3 次全挂 → {"error": str(last_error)}
+  ↓  str(AttributeError('WARNING')) == 'WARNING'
+  src/automem/benchmarks/webwalkerqa/runner.py:343
+    status=error → require_complete_task_run()（runner.py:731）抛异常
+    → write_jsonl 不执行 → 进程非零退出
+  ↓
+  engine.py:3492-3506 记 "Eval subprocess failed (exit 1)"
+    → 【整个候选 30 个任务全部作废】，排除出 Pareto + canonical 同步
+```
+
+**缺陷 B 的三个后果**（按严重度排序）：
+
+1. **2026-08-30 加的 5 次重采样重试（commit `a632951`）完全失效。** 异常在
+   `except` 块内部抛出，`_attempt` 循环根本走不到第 2 次。该 commit 的注释承诺
+   "5 attempts drive the task death rate to ~zero"，实际一次都没生效。
+2. 错误信息退化为 `{'error': 'WARNING'}`，完全不可读，掩盖了真实原因。
+3. 任何能到达该 `except` 的异常都会走这条死路，不限于 429。
+
+**验证证据**（三条，均可复现）：
+
+| 检查 | 结果 |
+|---|---|
+| `str(AttributeError('WARNING'))` | `'WARNING'`，与落盘的 `{'error': 'WARNING'}` **逐字匹配** |
+| `[a for a in range(5) if a < 5]` | `[0,1,2,3,4]` → `else: raise` 进入次数 **0** |
+| `grep -c "Step output unparseable"` | **0** —— 日志一行都没打出来，证明 logger 调用在求值时就炸了 |
+
+**代价：9 次候选评估里废了 3 次**（r1_c0、r2_c0、r2_c2）。
+
+### 逐轮结果（截至 2026-09-02 11:10，R3 完成）
+
+| 轮次 | 起始池 | fold | c0 | c1 | c2 | 作废 |
+|---|---|---|---|---|---|---|
+| R1 | 0 | A | 29/30 err1 — 44.8% | 30/30 err0 — 33.3% | 30/30 err0 — 33.3% | **c0** |
+| R2 | 32 | B | 29/30 err1 — 20.7% | 30/30 err0 — 16.7% | 29/30 err1 — 41.4% | **c0、c2** |
+| R3 | 40 | A | 30/30 err0 — 26.7% | 30/30 err0 — **43.3%** | 30/30 err0 — 30.0% | **0** |
+
+- **R3 是第一个全绿轮次**。三个候选各遇到 2 次 `BaseAgent` 异常，但都在第 3 次
+  重试自愈，未升级为任务死亡（`BaseAgent. error` 计数为 2 而非 3 —— 3 才是致命）。
+- 作废判据：`results.jsonl` 是否存在。runner 只有过了 fail-closed 门禁才会写它，
+  所以它是可靠的成功标记（R1 c0 / R2 c0 / R2 c2 均无此文件）。
+
+### Pareto 前沿首次回升
+
+```
+R1  best_fit=0.3083 (r1_c1)   pool 0 → 32
+R2  best_fit=0.2967           pool 32          ← 回退（冠军被重注入后自己丢了席位）
+R3  best_fit=0.3217 (r3_c1)   pool 40 → 66     ← 首次超越 R1
+```
+
+当前冠军 **r3_c1**：`acc=0.344  lift=-0.022  hit=0.544  teff=0.000  fit=0.3217`，
+架构 `extract=['tip','shortcut'] / storage={'tip':'json','shortcut':'json'} /
+retrieval=hyde / management=tool_manager`。记忆池 **0 → 32 → 40 → 66**，飞轮在加速。
+
+> `lift=-0.022` 是 30 任务优化折上的噪声值，**不是**最终 lift。
+
+### 唯一可做的跨轮比较：fold A（R1 vs R3，同 fold）
+
+Pareto 有效最佳：R1 **33.3%** → R3 **43.3%**，同期记忆池 0 → 40 units。
+方向符合预期，但**混杂了架构变化**（r3_c1 ≠ r1_c1），不能单独归因于记忆。
+
+反例（同架构重测的噪声量级）：r1_c1 在 R3 作为冠军被重注入（即 r3_c0），
+**同一 fold、同一架构**从 33.3% 跌到 26.7%。30 任务折在 p≈0.33 时
+1 SD ≈ 8.6pp —— **任何小于 ~10pp 的差异都不可与噪声区分**。
+
+### 噪声与统计功效（重要限制）
+
+- 搜索轮折内只有 30 任务 → 1 SD ≈ 9pp。R1→R3 的 +10pp 大致等于 1 个标准差。
+- 论文数字（67.6% → 72.5%）是在 170 任务量级上给出的，量级不同。
+- 最终 lift 只认 **170 任务 held-out 最终验证**：1 SD ≈ 3.8pp，这是唯一有
+  统计意义的对比。
+
+### ETA（2026-09-02 11:10 实测速度外推）
+
+实测：单轮 6.5–7.9h（R3 = 7h50m），单候选 4.3–4.8 任务/小时。
+刚确认的两个规模参数（此前未查清，对 ETA 影响很大）：
+
+- `run_protocol_runoff` 传入 `search_batch_indices` = **60 任务**（不是 170），
+  `final_runoff=2` 取 top-2 不同架构各跑一遍 60 任务
+- 最终验证 = `final_test_indices` = **170 任务**，与 baseline 同一批
+
+| 阶段 | 预计完成 |
+|---|---|
+| R4 | 9/2 19:00 |
+| R5 | 9/3 02:45 |
+| R6 | 9/3 10:30 |
+| runoff（2 架构 × 60 任务） | 9/3 20:30 |
+| **最终验证（170 任务）** | **9/4 15:30** |
+
+### 决策 A：不在本次 run 中途修缺陷（2026-09-02 拍板）
+
+**结论：不修，跑完当前 run；修复推迟到下一次全量重跑。**
+
+理由：
+
+1. **`package_source_sha256` 覆盖 `automem/` + `flashoagents/` 下所有 `.py`，
+   并被计入 `baseline_digest`**。一改源码，当前 43.5% 的 baseline 就与新代码的
+   候选不在同一份评测协议下，必须重跑 baseline（15.5h）+ 6 轮搜索 ≈ **5 天**，
+   已投入的 ~2.5 天全部报废。
+2. **缺陷的偏置方向是对称的**：它让 champion 和 baseline 各自偶尔丢任务（记 0 分），
+   两边同被压低，**lift 这个差值大体保得住**。
+3. **风险正在下降**：R3 0/3 死亡；最终验证是单候选串行，QPM 压力只有搜索轮
+   （3 候选并行）的 1/3，撞上该路径的概率显著更低。
+
+**两行修复（已定稿，暂不落盘）**：
+
+```python
+# src/flashoagents/agents.py:877   —— 让 5 次重采样真正生效
+- level=LogLevel.WARNING,
++ level=LogLevel.ERROR,          # 或给 LogLevel 补 WARNING = 3
+
+# src/flashoagents/models.py:734   —— 让 else: raise 不再是死代码
+- if attempt < max_retries:
++ if attempt < max_retries - 1:  # 重试耗尽后显式抛出，而非隐式 return None
+```
+
+**可选补充实验（不阻塞主结果）**：最终验证跑完之后再修复，然后单跑一次
+「修复版 champion vs 修复版 baseline」对照（约 30h），用于量化该缺陷对
+绝对分数的影响。
+
+### 待补
+
+- [ ] R4–R6 结果
+- [ ] runoff 胜者与最终架构
+- [ ] **final validation（170 held-out）：memory lift vs 43.5% baseline**
+- [ ] 缺陷 A/B 的修复与对照实验
