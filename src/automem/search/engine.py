@@ -44,6 +44,13 @@ import time
 from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
+from dotenv import load_dotenv
+
+# Match the benchmark runners: load .env so the parent process's proposer /
+# diagnosis model calls resolve credentials. override=False keeps a sourced
+# shell environment authoritative.
+load_dotenv(override=False)
+
 from automem.architecture.compiler import ArchitectureCompiler, RuntimeConfig
 from automem.architecture.models import ArchitectureSpec
 from automem.architecture_space import (
@@ -80,9 +87,13 @@ BENCHMARK_RUNNER_MODULES = {
     "xbench-deepsearch": "automem.benchmarks.xbench_deepsearch.runner",
     "xbench_deepsearch": "automem.benchmarks.xbench_deepsearch.runner",
     "xbench": "automem.benchmarks.xbench_deepsearch.runner",
+    "appworld": "automem.benchmarks.appworld.runner",
 }
 DEFAULT_SPLIT_SIZES = (19, 100, 30, 15)
 XBENCH_DEFAULT_SPLIT_SIZES = (10, 70, 10, 10)
+# AppWorld train split has 90 tasks. Small-budget reproduction defaults:
+# warmup / search / validation / test.
+APPWORLD_DEFAULT_SPLIT_SIZES = (10, 40, 20, 20)
 
 WARMUP_ARCHITECTURE = {
     "extract_types": ["tip"],
@@ -242,6 +253,22 @@ def _apply_benchmark_split_defaults(args: argparse.Namespace) -> None:
         logger.info(
             "Applied current xBench split defaults: warmup/search/validation/test=%s",
             "/".join(str(value) for value in XBENCH_DEFAULT_SPLIT_SIZES),
+        )
+    elif (
+        benchmark == "appworld"
+        and not getattr(args, "data_split", None)
+        and not getattr(args, "_split_sizes_explicit", False)
+        and current == DEFAULT_SPLIT_SIZES
+    ):
+        (
+            args.warmup_n,
+            args.search_n,
+            args.validation_n,
+            args.test_n,
+        ) = APPWORLD_DEFAULT_SPLIT_SIZES
+        logger.info(
+            "Applied AppWorld split defaults: warmup/search/validation/test=%s",
+            "/".join(str(value) for value in APPWORLD_DEFAULT_SPLIT_SIZES),
         )
 
 
@@ -5076,11 +5103,18 @@ def main() -> None:
     _apply_benchmark_split_defaults(args)
     _validate_search_args(args)
     if not args.dry_run and args.concurrency != 1:
-        raise ValueError(
-            "Architecture search requires --concurrency 1 because candidate "
-            "tasks share an evolving memory pool; concurrent completion order "
-            "changes the evaluated system. Run standalone no-memory benchmarks "
-            "separately if parallel throughput is required."
+        # Reproduction fork (webwalkerqa branch): relaxed from a hard error to a
+        # warning. The per-candidate runner's shared modular provider is
+        # lock-guarded and tolerates concurrency>1 (see the WebWalkerQA runner's
+        # own comment); the accepted cost is mild nondeterminism in memory-
+        # accumulation ORDER within a candidate's batch. Serial evaluation of
+        # ~1700 15-minute web-agent rollouts (~18 days) is infeasible here, so
+        # the trade is documented and taken.
+        logger.warning(
+            "Running architecture search with --concurrency %d: candidate "
+            "memory-pool accumulation order becomes nondeterministic "
+            "(lock-guarded provider; order effects expected to be mild).",
+            args.concurrency,
         )
 
     # ------------------------------------------------------------------

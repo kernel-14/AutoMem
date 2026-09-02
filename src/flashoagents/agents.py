@@ -848,17 +848,40 @@ class ToolCallingAgent(MultiStepAgent):
             }]
         }]
         
-        try:
-            model_message: ChatMessage = self.model(
-                memory_messages + instruction_message,
-            )
-            memory_step.model_output_messages = model_message
+        # Model output parse robustness (2026-08-30): a single malformed model
+        # response (unparseable content, None content from the streaming
+        # assembler, empty list output) used to raise immediately and kill the
+        # whole task (~0.3% of calls, but ~20-30% of memory-candidate tasks ->
+        # every candidate failed the runner's 30/30 completion gate and the
+        # search died in a spiral). Retry the model call instead: failures are
+        # transient (independent re-samples), so 5 attempts drive the task
+        # death rate to ~zero.
+        _max_step_attempts = 5
+        _last_step_error: Exception | None = None
+        for _attempt in range(_max_step_attempts):
             try:
+                model_message: ChatMessage = self.model(
+                    memory_messages + instruction_message,
+                )
+                memory_step.model_output_messages = model_message
                 content_dict = json_repair.loads(model_message.content)
+                if isinstance(content_dict, list) and not content_dict:
+                    raise ValueError("empty step output list")
+                break
             except Exception as e:
-                content_dict = []
-                raise Exception(f"Unsupported step output: {type(content_dict)}: {e}")
-            
+                _last_step_error = e
+                self.logger.log(
+                    Text(
+                        f"Step output unparseable (attempt {_attempt + 1}/{_max_step_attempts}): {e}; retrying model call"
+                    ),
+                    level=LogLevel.WARNING,
+                )
+        else:
+            raise Exception(
+                f"Unsupported step output after {_max_step_attempts} attempts: {_last_step_error}"
+            )
+
+        try:
             if isinstance(content_dict, list):
                 if "tools" in content_dict[0]:
                     answer_data = content_dict[0]['tools']
