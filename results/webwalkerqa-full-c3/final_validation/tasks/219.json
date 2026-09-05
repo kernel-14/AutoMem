@@ -1,0 +1,428 @@
+{
+  "agent_result": "Will Tracz",
+  "judgement": "correct",
+  "judge_unjudged": false,
+  "judge_fallback": null,
+  "task_score": 1.0,
+  "success": true,
+  "item_index": 219,
+  "task_identity": "1d9aea615c4d413378159ce59574739bf961352a9b0aa62847b345922173236c",
+  "question": "Who was the General Chair of the ICSE conference in 2002?",
+  "enhanced_question": "You are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: Who was the General Chair of the ICSE conference in 2002?\n\nStarting URL: http://www.icse-conferences.org/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing http://www.icse-conferences.org/\n",
+  "golden_answer": "Will Tracz",
+  "root_url": "http://www.icse-conferences.org/",
+  "domain": "conference",
+  "difficulty": "medium",
+  "language": "en",
+  "type": "single_source",
+  "source_websites": [
+    "http://www.icse-conferences.org/2002/"
+  ],
+  "golden_path": [
+    "root->Toronto, Ontario, Canada->ICSE 2002"
+  ],
+  "status": "success",
+  "agent_trajectory": [
+    {
+      "name": "plan",
+      "value": "**Memory Analysis:**\n- APPLY: [memory:a0ba854e-32e0-463e-9888-f04b15b5159f] (TIP/workflow — official conference root site crawl hierarchy to locate edition-specific committee) — Apply-when fits: task gives official root URL `http://www.icse-conferences.org/` and asks for edition-specific (2002) committee role.\n- APPLY: [memory:fc23951b-b27e-4668-8299-ff8975bcbbea] (TIP — if PC page lacks chair roles, follow to separate committee page with explicit role labels) — Apply-when fits: we need General Chair role which may not appear on initial committee listing.\n- DISCARD: None others provided; both above are relevant and not conflicting.\n\n---\n\n## Goal 1: Locate the ICSE 2002 Conference Edition Page\n- Path 1.1: Crawl root URL and extract navigation links to past editions\n  - Success: Root page crawled and a link/path to ICSE 2002 (or year-indexed archive) identified with URL.\n- Path 1.2: Web search \"ICSE 2002 conference site icse-conferences.org\"\n  - Success: Search returns or confirms the specific subpage URL for ICSE 2002.\n\n## Goal 2: Find the General Chair of ICSE 2002\n- Path 2.1: Crawl the ICSE 2002 edition page for committee/chair info\n  - Success: Page content shows \"General Chair\" with a name listed.\n- Path 2.2: From edition page, follow link to separate committee page and crawl for role labels\n  - Success: Separate committee page crawled and explicit \"General Chair\" label with name found (per memory fc23951b).\n- Path 2.3: Web search \"ICSE 2002 General Chair\"\n  - Success: Search result or snippet states the General Chair name for ICSE 2002, cross-verifiable with site.",
+      "think": "",
+      "cot_think": "",
+      "memory_guidance": "[Past experience, for reference only] It may be useful to begin at the official conference root site and crawl its hierarchy to locate edition-specific committee information for a named conference year [memory:a0ba854e-32e0-463e-9888-f04b15b5159f]. If a program-committee page lists only members without chair roles, consider following links to a separate conference committee page, where chair roles might be listed under explicit role labels rather than on the initial committee listing [memory:fc23951b-b27e-4668-8299-ff8975bcbbea]."
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "http://www.icse-conferences.org/",
+            "query": "links to ICSE 2002 conference edition or past conferences archive"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "ICSE 2002 General Chair"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'http://www.icse-conferences.org/', 'query': 'links to ICSE 2002 conference edition or past conferences archive'}':\nRelevant content from http://www.icse-conferences.org/ matching \"links to ICSE 2002 conference edition or past conferences archive\":\n\n**ICSE 2002 conference edition link:**\n- In PAST CONFERENCES list: [ICSE 2002](http://www.icse-conferences.org/2002/index.html) — May 19-25, 2002, Orlando, Florida, USA\n- In logo sidebar: [![ICSE 2002](http://www.icse-conferences.org/images/icse2002.jpg)](http://www.icse-conferences.org/2002/) (links to http://www.icse-conferences.org/2002/)\n\n**Past conferences archive (list of past ICSE editions with links):**\nThe page provides a PAST CONFERENCES section linking to many previous editions, including:\n- ICSE 2025: https://conf.researchr.org/home/icse-2025\n- ICSE 2024: https://conf.researchr.org/home/icse-2024\n- ICSE 2023: https://conf.researchr.org/home/icse-2023\n- ICSE 2022: https://conf.researchr.org/home/icse-2022\n- ICSE 2021: https://conf.researchr.org/home/icse-2021\n- ICSE 2020: https://conf.researchr.org/home/icse-2020\n- ICSE 2019: https://2019.icse-conferences.org/\n- ICSE 2018: http://conf.researchr.org/home/icse-2018\n- ICSE 2017: http://icse2017.gatech.edu/\n- ICSE 2016: http://2016.icse-conferences.org/\n- ICSE 2015: http://2015.icse-conferences.org/\n- ICSE 2014: http://2014.icse-conferences.org/\n- ICSE 2013: http://2013.icse-conferences.org/\n- ICSE 2012: http://www.icse2012.org\n- ICSE 2011: http://2011.icse-conferences.org/\n- ICSE 2010: http://www.sbs.co.za/ICSE2010/\n- ICSE 2009: http://www.cs.uoregon.edu/events/icse2009/\n- ICSE 2008: http://icse08.upb.de/\n- ICSE 2007: http://www.cs.ucl.ac.uk/icse07/\n- ICSE 2006: http://www.isr.uci.edu/icse-06/\n- ICSE 2005: http://www.icse-conferences.org/2005/Home/index.shtml\n- ICSE 2004: http://www.icse-conferences.org/2004/index.html\n- ICSE 2003: http://www.icse-conferences.org/2003/index.html\n- ICSE 2002: http://www.icse-conferences.org/2002/index.html\n- ICSE 2001: http://www.icse-conferences.org/2001/index.html\n- ICSE 2000: http://www.ul.ie/%7Eicse2000/\n- ICSE 1997: http://www.icse-conferences.org/1997/\n- (Other years listed without links)\n\n**Related archive/menu links on site:**\n- [HISTORY](http://www.icse-conferences.org/history.html)\n- [PROCEEDINGS](http://www.icse-conferences.org/proceedings.html)\n- [ICSE SC Documents](http://www.icse-conferences.org/reports.html)\n\nResults for tool call 'web_search' with arguments '{'query': 'ICSE 2002 General Chair'}':\nNo results found for 'ICSE 2002 General Chair'.",
+      "think": "I need to execute Goal 1 (locate ICSE 2002 page) and Goal 2 (find General Chair) in parallel as much as possible. Per the plan, Path 1.1 is to crawl the root URL to find navigation to past editions. Path 1.2 is a web search as fallback. For Goal 2, I can run a web search for 'ICSE 2002 General Chair' in parallel with the root crawl since it's independent. I'll start by crawling the root URL and doing a web search for the General Chair simultaneously. The root crawl will help me navigate; the search gives a quick answer to verify against the site.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "http://www.icse-conferences.org/2002/index.html",
+            "query": "General Chair of ICSE 2002 conference committee"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'http://www.icse-conferences.org/2002/index.html', 'query': 'General Chair of ICSE 2002 conference committee'}':\n- The web page contains a link to a message from Will Tracz, identified as the General Chair of ICSE 2002: \"Read a [message](http://www.icse-conferences.org/2002/chairwelcome.html) from Will Tracz, the General Chair of ICSE 2002.\"\n- Will Tracz is referenced elsewhere as a contact for conference matters (e.g., dietary restrictions, hotel reservations), consistent with the General Chair role: \"Send your requests to Will Tracz.\" and \"please contact Will Tracz (Will.Tracz@acm.org)\".\n- The page also links to the Conference Committee page (http://www.icse-conferences.org/2002/info/ccommittee.html) where further committee details may be listed, but the provided content snippet does not include the committee list itself.\n\nSummary: The only explicit match for \"General Chair of ICSE 2002 conference committee\" in the given page content is Will Tracz, named as the General Chair of ICSE 2002.",
+      "think": "Goal 1 is achieved: the root crawl gave the ICSE 2002 edition URL (http://www.icse-conferences.org/2002/index.html). Goal 2 (find General Chair) is in progress: the web search for 'ICSE 2002 General Chair' returned no results, so per plan Path 2.1 I must crawl the ICSE 2002 edition page for committee/chair info. I will crawl that URL now. If it lacks the chair, I will follow Path 2.2 (separate committee page) and Path 2.3 (broader web search) sequentially. Execute Path 2.1 now.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "http://www.icse-conferences.org/2002/info/ccommittee.html",
+            "query": "General Chair name and role label for ICSE 2002"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'http://www.icse-conferences.org/2002/info/ccommittee.html', 'query': 'General Chair name and role label for ICSE 2002'}':\n- **General Chair** (role label): General Chair\n- **Name**: Will Tracz\n- **Affiliation** (from committee table): Lockheed Martin Systems Integration - Owego\n\nExtracted from the ICSE 2002 Conference Committee table on the web page:\n| Position | Contact | Affiliation |\n| --- | --- | --- |\n| General Chair | Will Tracz | Lockheed Martin Systems Integration - Owego |",
+      "think": "Goal 1 (locate ICSE 2002 edition page) was satisfied via root crawl giving http://www.icse-conferences.org/2002/index.html. Goal 2 (find General Chair) was satisfied via crawl of that page which explicitly states 'Will Tracz, the General Chair of ICSE 2002'. To further verify per memory fc23951b (follow separate committee page), I will crawl the linked conference committee page to confirm the explicit role label. This is a fallback/verification path within Goal 2, executed sequentially after the edition page. Both goals are now effectively resolved, but I will do the committee page verification before finalizing.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": "Will Tracz"
+        }
+      ],
+      "obs": "Will Tracz",
+      "think": "Both goals are now resolved. Goal 1 located the ICSE 2002 edition page via the root site crawl (http://www.icse-conferences.org/2002/index.html and its committee subpage). Goal 2 confirmed via the conference committee page (http://www.icse-conferences.org/2002/info/ccommittee.html) that the General Chair was Will Tracz, with an explicit role label and affiliation. The answer is verified from the official site. I will now provide the final answer.",
+      "cot_think": null,
+      "memory_guidance": null
+    }
+  ],
+  "agent_messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "New task:\nYou are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: Who was the General Chair of the ICSE conference in 2002?\n\nStarting URL: http://www.icse-conferences.org/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing http://www.icse-conferences.org/\n"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "————Memory System Guidance————\nThe memories below were retrieved from PRIOR tasks. They are HINTS, not authoritative facts. Most retrieved memories are WEAK MATCHES — you must actively decide which (if any) apply.\n\n★ DEFAULT TO IGNORE (toxic-memory fix 2026-04-30):\nIf a memory's Apply-when does not OBVIOUSLY fit THIS question, IGNORE\nit and answer from your own knowledge. Following an irrelevant memory\nis worse than having no memory. In particular:\n  • [Match: VERY_LOW] memories should be ignored unless Apply-when\n    is a precise semantic fit (not just keyword overlap).\n  • Memories whose Source domain differs from THIS task should be\n    treated as INSPIRATION only — never copy their tool sequences.\n  • If you can't write a 1-sentence concrete reason a memory helps\n    THIS specific question, ignore it.\n\nCommon keyword traps (memory fires on surface keywords but applies\nto a totally different operation):\n  • 'first year stock crossed $50' ≠ 'first or earliest publication'\n  • 'King of Pop fifth single' is NOT a name-format question\n  • 'museum accession of a portrait' is NOT a taxonomic lookup\n  • 'COUNTING visual elements in video' ≠ 'IDENTIFYING species in video'\nIf the memory's instruction would not directly improve your answer,\ndiscard it explicitly and proceed without it.\n\nField semantics:\n  • [TYPE] tag — TIP=heuristic, WORKFLOW=tool chain, TRAJECTORY=past episode,\n                 INSIGHT=failure lesson, SHORTCUT=parameterized macro\n  • → Use:     — type-specific guidance on HOW to apply this memory\n  • Apply when — observable triggers; ALL conditions must match THIS\n                 question (not just one keyword overlap).\n  • Avoid when — anti-triggers; if any matches, IGNORE this memory\n  • Source domain — abstracted prior-task category. Differing domain\n                    = treat as inspiration only, not a recipe.\n  • [Match: HIGH/MEDIUM/VERY_LOW] — pre-filtered confidence band.\n                    VERY_LOW means almost certainly off-topic.\n  • Judge note — distilled action / rationale (1 sentence)\n  • [TRAJECTORY ⚠ NEGATIVE EXAMPLE] — DO NOT replay; learn what to AVOID\n\nUsage protocol (follow strictly):\n  1. Scan each memory; check Apply-when / Avoid-when / Source domain /\n     Match-band. EXPECT to discard most.\n  2. For the few applicable ones, integrate the principle / workflow\n     into your plan. NEVER copy specifics from a Trajectory verbatim;\n     adapt to the current task.\n  3. If memories conflict or look irrelevant, IGNORE them and answer\n     using your own knowledge directly.\n  4. Memories are advisory only — your reasoning over the current\n     question remains primary, and 'no applicable memory' is a\n     valid conclusion.\n\n[Past experience, for reference only] It may be useful to begin at the official conference root site and crawl its hierarchy to locate edition-specific committee information for a named conference year [memory:a0ba854e-32e0-463e-9888-f04b15b5159f]. If a program-committee page lists only members without chair roles, consider following links to a separate conference committee page, where chair roles might be listed under explicit role labels rather than on the initial committee listing [memory:fc23951b-b27e-4668-8299-ff8975bcbbea].\n————End Memory————"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Before planning, briefly state in your reasoning:\n  - Which 1-2 memories you will APPLY (cite [TYPE] + topic and the matching Apply-when).\n  - Which memories you will DISCARD (cite reason: e.g. Source-domain mismatch, Avoid-when triggered, conflicting advice).\nThen proceed with the plan."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Now, begin your planning analysis for this task!"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "[PLAN]:\n**Memory Analysis:**\n- APPLY: [memory:a0ba854e-32e0-463e-9888-f04b15b5159f] (TIP/workflow — official conference root site crawl hierarchy to locate edition-specific committee) — Apply-when fits: task gives official root URL `http://www.icse-conferences.org/` and asks for edition-specific (2002) committee role.\n- APPLY: [memory:fc23951b-b27e-4668-8299-ff8975bcbbea] (TIP — if PC page lacks chair roles, follow to separate committee page with explicit role labels) — Apply-when fits: we need General Chair role which may not appear on initial committee listing.\n- DISCARD: None others provided; both above are relevant and not conflicting.\n\n---\n\n## Goal 1: Locate the ICSE 2002 Conference Edition Page\n- Path 1.1: Crawl root URL and extract navigation links to past editions\n  - Success: Root page crawled and a link/path to ICSE 2002 (or year-indexed archive) identified with URL.\n- Path 1.2: Web search \"ICSE 2002 conference site icse-conferences.org\"\n  - Success: Search returns or confirms the specific subpage URL for ICSE 2002.\n\n## Goal 2: Find the General Chair of ICSE 2002\n- Path 2.1: Crawl the ICSE 2002 edition page for committee/chair info\n  - Success: Page content shows \"General Chair\" with a name listed.\n- Path 2.2: From edition page, follow link to separate committee page and crawl for role labels\n  - Success: Separate committee page crawled and explicit \"General Chair\" label with name found (per memory fc23951b).\n- Path 2.3: Web search \"ICSE 2002 General Chair\"\n  - Success: Search result or snippet states the General Chair name for ICSE 2002, cross-verifiable with site."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'http://www.icse-conferences.org/', 'query': 'links to ICSE 2002 conference edition or past conferences archive'}}, {'name': 'web_search', 'arguments': {'query': 'ICSE 2002 General Chair'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'http://www.icse-conferences.org/', 'query': 'links to ICSE 2002 conference edition or past conferences archive'}':\nRelevant content from http://www.icse-conferences.org/ matching \"links to ICSE 2002 conference edition or past conferences archive\":\n\n**ICSE 2002 conference edition link:**\n- In PAST CONFERENCES list: [ICSE 2002](http://www.icse-conferences.org/2002/index.html) — May 19-25, 2002, Orlando, Florida, USA\n- In logo sidebar: [![ICSE 2002](http://www.icse-conferences.org/images/icse2002.jpg)](http://www.icse-conferences.org/2002/) (links to http://www.icse-conferences.org/2002/)\n\n**Past conferences archive (list of past ICSE editions with links):**\nThe page provides a PAST CONFERENCES section linking to many previous editions, including:\n- ICSE 2025: https://conf.researchr.org/home/icse-2025\n- ICSE 2024: https://conf.researchr.org/home/icse-2024\n- ICSE 2023: https://conf.researchr.org/home/icse-2023\n- ICSE 2022: https://conf.researchr.org/home/icse-2022\n- ICSE 2021: https://conf.researchr.org/home/icse-2021\n- ICSE 2020: https://conf.researchr.org/home/icse-2020\n- ICSE 2019: https://2019.icse-conferences.org/\n- ICSE 2018: http://conf.researchr.org/home/icse-2018\n- ICSE 2017: http://icse2017.gatech.edu/\n- ICSE 2016: http://2016.icse-conferences.org/\n- ICSE 2015: http://2015.icse-conferences.org/\n- ICSE 2014: http://2014.icse-conferences.org/\n- ICSE 2013: http://2013.icse-conferences.org/\n- ICSE 2012: http://www.icse2012.org\n- ICSE 2011: http://2011.icse-conferences.org/\n- ICSE 2010: http://www.sbs.co.za/ICSE2010/\n- ICSE 2009: http://www.cs.uoregon.edu/events/icse2009/\n- ICSE 2008: http://icse08.upb.de/\n- ICSE 2007: http://www.cs.ucl.ac.uk/icse07/\n- ICSE 2006: http://www.isr.uci.edu/icse-06/\n- ICSE 2005: http://www.icse-conferences.org/2005/Home/index.shtml\n- ICSE 2004: http://www.icse-conferences.org/2004/index.html\n- ICSE 2003: http://www.icse-conferences.org/2003/index.html\n- ICSE 2002: http://www.icse-conferences.org/2002/index.html\n- ICSE 2001: http://www.icse-conferences.org/2001/index.html\n- ICSE 2000: http://www.ul.ie/%7Eicse2000/\n- ICSE 1997: http://www.icse-conferences.org/1997/\n- (Other years listed without links)\n\n**Related archive/menu links on site:**\n- [HISTORY](http://www.icse-conferences.org/history.html)\n- [PROCEEDINGS](http://www.icse-conferences.org/proceedings.html)\n- [ICSE SC Documents](http://www.icse-conferences.org/reports.html)\n\nResults for tool call 'web_search' with arguments '{'query': 'ICSE 2002 General Chair'}':\nNo results found for 'ICSE 2002 General Chair'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'http://www.icse-conferences.org/2002/index.html', 'query': 'General Chair of ICSE 2002 conference committee'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'http://www.icse-conferences.org/2002/index.html', 'query': 'General Chair of ICSE 2002 conference committee'}':\n- The web page contains a link to a message from Will Tracz, identified as the General Chair of ICSE 2002: \"Read a [message](http://www.icse-conferences.org/2002/chairwelcome.html) from Will Tracz, the General Chair of ICSE 2002.\"\n- Will Tracz is referenced elsewhere as a contact for conference matters (e.g., dietary restrictions, hotel reservations), consistent with the General Chair role: \"Send your requests to Will Tracz.\" and \"please contact Will Tracz (Will.Tracz@acm.org)\".\n- The page also links to the Conference Committee page (http://www.icse-conferences.org/2002/info/ccommittee.html) where further committee details may be listed, but the provided content snippet does not include the committee list itself.\n\nSummary: The only explicit match for \"General Chair of ICSE 2002 conference committee\" in the given page content is Will Tracz, named as the General Chair of ICSE 2002."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'http://www.icse-conferences.org/2002/info/ccommittee.html', 'query': 'General Chair name and role label for ICSE 2002'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'http://www.icse-conferences.org/2002/info/ccommittee.html', 'query': 'General Chair name and role label for ICSE 2002'}':\n- **General Chair** (role label): General Chair\n- **Name**: Will Tracz\n- **Affiliation** (from committee table): Lockheed Martin Systems Integration - Owego\n\nExtracted from the ICSE 2002 Conference Committee table on the web page:\n| Position | Contact | Affiliation |\n| --- | --- | --- |\n| General Chair | Will Tracz | Lockheed Martin Systems Integration - Owego |"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'final_answer', 'arguments': 'Will Tracz'}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nWill Tracz"
+        }
+      ]
+    }
+  ],
+  "memory_metrics": {
+    "storage_backend": "json",
+    "retrieval_strategy": "contrastive",
+    "management_preset": "tool_manager",
+    "num_extracted": 5,
+    "num_memory_units": 240,
+    "num_inserted": 5,
+    "num_deduped": 0,
+    "num_retrieved": 2,
+    "num_retrieved_pre_judge": 3,
+    "self_retrieval_filtered": 0,
+    "judge_dropped_all_count": 0,
+    "retrieval_calls": 1,
+    "query_planner_calls": 1,
+    "query_planner_model_calls": 1,
+    "query_planner_fallbacks": 0,
+    "query_planner_input_tokens": 627,
+    "query_planner_output_tokens": 29,
+    "context_composer_calls": 1,
+    "context_composer_model_calls": 1,
+    "context_composer_candidates": 3,
+    "context_composer_selected": 2,
+    "context_composer_fallbacks": 0,
+    "context_composer_no_guidance": 0,
+    "context_composer_input_tokens": 957,
+    "context_composer_output_tokens": 107,
+    "runtime_usage_in_task_metrics": true,
+    "rerank_input_tokens": 0,
+    "rerank_output_tokens": 0,
+    "rerank_calls": 0,
+    "rerank_usage_in_task_metrics": false,
+    "llm_graph_input_tokens": 0,
+    "llm_graph_output_tokens": 0,
+    "llm_graph_calls": 0,
+    "llm_graph_usage_in_task_metrics": false,
+    "phase_refresh_denied": 0,
+    "phase_refresh_seen_dropped": 0,
+    "duplicate_guidance_dropped": 0,
+    "management_ops_triggered": 4,
+    "management_results": [
+      {
+        "phase": "on_insert",
+        "op_name": "shortcut_validation",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 80.05356788635254,
+        "details": {
+          "validated": 0,
+          "rejected": 1,
+          "scanned": 1,
+          "reject_reasons_sample": [
+            "step 0 consumes runtime placeholder <SOURCE_URL> not produced by any earlier step's intent"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.1761913299560547,
+        "details": {
+          "total_active_scanned": 209,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "conflict_detection",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 3.618001937866211,
+        "details": {
+          "threshold": 0.85,
+          "targets_scanned": 5,
+          "candidates_scanned": 209,
+          "conflict_pairs": 0,
+          "deactivated_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "access_stats_update",
+        "triggered": true,
+        "units_affected": 1,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 79.75530624389648,
+        "details": {
+          "used_ids_count": 1,
+          "modified": 1,
+          "missing": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "boost_on_success",
+        "triggered": true,
+        "units_affected": 1,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 77.36611366271973,
+        "details": {
+          "success_boost": 0.05,
+          "used_unit_ids": [
+            "9e99a57c-9a3b-4019-80e2-f49ee18bb881"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "penalize_on_failure",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0,
+        "details": {},
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "shortcut_promotion",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.013113021850585938,
+        "details": {
+          "shortcut_boost": 0.1,
+          "boosted_unit_ids": [],
+          "promoted_unit_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.1533031463623047,
+        "details": {
+          "total_active_scanned": 209,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      }
+    ],
+    "retriever_name": "ContrastiveRetriever",
+    "graph_nodes": null,
+    "graph_edges": null,
+    "injection_type": "context_composer",
+    "avg_kept_confidence": 0.8442943475,
+    "kept_units_stale_count": 0,
+    "injection_failed_signal": false,
+    "num_memory_units_by_store": {
+      "json": 240
+    },
+    "type_counts": {
+      "tip": 90,
+      "trajectory": 44,
+      "workflow": 48,
+      "shortcut": 58
+    },
+    "judge_decisions_total": 3,
+    "noise_injection_rate": 0.3333,
+    "actionable_usefulness_rate": 0.6667,
+    "judge_input_tokens": 957,
+    "judge_output_tokens": 107,
+    "judge_api_calls": 1,
+    "runtime_input_tokens": 1584,
+    "runtime_output_tokens": 136,
+    "runtime_api_calls": 2,
+    "injection_stats": {
+      "renderer": "context_composer",
+      "candidates": 3,
+      "selected": 2,
+      "fallbacks": 0
+    }
+  },
+  "metrics": {
+    "elapsed_time": 234.785332323052,
+    "total_tokens": 52978,
+    "prompt_tokens": 48294,
+    "completion_tokens": 4684,
+    "api_calls": 14
+  }
+}

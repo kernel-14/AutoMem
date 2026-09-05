@@ -1,0 +1,442 @@
+{
+  "agent_result": "谭婧炜佳教授在美国留学期间一共持续了5年（2011–2014年于美国堪萨斯大学攻读硕士，2014–2016年于美国休斯顿大学攻读博士）；她毕业后工作的第一家公司是美国高通公司（Qualcomm）。",
+  "judgement": "correct",
+  "judge_unjudged": false,
+  "judge_fallback": null,
+  "task_score": 1.0,
+  "success": true,
+  "item_index": 245,
+  "task_identity": "adb4de0f17593eac91e1c85bba46404bccfd21c8ae4ad9db478164d4d291aa4e",
+  "question": "吉林大学谭婧炜佳教授在美国留学期间一共持续了多少年，她毕业后工作的第一家公司是哪一家？",
+  "enhanced_question": "You are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: 吉林大学谭婧炜佳教授在美国留学期间一共持续了多少年，她毕业后工作的第一家公司是哪一家？\n\nStarting URL: https://ccst.jlu.edu.cn/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://ccst.jlu.edu.cn/\n",
+  "golden_answer": "5年，高通公司（Qualcomm）",
+  "root_url": "https://ccst.jlu.edu.cn/",
+  "domain": "education",
+  "difficulty": "medium",
+  "language": "zh",
+  "type": "single_source",
+  "source_websites": [
+    "https://ccst.jlu.edu.cn/info/1367/19945.htm"
+  ],
+  "golden_path": [
+    "root->教授->谭婧炜佳"
+  ],
+  "status": "success",
+  "agent_trajectory": [
+    {
+      "name": "plan",
+      "value": "**Memory Application Analysis:**\n- APPLY: Memory [8f481946-4855-4b80-a5cd-2b468096607c] ([TYPE] TIP, topic: faculty detail navigation) — Apply-when: root page does not directly show requested faculty details, navigate via menu to faculty listing then profile. This fits the task of finding Prof. Tan Jingweijia's bio from JLU ccst root.\n- APPLY: Memory [11d0fea6-e787-4a24-8334-d6cf8f6bc99c] ([TYPE] WORKFLOW, topic: faculty crawl chain) — Apply-when: need to crawl root → listing → profile to extract education/employment. Matches our needed extraction of US study duration and first company.\n- DISCARD: None of the listed toxic/very_low memories are present; both retrieved memories are directly applicable workflow hints, no conflict or mismatch.\n\n---\n\n## Goal 1: Locate Prof. Tan Jingweijia's Faculty Profile Page\n- Path 1.1: Crawl root URL and extract faculty/people menu links\n  - Success: Obtain at least one faculty listing URL (e.g., /szdw or /people) from https://ccst.jlu.edu.cn/ content\n- Path 1.2: Web search \"site:ccst.jlu.edu.cn 谭婧炜佳\" to find direct profile link\n  - Success: Identify a specific URL containing Prof. Tan's name and profile/biography\n\n## Goal 2: Extract US Study Duration from Profile\n- Path 2.1: Crawl identified profile page and extract education/overseas experience section\n  - Success: Find explicit years of US study (e.g., \"2012-2016 in USA\") and compute total years\n- Path 2.2: Crawl profile and use query for \"美国留学\" duration keywords\n  - Success: Locate text stating study-abroad period in US with start/end years confirming duration\n\n## Goal 3: Extract First Company After Graduation\n- Path 3.1: Crawl profile employment history section for first post-graduation company\n  - Success: Identify name of first company worked at after completing studies\n- Path 3.2: Web search Prof. Tan name + \"第一家公司\" or \"工作经历\" to corroborate\n  - Success: Verify first employer name via external or site-indexed snippet\n\n## Goal 4: Synthesize Final Answer\n- Path 4.1: Combine extracted duration and company into clear answer\n  - Success: Provide concise response stating total US study years and first company name\n- Path 4.2: Cross-check both facts via crawl of profile and search result before answering\n  - Success: Both data points confirmed from at least two tool outputs with no contradiction",
+      "think": "",
+      "cot_think": "",
+      "memory_guidance": "[Past experience, for reference only] If the root page does not directly show the requested faculty details, it may help to navigate via the site's menu to a faculty or people listing and then open the specific professor's profile page [memory:8f481946-4855-4b80-a5cd-2b468096607c]. A reasonable workflow could be to first crawl the institution root to locate faculty listing links, then crawl the listing to find the target profile URL, and finally crawl the profile to extract biography or education and employment details [memory:11d0fea6-e787-4a24-8334-d6cf8f6bc99c]. These steps are tentative and should be adapted to the current site structure and the specific professor in question."
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://ccst.jlu.edu.cn/",
+            "query": "faculty or people listing links, especially 谭婧炜佳 or faculty directory"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "site:ccst.jlu.edu.cn 谭婧炜佳"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://ccst.jlu.edu.cn/', 'query': 'faculty or people listing links, especially 谭婧炜佳 or faculty directory'}':\nRelevant content extracted from https://ccst.jlu.edu.cn/ matching the query \"faculty or people listing links, especially 谭婧炜佳 or faculty directory\":\n\n**Faculty / People Listing Links (Faculty Directory equivalent):**\nThe website has a \"师资队伍\" (Faculty / Teaching Staff) section, which serves as the faculty directory. Relevant links:\n- [师资队伍 (Faculty)](https://ccst.jlu.edu.cn/szdw/taqxz.htm) — main faculty listing page\n  - [唐敖庆学者 (Tang Aoqing Scholars)](https://ccst.jlu.edu.cn/szdw/taqxz.htm)\n  - [教授 (Professors)](https://ccst.jlu.edu.cn/szdw/js.htm)\n  - [副教授 (Associate Professors)](https://ccst.jlu.edu.cn/szdw/fjs.htm)\n  - [讲师 (Lecturers)](https://ccst.jlu.edu.cn/szdw/js1.htm)\n  - [准聘长聘教师 (Tenure-track / Long-term Teachers)](https://ccst.jlu.edu.cn/szdw/zpzpjs.htm)\n  - [鼎新学者 (Dingxin Scholars)](https://ccst.jlu.edu.cn/szdw/dxxz.htm)\n  - [教研室 (Teaching & Research Offices)](https://ccst.jlu.edu.cn/szdw/jys.htm)\n  - [荣休教师 (Retired Teachers)](https://ccst.jlu.edu.cn/szdw/rxjs.htm)\n\nOther people-related listing links:\n- [现任领导 (Current Leaders)](https://ccst.jlu.edu.cn/xygk/xrld.htm) under 学院概况\n- [学位委员会 (Degree Committee)](https://ccst.jlu.edu.cn/xkjs/xwwyh1.htm)\n- [学术委员会 (Academic Committee)](https://ccst.jlu.edu.cn/xkjs/xswyh1.htm)\n- [教学委员会 (Teaching Committee)](https://ccst.jlu.edu.cn/xkjs/jxwyh1.htm)\n- [广纳英才 (Recruiting Talents)](https://ccst.jlu.edu.cn/gny.htm)\n\n**Specific Person – 谭婧炜佳:**\nNo mention of \"谭婧炜佳\" appears anywhere in the provided web page content. The name is not listed in any faculty sub-page links or news items extracted from this homepage.\n\n**Summary:** The page provides a faculty directory via the \"师资队伍\" menu with categorized staff listings (professors, associate professors, etc.), but does not contain a specific link or entry for 谭婧炜佳.\n\nResults for tool call 'web_search' with arguments '{'query': 'site:ccst.jlu.edu.cn 谭婧炜佳'}':\nNo results found for 'site:ccst.jlu.edu.cn 谭婧炜佳'.",
+      "think": "I need to begin by accessing the root URL as required, and in parallel I can also do a web search to locate Prof. Tan Jingweijia's profile directly. Goal 1 is to locate the faculty profile page. I'll execute Path 1.1 (crawl root) and Path 1.2 (web search for the professor) in parallel since they are independent discovery attempts for the same goal. This follows the plan: start from root URL and use search to find the profile.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://ccst.jlu.edu.cn/szdw/js.htm",
+            "query": "Find link or entry for 谭婧炜佳 professor profile"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "谭婧炜佳 吉林大学 美国留学 公司"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://ccst.jlu.edu.cn/szdw/js.htm', 'query': 'Find link or entry for 谭婧炜佳 professor profile'}':\n- Matching entry found under \"教授\" (Professor) section of 吉林大学计算机科学与技术学院 (JLU College of Computer Science and Technology) faculty page.\n- Name: 谭婧炜佳\n- Profile link: https://ccst.jlu.edu.cn/info/1367/19945.htm\n- Context: Listed among professor profiles at https://ccst.jlu.edu.cn/szdw/js.htm (current page).\n\nResults for tool call 'web_search' with arguments '{'query': '谭婧炜佳 吉林大学 美国留学 公司'}':\nNo results found for '谭婧炜佳 吉林大学 美国留学 公司'.",
+      "think": "From the previous step: root page gave faculty listing links but no direct mention of 谭婧炜佳, and site-search found nothing. I need to navigate the professors listing (Goal 1 continued) to find her profile link, and also try a broader web search (Goal 1 fallback) for her name + JLU. These are independent and can run in parallel: crawl the professors page (https://ccst.jlu.edu.cn/szdw/js.htm) to find her profile URL, and do a general web search for '谭婧炜佳 吉林大学' to locate any indexed profile or external page with her bio. Within Goal 1, path 1.1 (crawl professors listing) is primary; path 1.2 (web search) is fallback but we can run both in parallel as they are different goals/tools for locating. Then once we have profile URL we will crawl it for Goals 2 & 3.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://ccst.jlu.edu.cn/info/1367/19945.htm",
+            "query": "提取谭婧炜佳教授在美国留学期间的起止年份（一共多少年）以及她毕业后工作的第一家公司名称"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "谭婧炜佳 吉林大学 简历 美国 留学 工作"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://ccst.jlu.edu.cn/info/1367/19945.htm', 'query': '提取谭婧炜佳教授在美国留学期间的起止年份（一共多少年）以及她毕业后工作的第一家公司名称'}':\n根据网页内容，提取谭婧炜佳教授在美国留学期间及毕业后第一家公司信息如下：\n\n**美国留学起止年份及年限：**\n- 教育经历中明确美国留学阶段：\n  - 2014–2016：美国休斯顿大学，电气与计算机工程系，博士\n  - 2011–2014：美国堪萨斯大学，电气工程与计算机科学系，硕士\n- 本科（2007–2011）在吉林大学，不属美国留学。\n- 美国留学总区间：2011年（堪萨斯大学硕士入学）至2016年（休斯顿大学博士毕业）。\n- 时长计算：2011–2016 跨度为 5 年（2011→2012为1年，至2016共5年；若将两阶段无缝衔接：2011–2014为3年，2014–2016为2年，合计 5 年）。\n- 另注：个人简介写“2016年博士毕业于美国休斯顿大学”，与经历一致。\n\n**毕业后工作的第一家公司名称：**\n- 工作经历显示：\n  - 2016–2017：美国 Qualcomm（高通公司），高级工程师\n  - 2017–2024：吉林大学，副教授\n  - 此前 2015、2016 为美国太平洋西北国家实验室博士实习生（属在读期间实习，非毕业后正式工作）\n- 博士毕业（2016年）后首份正式工作为：美国 Qualcomm（高通公司）。\n\n** concise points:**\n- 美国留学：2011–2014 美国堪萨斯大学硕士；2014–2016 美国休斯顿大学博士；共计 5 年。\n- 毕业后第一家公司：美国 Qualcomm（高通公司），2016–2017 任高级工程师。\n\nResults for tool call 'web_search' with arguments '{'query': '谭婧炜佳 吉林大学 简历 美国 留学 工作'}':\nNo results found for '谭婧炜佳 吉林大学 简历 美国 留学 工作'.",
+      "think": "I found Prof. Tan Jingweijia's profile URL from the professors listing page: https://ccst.jlu.edu.cn/info/1367/19945.htm. Now I need to crawl this profile page to extract (1) the duration of her study in the US and (2) the first company she worked at after graduation. Both goals (Goal 2 and Goal 3) can be satisfied by crawling this single profile page with a combined query. I'll also run a web search as a fallback/cross-check for her background. These are independent and can run in parallel.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": {
+            "answer": "谭婧炜佳教授在美国留学期间一共持续了5年（2011–2014年于美国堪萨斯大学攻读硕士，2014–2016年于美国休斯顿大学攻读博士）；她毕业后工作的第一家公司是美国高通公司（Qualcomm）。"
+          }
+        }
+      ],
+      "obs": "谭婧炜佳教授在美国留学期间一共持续了5年（2011–2014年于美国堪萨斯大学攻读硕士，2014–2016年于美国休斯顿大学攻读博士）；她毕业后工作的第一家公司是美国高通公司（Qualcomm）。",
+      "think": "From the previous crawl of Prof. Tan Jingweijia's profile page (https://ccst.jlu.edu.cn/info/1367/19945.htm), I have successfully extracted both required pieces of information: (1) Her US study period was 2011–2014 (Master's at University of Kansas) and 2014–2016 (PhD at University of Houston), totaling 5 years. (2) Her first company after graduation was Qualcomm (美国高通公司), where she worked as a Senior Engineer from 2016–2017. The web search returned no additional results, but the profile page content is clear and sufficient. Both goals are resolved and verified from the official faculty profile. I can now provide the final consolidated answer in Chinese as required.",
+      "cot_think": null,
+      "memory_guidance": null
+    }
+  ],
+  "agent_messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "New task:\nYou are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: 吉林大学谭婧炜佳教授在美国留学期间一共持续了多少年，她毕业后工作的第一家公司是哪一家？\n\nStarting URL: https://ccst.jlu.edu.cn/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://ccst.jlu.edu.cn/\n"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "————Memory System Guidance————\nThe memories below were retrieved from PRIOR tasks. They are HINTS, not authoritative facts. Most retrieved memories are WEAK MATCHES — you must actively decide which (if any) apply.\n\n★ DEFAULT TO IGNORE (toxic-memory fix 2026-04-30):\nIf a memory's Apply-when does not OBVIOUSLY fit THIS question, IGNORE\nit and answer from your own knowledge. Following an irrelevant memory\nis worse than having no memory. In particular:\n  • [Match: VERY_LOW] memories should be ignored unless Apply-when\n    is a precise semantic fit (not just keyword overlap).\n  • Memories whose Source domain differs from THIS task should be\n    treated as INSPIRATION only — never copy their tool sequences.\n  • If you can't write a 1-sentence concrete reason a memory helps\n    THIS specific question, ignore it.\n\nCommon keyword traps (memory fires on surface keywords but applies\nto a totally different operation):\n  • 'first year stock crossed $50' ≠ 'first or earliest publication'\n  • 'King of Pop fifth single' is NOT a name-format question\n  • 'museum accession of a portrait' is NOT a taxonomic lookup\n  • 'COUNTING visual elements in video' ≠ 'IDENTIFYING species in video'\nIf the memory's instruction would not directly improve your answer,\ndiscard it explicitly and proceed without it.\n\nField semantics:\n  • [TYPE] tag — TIP=heuristic, WORKFLOW=tool chain, TRAJECTORY=past episode,\n                 INSIGHT=failure lesson, SHORTCUT=parameterized macro\n  • → Use:     — type-specific guidance on HOW to apply this memory\n  • Apply when — observable triggers; ALL conditions must match THIS\n                 question (not just one keyword overlap).\n  • Avoid when — anti-triggers; if any matches, IGNORE this memory\n  • Source domain — abstracted prior-task category. Differing domain\n                    = treat as inspiration only, not a recipe.\n  • [Match: HIGH/MEDIUM/VERY_LOW] — pre-filtered confidence band.\n                    VERY_LOW means almost certainly off-topic.\n  • Judge note — distilled action / rationale (1 sentence)\n  • [TRAJECTORY ⚠ NEGATIVE EXAMPLE] — DO NOT replay; learn what to AVOID\n\nUsage protocol (follow strictly):\n  1. Scan each memory; check Apply-when / Avoid-when / Source domain /\n     Match-band. EXPECT to discard most.\n  2. For the few applicable ones, integrate the principle / workflow\n     into your plan. NEVER copy specifics from a Trajectory verbatim;\n     adapt to the current task.\n  3. If memories conflict or look irrelevant, IGNORE them and answer\n     using your own knowledge directly.\n  4. Memories are advisory only — your reasoning over the current\n     question remains primary, and 'no applicable memory' is a\n     valid conclusion.\n\n[Past experience, for reference only] If the root page does not directly show the requested faculty details, it may help to navigate via the site's menu to a faculty or people listing and then open the specific professor's profile page [memory:8f481946-4855-4b80-a5cd-2b468096607c]. A reasonable workflow could be to first crawl the institution root to locate faculty listing links, then crawl the listing to find the target profile URL, and finally crawl the profile to extract biography or education and employment details [memory:11d0fea6-e787-4a24-8334-d6cf8f6bc99c]. These steps are tentative and should be adapted to the current site structure and the specific professor in question.\n————End Memory————"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Before planning, briefly state in your reasoning:\n  - Which 1-2 memories you will APPLY (cite [TYPE] + topic and the matching Apply-when).\n  - Which memories you will DISCARD (cite reason: e.g. Source-domain mismatch, Avoid-when triggered, conflicting advice).\nThen proceed with the plan."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Now, begin your planning analysis for this task!"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "[PLAN]:\n**Memory Application Analysis:**\n- APPLY: Memory [8f481946-4855-4b80-a5cd-2b468096607c] ([TYPE] TIP, topic: faculty detail navigation) — Apply-when: root page does not directly show requested faculty details, navigate via menu to faculty listing then profile. This fits the task of finding Prof. Tan Jingweijia's bio from JLU ccst root.\n- APPLY: Memory [11d0fea6-e787-4a24-8334-d6cf8f6bc99c] ([TYPE] WORKFLOW, topic: faculty crawl chain) — Apply-when: need to crawl root → listing → profile to extract education/employment. Matches our needed extraction of US study duration and first company.\n- DISCARD: None of the listed toxic/very_low memories are present; both retrieved memories are directly applicable workflow hints, no conflict or mismatch.\n\n---\n\n## Goal 1: Locate Prof. Tan Jingweijia's Faculty Profile Page\n- Path 1.1: Crawl root URL and extract faculty/people menu links\n  - Success: Obtain at least one faculty listing URL (e.g., /szdw or /people) from https://ccst.jlu.edu.cn/ content\n- Path 1.2: Web search \"site:ccst.jlu.edu.cn 谭婧炜佳\" to find direct profile link\n  - Success: Identify a specific URL containing Prof. Tan's name and profile/biography\n\n## Goal 2: Extract US Study Duration from Profile\n- Path 2.1: Crawl identified profile page and extract education/overseas experience section\n  - Success: Find explicit years of US study (e.g., \"2012-2016 in USA\") and compute total years\n- Path 2.2: Crawl profile and use query for \"美国留学\" duration keywords\n  - Success: Locate text stating study-abroad period in US with start/end years confirming duration\n\n## Goal 3: Extract First Company After Graduation\n- Path 3.1: Crawl profile employment history section for first post-graduation company\n  - Success: Identify name of first company worked at after completing studies\n- Path 3.2: Web search Prof. Tan name + \"第一家公司\" or \"工作经历\" to corroborate\n  - Success: Verify first employer name via external or site-indexed snippet\n\n## Goal 4: Synthesize Final Answer\n- Path 4.1: Combine extracted duration and company into clear answer\n  - Success: Provide concise response stating total US study years and first company name\n- Path 4.2: Cross-check both facts via crawl of profile and search result before answering\n  - Success: Both data points confirmed from at least two tool outputs with no contradiction"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://ccst.jlu.edu.cn/', 'query': 'faculty or people listing links, especially 谭婧炜佳 or faculty directory'}}, {'name': 'web_search', 'arguments': {'query': 'site:ccst.jlu.edu.cn 谭婧炜佳'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://ccst.jlu.edu.cn/', 'query': 'faculty or people listing links, especially 谭婧炜佳 or faculty directory'}':\nRelevant content extracted from https://ccst.jlu.edu.cn/ matching the query \"faculty or people listing links, especially 谭婧炜佳 or faculty directory\":\n\n**Faculty / People Listing Links (Faculty Directory equivalent):**\nThe website has a \"师资队伍\" (Faculty / Teaching Staff) section, which serves as the faculty directory. Relevant links:\n- [师资队伍 (Faculty)](https://ccst.jlu.edu.cn/szdw/taqxz.htm) — main faculty listing page\n  - [唐敖庆学者 (Tang Aoqing Scholars)](https://ccst.jlu.edu.cn/szdw/taqxz.htm)\n  - [教授 (Professors)](https://ccst.jlu.edu.cn/szdw/js.htm)\n  - [副教授 (Associate Professors)](https://ccst.jlu.edu.cn/szdw/fjs.htm)\n  - [讲师 (Lecturers)](https://ccst.jlu.edu.cn/szdw/js1.htm)\n  - [准聘长聘教师 (Tenure-track / Long-term Teachers)](https://ccst.jlu.edu.cn/szdw/zpzpjs.htm)\n  - [鼎新学者 (Dingxin Scholars)](https://ccst.jlu.edu.cn/szdw/dxxz.htm)\n  - [教研室 (Teaching & Research Offices)](https://ccst.jlu.edu.cn/szdw/jys.htm)\n  - [荣休教师 (Retired Teachers)](https://ccst.jlu.edu.cn/szdw/rxjs.htm)\n\nOther people-related listing links:\n- [现任领导 (Current Leaders)](https://ccst.jlu.edu.cn/xygk/xrld.htm) under 学院概况\n- [学位委员会 (Degree Committee)](https://ccst.jlu.edu.cn/xkjs/xwwyh1.htm)\n- [学术委员会 (Academic Committee)](https://ccst.jlu.edu.cn/xkjs/xswyh1.htm)\n- [教学委员会 (Teaching Committee)](https://ccst.jlu.edu.cn/xkjs/jxwyh1.htm)\n- [广纳英才 (Recruiting Talents)](https://ccst.jlu.edu.cn/gny.htm)\n\n**Specific Person – 谭婧炜佳:**\nNo mention of \"谭婧炜佳\" appears anywhere in the provided web page content. The name is not listed in any faculty sub-page links or news items extracted from this homepage.\n\n**Summary:** The page provides a faculty directory via the \"师资队伍\" menu with categorized staff listings (professors, associate professors, etc.), but does not contain a specific link or entry for 谭婧炜佳.\n\nResults for tool call 'web_search' with arguments '{'query': 'site:ccst.jlu.edu.cn 谭婧炜佳'}':\nNo results found for 'site:ccst.jlu.edu.cn 谭婧炜佳'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://ccst.jlu.edu.cn/szdw/js.htm', 'query': 'Find link or entry for 谭婧炜佳 professor profile'}}, {'name': 'web_search', 'arguments': {'query': '谭婧炜佳 吉林大学 美国留学 公司'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://ccst.jlu.edu.cn/szdw/js.htm', 'query': 'Find link or entry for 谭婧炜佳 professor profile'}':\n- Matching entry found under \"教授\" (Professor) section of 吉林大学计算机科学与技术学院 (JLU College of Computer Science and Technology) faculty page.\n- Name: 谭婧炜佳\n- Profile link: https://ccst.jlu.edu.cn/info/1367/19945.htm\n- Context: Listed among professor profiles at https://ccst.jlu.edu.cn/szdw/js.htm (current page).\n\nResults for tool call 'web_search' with arguments '{'query': '谭婧炜佳 吉林大学 美国留学 公司'}':\nNo results found for '谭婧炜佳 吉林大学 美国留学 公司'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://ccst.jlu.edu.cn/info/1367/19945.htm', 'query': '提取谭婧炜佳教授在美国留学期间的起止年份（一共多少年）以及她毕业后工作的第一家公司名称'}}, {'name': 'web_search', 'arguments': {'query': '谭婧炜佳 吉林大学 简历 美国 留学 工作'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://ccst.jlu.edu.cn/info/1367/19945.htm', 'query': '提取谭婧炜佳教授在美国留学期间的起止年份（一共多少年）以及她毕业后工作的第一家公司名称'}':\n根据网页内容，提取谭婧炜佳教授在美国留学期间及毕业后第一家公司信息如下：\n\n**美国留学起止年份及年限：**\n- 教育经历中明确美国留学阶段：\n  - 2014–2016：美国休斯顿大学，电气与计算机工程系，博士\n  - 2011–2014：美国堪萨斯大学，电气工程与计算机科学系，硕士\n- 本科（2007–2011）在吉林大学，不属美国留学。\n- 美国留学总区间：2011年（堪萨斯大学硕士入学）至2016年（休斯顿大学博士毕业）。\n- 时长计算：2011–2016 跨度为 5 年（2011→2012为1年，至2016共5年；若将两阶段无缝衔接：2011–2014为3年，2014–2016为2年，合计 5 年）。\n- 另注：个人简介写“2016年博士毕业于美国休斯顿大学”，与经历一致。\n\n**毕业后工作的第一家公司名称：**\n- 工作经历显示：\n  - 2016–2017：美国 Qualcomm（高通公司），高级工程师\n  - 2017–2024：吉林大学，副教授\n  - 此前 2015、2016 为美国太平洋西北国家实验室博士实习生（属在读期间实习，非毕业后正式工作）\n- 博士毕业（2016年）后首份正式工作为：美国 Qualcomm（高通公司）。\n\n** concise points:**\n- 美国留学：2011–2014 美国堪萨斯大学硕士；2014–2016 美国休斯顿大学博士；共计 5 年。\n- 毕业后第一家公司：美国 Qualcomm（高通公司），2016–2017 任高级工程师。\n\nResults for tool call 'web_search' with arguments '{'query': '谭婧炜佳 吉林大学 简历 美国 留学 工作'}':\nNo results found for '谭婧炜佳 吉林大学 简历 美国 留学 工作'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'final_answer', 'arguments': {'answer': '谭婧炜佳教授在美国留学期间一共持续了5年（2011–2014年于美国堪萨斯大学攻读硕士，2014–2016年于美国休斯顿大学攻读博士）；她毕业后工作的第一家公司是美国高通公司（Qualcomm）。'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\n谭婧炜佳教授在美国留学期间一共持续了5年（2011–2014年于美国堪萨斯大学攻读硕士，2014–2016年于美国休斯顿大学攻读博士）；她毕业后工作的第一家公司是美国高通公司（Qualcomm）。"
+        }
+      ]
+    }
+  ],
+  "memory_metrics": {
+    "storage_backend": "json",
+    "retrieval_strategy": "contrastive",
+    "management_preset": "tool_manager",
+    "num_extracted": 4,
+    "num_memory_units": 295,
+    "num_inserted": 4,
+    "num_deduped": 0,
+    "num_retrieved": 2,
+    "num_retrieved_pre_judge": 3,
+    "self_retrieval_filtered": 0,
+    "judge_dropped_all_count": 0,
+    "retrieval_calls": 1,
+    "query_planner_calls": 1,
+    "query_planner_model_calls": 1,
+    "query_planner_fallbacks": 0,
+    "query_planner_input_tokens": 654,
+    "query_planner_output_tokens": 35,
+    "context_composer_calls": 1,
+    "context_composer_model_calls": 1,
+    "context_composer_candidates": 3,
+    "context_composer_selected": 2,
+    "context_composer_fallbacks": 0,
+    "context_composer_no_guidance": 0,
+    "context_composer_input_tokens": 1000,
+    "context_composer_output_tokens": 137,
+    "runtime_usage_in_task_metrics": true,
+    "rerank_input_tokens": 0,
+    "rerank_output_tokens": 0,
+    "rerank_calls": 0,
+    "rerank_usage_in_task_metrics": false,
+    "llm_graph_input_tokens": 0,
+    "llm_graph_output_tokens": 0,
+    "llm_graph_calls": 0,
+    "llm_graph_usage_in_task_metrics": false,
+    "phase_refresh_denied": 0,
+    "phase_refresh_seen_dropped": 0,
+    "duplicate_guidance_dropped": 0,
+    "management_ops_triggered": 4,
+    "management_results": [
+      {
+        "phase": "on_insert",
+        "op_name": "shortcut_validation",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 98.42681884765625,
+        "details": {
+          "validated": 0,
+          "rejected": 1,
+          "scanned": 1,
+          "reject_reasons_sample": [
+            "step 0 consumes runtime placeholder <SOURCE_URL> not produced by any earlier step's intent"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.17452239990234375,
+        "details": {
+          "total_active_scanned": 259,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "conflict_detection",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 3.5490989685058594,
+        "details": {
+          "threshold": 0.85,
+          "targets_scanned": 4,
+          "candidates_scanned": 259,
+          "conflict_pairs": 0,
+          "deactivated_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "access_stats_update",
+        "triggered": true,
+        "units_affected": 1,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 94.81024742126465,
+        "details": {
+          "used_ids_count": 1,
+          "modified": 1,
+          "missing": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "boost_on_success",
+        "triggered": true,
+        "units_affected": 1,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 93.6429500579834,
+        "details": {
+          "success_boost": 0.05,
+          "used_unit_ids": [
+            "e2f8014c-450d-4574-9671-69f59f022c8c"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "penalize_on_failure",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0,
+        "details": {},
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "shortcut_promotion",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.012636184692382812,
+        "details": {
+          "shortcut_boost": 0.1,
+          "boosted_unit_ids": [],
+          "promoted_unit_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.16951560974121094,
+        "details": {
+          "total_active_scanned": 259,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      }
+    ],
+    "retriever_name": "ContrastiveRetriever",
+    "graph_nodes": null,
+    "graph_edges": null,
+    "injection_type": "context_composer",
+    "avg_kept_confidence": 0.9996986800000001,
+    "kept_units_stale_count": 0,
+    "injection_failed_signal": false,
+    "num_memory_units_by_store": {
+      "json": 295
+    },
+    "type_counts": {
+      "tip": 106,
+      "trajectory": 57,
+      "workflow": 61,
+      "shortcut": 71
+    },
+    "judge_decisions_total": 3,
+    "noise_injection_rate": 0.3333,
+    "actionable_usefulness_rate": 0.6667,
+    "judge_input_tokens": 1000,
+    "judge_output_tokens": 137,
+    "judge_api_calls": 1,
+    "runtime_input_tokens": 1654,
+    "runtime_output_tokens": 172,
+    "runtime_api_calls": 2,
+    "injection_stats": {
+      "renderer": "context_composer",
+      "candidates": 3,
+      "selected": 2,
+      "fallbacks": 0
+    }
+  },
+  "metrics": {
+    "elapsed_time": 420.7892457311973,
+    "total_tokens": 59597,
+    "prompt_tokens": 54741,
+    "completion_tokens": 4856,
+    "api_calls": 14
+  }
+}

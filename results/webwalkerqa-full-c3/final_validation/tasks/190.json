@@ -1,0 +1,385 @@
+{
+  "agent_result": "大疆农业保护的耕地面积数字更大。根据企业微信官网案例，大疆农业通过企业微信保卫“10亿亩次”耕地作业；西贝莜面村通过企业微信社群每天服务90,000多名顾客（约9万）。10亿远大于9万，因此大疆农业保护的耕地面积对应数字更大。",
+  "judgement": "correct",
+  "judge_unjudged": false,
+  "judge_fallback": null,
+  "task_score": 1.0,
+  "success": true,
+  "item_index": 190,
+  "task_identity": "6dc10860d03c8f71436b8b2acc6cb01e1168962d54cec40530d55575fefe857b",
+  "question": "通过企业微信进行高效服务的企业中，大疆农业保护的耕地面积与西贝莜面村通过社群服务的顾客数量相比较，哪个数字更大？",
+  "enhanced_question": "You are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: 通过企业微信进行高效服务的企业中，大疆农业保护的耕地面积与西贝莜面村通过社群服务的顾客数量相比较，哪个数字更大？\n\nStarting URL: https://work.weixin.qq.com/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://work.weixin.qq.com/\n",
+  "golden_answer": "大疆农业保护的耕地面积（10亿亩次）更大。",
+  "root_url": "https://work.weixin.qq.com/",
+  "domain": "organization",
+  "difficulty": "easy",
+  "language": "",
+  "type": "single_source",
+  "source_websites": [
+    "https://work.weixin.qq.com/nl/index/caselist?from=wwindex"
+  ],
+  "golden_path": [
+    "root->客户案例"
+  ],
+  "status": "success",
+  "agent_trajectory": [
+    {
+      "name": "plan",
+      "value": "## Goal 1: 查找大疆农业通过企业微信保护耕地面积的数据\n- Path 1.1: 从根URL https://work.weixin.qq.com/ 爬取首页，寻找客户案例或行业解决方案入口，定位大疆农业相关内容\n  - Success: 从页面中提取出大疆农业使用企业微信所保护的耕地面积具体数值（如“X万亩”）\n- Path 1.2: 使用 web_search 查询 \"企业微信 大疆农业 保护耕地面积\" 获取相关报道或案例页，再 crawl_page 验证\n  - Success: 通过搜索结果及页面抓取确认大疆农业保护的耕地面积数字并来源可靠\n\n## Goal 2: 查找西贝莜面村通过企业微信社群服务的顾客数量数据\n- Path 2.1: 从根URL https://work.weixin.qq.com/ 爬取页面，寻找西贝莜面村案例或餐饮行业社群服务相关链接并抓取\n  - Success: 从页面中提取西贝莜面村通过社群服务的顾客数量具体数值（如“X万顾客”）\n- Path 2.2: 使用 web_search 查询 \"企业微信 西贝莜面村 社群 服务顾客数量\" 找到案例页后 crawl_page 核实\n  - Success: 确认西贝莜面村通过社群服务的顾客数量及出处准确\n\n## Goal 3: 比较两个数值并得出最终结论\n- Path 3.1: 综合Goal1与Goal2提取的数值，直接比较大小并生成答案\n  - Success: 明确输出“大疆农业保护的耕地面积”与“西贝莜面村社群服务顾客数”中哪个数字更大（或说明单位不可比但按数值比较结果）\n- Path 3.2: 若数值单位不同（如面积为亩、人数为人），在说明单位差异基础上按给定数字比较大小\n  - Success: 给出带单位说明的比较结论且逻辑清晰",
+      "think": "",
+      "cot_think": "",
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://work.weixin.qq.com/",
+            "query": "大疆农业 保护耕地面积 西贝莜面村 社群服务 顾客数量 案例"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "企业微信 大疆农业 保护耕地面积"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "企业微信 西贝莜面村 社群 服务顾客数量"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://work.weixin.qq.com/', 'query': '大疆农业 保护耕地面积 西贝莜面村 社群服务 顾客数量 案例'}':\nBased on the provided web page content (url: https://work.weixin.qq.com/), the search query contains the keywords: 大疆农业, 保护耕地面积, 西贝莜面村, 社群服务, 顾客数量, 案例.\n\nExtracted matching content from the page:\n\n- **大疆农业 (Case mention)**:\n  - Listed in the customer case section: \"[ 大疆农业 贴近你的消费者：如何教会农户使用无人机？ ](https://work.weixin.qq.com/nl/index/caselist?id=djny)\"\n  - This is a case study link titled about teaching farmers to use drones; no mention of \"保护耕地面积\" on this page.\n\n- **西贝莜面村 (Case mention)**:\n  - Listed in the customer case section: \"[ 西贝莜面村 餐饮门店如何服务周边忠实食客？ ](https://work.weixin.qq.com/nl/index/caselist?id=xb)\"\n  - This is a case study link about how restaurant stores serve nearby loyal diners; no mention of \"社群服务\" or \"顾客数量\" details on this page.\n\n- **保护耕地面积**: No relevant content found on the page.\n- **社群服务**: No explicit content with this phrase; related industry schemes mention \"客户群\" (retail, food industries) but not specifically \"社群服务\".\n- **顾客数量**: No relevant content found (e.g., no customer counts listed for any case).\n- **案例 (Cases)**: The page includes a broad \"客户案例\" section linking to many cases (e.g., 大疆农业, 西贝莜面村, 探鱼, 优衣库等), but only titles/links are provided, not full case details.\n\nSummary: The page only contains case title links for \"大疆农业\" and \"西贝莜面村\" within its customer case list. It does not include any body text about \"保护耕地面积\", \"社群服务\", or \"顾客数量\". No detailed case content is extracted from the current page.\n\nResults for tool call 'web_search' with arguments '{'query': '企业微信 大疆农业 保护耕地面积'}':\nNo results found for '企业微信 大疆农业 保护耕地面积'.\n\nResults for tool call 'web_search' with arguments '{'query': '企业微信 西贝莜面村 社群 服务顾客数量'}':\nNo results found for '企业微信 西贝莜面村 社群 服务顾客数量'.",
+      "think": "根据计划，我需要并行推进两个目标：Goal 1 查找大疆农业通过企业微信保护的耕地面积，Goal 2 查找西贝莜面村通过企业微信社群服务的顾客数量。由于必须先从根URL https://work.weixin.qq.com/ 开始，我先并行执行：1) crawl_page 根URL寻找两个案例入口；2) 对大疆农业的 web_search；3) 对西贝莜面村的 web_search。这三个调用相互独立，可并行执行以高效推进两个目标。",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://work.weixin.qq.com/nl/index/caselist?id=djny",
+            "query": "大疆农业 保护的耕地面积 具体数字 亩 万亩"
+          }
+        },
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://work.weixin.qq.com/nl/index/caselist?id=xb",
+            "query": "西贝莜面村 社群服务 顾客数量 具体数字 万"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://work.weixin.qq.com/nl/index/caselist?id=djny', 'query': '大疆农业 保护的耕地面积 具体数字 亩 万亩'}':\n根据搜索查询“大疆农业 保护的耕地面积 具体数字 亩 万亩”，从网页内容中提取到的匹配信息如下：\n\n- **大疆农业案例段落**：  \n  大疆农业借助企业微信，教农村飞手使用无人机播种。通过企业微信连接全国1000多家代理商，保卫“10亿亩次”“耕地作业”（原文表述为“保卫10亿亩次‘耕地作业’”），对外培训无人机飞手，喷洒效率提升50倍；对内审批透明化，回款周期缩短至20%。\n\n- **相关具体数字（耕地面积）**：  \n  - 10亿亩次（单位：亩次，非“亩”或“万亩”静态面积，但为网页中唯一与“耕地”相关的具体数量表述；网页未出现“万亩”及“保护的耕地面积”措辞，仅用“保卫……耕地作业”）。\n\n其余网页内容均为其他企业案例（如贵州省贵政通、粤政易、国家电网等），不含大疆农业耕地保护面积的具体“亩”或“万亩”数字。\n\n总结：网页中涉及大疆农业与耕地面积的具体数字仅为“10亿亩次”耕地作业，无“亩”“万亩”及“保护的耕地面积”的直接对应内容。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://work.weixin.qq.com/nl/index/caselist?id=xb', 'query': '西贝莜面村 社群服务 顾客数量 具体数字 万'}':\n根据搜索查询“西贝莜面村 社群服务 顾客数量 具体数字 万”，从网页内容中提取西贝莜面村相关部分如下：\n\n- **西贝莜面村使用企业微信**：疫情期间搭建食客圈子，成功转战线上。\n- **门店与顾客服务**：全国 **200多家门店** 通过企业微信，每天服务 **90,000多名顾客**（即约9万，未达“万”级具体数字表述，但为具体顾客数量），线上营收占比提高至80%以上。\n- **社群服务方式**：门店经理通过企业微信添加食客微信，结合客户群、客户朋友圈，提供线上送餐、食材订购等服务；将外卖商城小程序链接到员工企业微信界面，方便顾客下单。\n- **顾客数量具体数字**：网页中未出现以“万”为单位的西贝顾客数量具体数字（90,000多名约为9万，但原文未写“万”）；无“XX万顾客”类表述。\n\n综上，匹配“西贝莜面村”“社群服务（客户群/食客圈子）”“顾客数量具体数字”的内容为：每天服务90,000多名顾客（约9万，非“万”字表述）。无符合“万”的具体数字。",
+      "think": "从根URL爬取发现大疆农业案例链接为 https://work.weixin.qq.com/nl/index/caselist?id=djny，西贝莜面村案例链接为 https://work.weixin.qq.com/nl/index/caselist?id=xb。直接搜索未找到结果，因此需要深入爬取这两个案例页面来提取大疆农业保护的耕地面积和西贝莜面村通过社群服务的顾客数量。这两个目标独立，可并行爬取对应案例页。",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": {
+            "answer": "大疆农业保护的耕地面积数字更大。根据企业微信官网案例，大疆农业通过企业微信保卫“10亿亩次”耕地作业；西贝莜面村通过企业微信社群每天服务90,000多名顾客（约9万）。10亿远大于9万，因此大疆农业保护的耕地面积对应数字更大。"
+          }
+        }
+      ],
+      "obs": "大疆农业保护的耕地面积数字更大。根据企业微信官网案例，大疆农业通过企业微信保卫“10亿亩次”耕地作业；西贝莜面村通过企业微信社群每天服务90,000多名顾客（约9万）。10亿远大于9万，因此大疆农业保护的耕地面积对应数字更大。",
+      "think": "I have extracted the needed data from the two case pages on work.weixin.qq.com (the official starting URL). For 大疆农业 (Goal 1), the case page states it uses WeCom to '保卫10亿亩次耕地作业' — the relevant number is 10亿亩次 (1,000,000,000 mu-times). For 西贝莜面村 (Goal 2), the case page states its stores serve '90,000多名顾客' per day via WeCom communities — about 90,000 (9万) customers. Goal 3 is to compare: 10亿 (1,000,000,000) is vastly larger than 90,000. Therefore, 大疆农业保护的耕地面积数字更大. All goals are resolved with verified official-site data, so I can provide the final answer in Chinese as required.",
+      "cot_think": null,
+      "memory_guidance": null
+    }
+  ],
+  "agent_messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "New task:\nYou are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: 通过企业微信进行高效服务的企业中，大疆农业保护的耕地面积与西贝莜面村通过社群服务的顾客数量相比较，哪个数字更大？\n\nStarting URL: https://work.weixin.qq.com/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://work.weixin.qq.com/\n"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Now, begin your planning analysis for this task!"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "[PLAN]:\n## Goal 1: 查找大疆农业通过企业微信保护耕地面积的数据\n- Path 1.1: 从根URL https://work.weixin.qq.com/ 爬取首页，寻找客户案例或行业解决方案入口，定位大疆农业相关内容\n  - Success: 从页面中提取出大疆农业使用企业微信所保护的耕地面积具体数值（如“X万亩”）\n- Path 1.2: 使用 web_search 查询 \"企业微信 大疆农业 保护耕地面积\" 获取相关报道或案例页，再 crawl_page 验证\n  - Success: 通过搜索结果及页面抓取确认大疆农业保护的耕地面积数字并来源可靠\n\n## Goal 2: 查找西贝莜面村通过企业微信社群服务的顾客数量数据\n- Path 2.1: 从根URL https://work.weixin.qq.com/ 爬取页面，寻找西贝莜面村案例或餐饮行业社群服务相关链接并抓取\n  - Success: 从页面中提取西贝莜面村通过社群服务的顾客数量具体数值（如“X万顾客”）\n- Path 2.2: 使用 web_search 查询 \"企业微信 西贝莜面村 社群 服务顾客数量\" 找到案例页后 crawl_page 核实\n  - Success: 确认西贝莜面村通过社群服务的顾客数量及出处准确\n\n## Goal 3: 比较两个数值并得出最终结论\n- Path 3.1: 综合Goal1与Goal2提取的数值，直接比较大小并生成答案\n  - Success: 明确输出“大疆农业保护的耕地面积”与“西贝莜面村社群服务顾客数”中哪个数字更大（或说明单位不可比但按数值比较结果）\n- Path 3.2: 若数值单位不同（如面积为亩、人数为人），在说明单位差异基础上按给定数字比较大小\n  - Success: 给出带单位说明的比较结论且逻辑清晰"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://work.weixin.qq.com/', 'query': '大疆农业 保护耕地面积 西贝莜面村 社群服务 顾客数量 案例'}}, {'name': 'web_search', 'arguments': {'query': '企业微信 大疆农业 保护耕地面积'}}, {'name': 'web_search', 'arguments': {'query': '企业微信 西贝莜面村 社群 服务顾客数量'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://work.weixin.qq.com/', 'query': '大疆农业 保护耕地面积 西贝莜面村 社群服务 顾客数量 案例'}':\nBased on the provided web page content (url: https://work.weixin.qq.com/), the search query contains the keywords: 大疆农业, 保护耕地面积, 西贝莜面村, 社群服务, 顾客数量, 案例.\n\nExtracted matching content from the page:\n\n- **大疆农业 (Case mention)**:\n  - Listed in the customer case section: \"[ 大疆农业 贴近你的消费者：如何教会农户使用无人机？ ](https://work.weixin.qq.com/nl/index/caselist?id=djny)\"\n  - This is a case study link titled about teaching farmers to use drones; no mention of \"保护耕地面积\" on this page.\n\n- **西贝莜面村 (Case mention)**:\n  - Listed in the customer case section: \"[ 西贝莜面村 餐饮门店如何服务周边忠实食客？ ](https://work.weixin.qq.com/nl/index/caselist?id=xb)\"\n  - This is a case study link about how restaurant stores serve nearby loyal diners; no mention of \"社群服务\" or \"顾客数量\" details on this page.\n\n- **保护耕地面积**: No relevant content found on the page.\n- **社群服务**: No explicit content with this phrase; related industry schemes mention \"客户群\" (retail, food industries) but not specifically \"社群服务\".\n- **顾客数量**: No relevant content found (e.g., no customer counts listed for any case).\n- **案例 (Cases)**: The page includes a broad \"客户案例\" section linking to many cases (e.g., 大疆农业, 西贝莜面村, 探鱼, 优衣库等), but only titles/links are provided, not full case details.\n\nSummary: The page only contains case title links for \"大疆农业\" and \"西贝莜面村\" within its customer case list. It does not include any body text about \"保护耕地面积\", \"社群服务\", or \"顾客数量\". No detailed case content is extracted from the current page.\n\nResults for tool call 'web_search' with arguments '{'query': '企业微信 大疆农业 保护耕地面积'}':\nNo results found for '企业微信 大疆农业 保护耕地面积'.\n\nResults for tool call 'web_search' with arguments '{'query': '企业微信 西贝莜面村 社群 服务顾客数量'}':\nNo results found for '企业微信 西贝莜面村 社群 服务顾客数量'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://work.weixin.qq.com/nl/index/caselist?id=djny', 'query': '大疆农业 保护的耕地面积 具体数字 亩 万亩'}}, {'name': 'crawl_page', 'arguments': {'url': 'https://work.weixin.qq.com/nl/index/caselist?id=xb', 'query': '西贝莜面村 社群服务 顾客数量 具体数字 万'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://work.weixin.qq.com/nl/index/caselist?id=djny', 'query': '大疆农业 保护的耕地面积 具体数字 亩 万亩'}':\n根据搜索查询“大疆农业 保护的耕地面积 具体数字 亩 万亩”，从网页内容中提取到的匹配信息如下：\n\n- **大疆农业案例段落**：  \n  大疆农业借助企业微信，教农村飞手使用无人机播种。通过企业微信连接全国1000多家代理商，保卫“10亿亩次”“耕地作业”（原文表述为“保卫10亿亩次‘耕地作业’”），对外培训无人机飞手，喷洒效率提升50倍；对内审批透明化，回款周期缩短至20%。\n\n- **相关具体数字（耕地面积）**：  \n  - 10亿亩次（单位：亩次，非“亩”或“万亩”静态面积，但为网页中唯一与“耕地”相关的具体数量表述；网页未出现“万亩”及“保护的耕地面积”措辞，仅用“保卫……耕地作业”）。\n\n其余网页内容均为其他企业案例（如贵州省贵政通、粤政易、国家电网等），不含大疆农业耕地保护面积的具体“亩”或“万亩”数字。\n\n总结：网页中涉及大疆农业与耕地面积的具体数字仅为“10亿亩次”耕地作业，无“亩”“万亩”及“保护的耕地面积”的直接对应内容。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://work.weixin.qq.com/nl/index/caselist?id=xb', 'query': '西贝莜面村 社群服务 顾客数量 具体数字 万'}':\n根据搜索查询“西贝莜面村 社群服务 顾客数量 具体数字 万”，从网页内容中提取西贝莜面村相关部分如下：\n\n- **西贝莜面村使用企业微信**：疫情期间搭建食客圈子，成功转战线上。\n- **门店与顾客服务**：全国 **200多家门店** 通过企业微信，每天服务 **90,000多名顾客**（即约9万，未达“万”级具体数字表述，但为具体顾客数量），线上营收占比提高至80%以上。\n- **社群服务方式**：门店经理通过企业微信添加食客微信，结合客户群、客户朋友圈，提供线上送餐、食材订购等服务；将外卖商城小程序链接到员工企业微信界面，方便顾客下单。\n- **顾客数量具体数字**：网页中未出现以“万”为单位的西贝顾客数量具体数字（90,000多名约为9万，但原文未写“万”）；无“XX万顾客”类表述。\n\n综上，匹配“西贝莜面村”“社群服务（客户群/食客圈子）”“顾客数量具体数字”的内容为：每天服务90,000多名顾客（约9万，非“万”字表述）。无符合“万”的具体数字。"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'final_answer', 'arguments': {'answer': '大疆农业保护的耕地面积数字更大。根据企业微信官网案例，大疆农业通过企业微信保卫“10亿亩次”耕地作业；西贝莜面村通过企业微信社群每天服务90,000多名顾客（约9万）。10亿远大于9万，因此大疆农业保护的耕地面积对应数字更大。'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\n大疆农业保护的耕地面积数字更大。根据企业微信官网案例，大疆农业通过企业微信保卫“10亿亩次”耕地作业；西贝莜面村通过企业微信社群每天服务90,000多名顾客（约9万）。10亿远大于9万，因此大疆农业保护的耕地面积对应数字更大。"
+        }
+      ]
+    }
+  ],
+  "memory_metrics": {
+    "storage_backend": "json",
+    "retrieval_strategy": "contrastive",
+    "management_preset": "tool_manager",
+    "num_extracted": 5,
+    "num_memory_units": 180,
+    "num_inserted": 5,
+    "num_deduped": 0,
+    "num_retrieved": 0,
+    "num_retrieved_pre_judge": 3,
+    "self_retrieval_filtered": 0,
+    "judge_dropped_all_count": 0,
+    "retrieval_calls": 1,
+    "query_planner_calls": 1,
+    "query_planner_model_calls": 1,
+    "query_planner_fallbacks": 0,
+    "query_planner_input_tokens": 663,
+    "query_planner_output_tokens": 43,
+    "context_composer_calls": 1,
+    "context_composer_model_calls": 1,
+    "context_composer_candidates": 3,
+    "context_composer_selected": 0,
+    "context_composer_fallbacks": 0,
+    "context_composer_no_guidance": 1,
+    "context_composer_input_tokens": 980,
+    "context_composer_output_tokens": 25,
+    "runtime_usage_in_task_metrics": true,
+    "rerank_input_tokens": 0,
+    "rerank_output_tokens": 0,
+    "rerank_calls": 0,
+    "rerank_usage_in_task_metrics": false,
+    "llm_graph_input_tokens": 0,
+    "llm_graph_output_tokens": 0,
+    "llm_graph_calls": 0,
+    "llm_graph_usage_in_task_metrics": false,
+    "phase_refresh_denied": 0,
+    "phase_refresh_seen_dropped": 0,
+    "duplicate_guidance_dropped": 0,
+    "management_ops_triggered": 4,
+    "management_results": [
+      {
+        "phase": "on_insert",
+        "op_name": "shortcut_validation",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 53.32040786743164,
+        "details": {
+          "validated": 0,
+          "rejected": 1,
+          "scanned": 1,
+          "reject_reasons_sample": [
+            "step 0 consumes runtime placeholder <SOURCE_URL> not produced by any earlier step's intent"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.09131431579589844,
+        "details": {
+          "total_active_scanned": 155,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "conflict_detection",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 2.3555755615234375,
+        "details": {
+          "threshold": 0.85,
+          "targets_scanned": 5,
+          "candidates_scanned": 155,
+          "conflict_pairs": 0,
+          "deactivated_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "access_stats_update",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.005245208740234375,
+        "details": {},
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "boost_on_success",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.10085105895996094,
+        "details": {
+          "success_boost": 0.05,
+          "used_unit_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "penalize_on_failure",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0,
+        "details": {},
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "shortcut_promotion",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0040531158447265625,
+        "details": {
+          "shortcut_boost": 0.1,
+          "boosted_unit_ids": [],
+          "promoted_unit_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.05173683166503906,
+        "details": {
+          "total_active_scanned": 155,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      }
+    ],
+    "retriever_name": null,
+    "graph_nodes": null,
+    "graph_edges": null,
+    "injection_type": "context_composer",
+    "avg_kept_confidence": null,
+    "kept_units_stale_count": 0,
+    "injection_failed_signal": false,
+    "num_memory_units_by_store": {
+      "json": 180
+    },
+    "type_counts": {
+      "tip": 72,
+      "trajectory": 30,
+      "workflow": 34,
+      "shortcut": 44
+    },
+    "judge_decisions_total": 3,
+    "noise_injection_rate": 1.0,
+    "actionable_usefulness_rate": 0.0,
+    "judge_input_tokens": 980,
+    "judge_output_tokens": 25,
+    "judge_api_calls": 1,
+    "runtime_input_tokens": 1643,
+    "runtime_output_tokens": 68,
+    "runtime_api_calls": 2,
+    "injection_stats": {
+      "renderer": "context_composer",
+      "candidates": 3,
+      "selected": 0,
+      "fallbacks": 0
+    }
+  },
+  "metrics": {
+    "elapsed_time": 364.343180116266,
+    "total_tokens": 62674,
+    "prompt_tokens": 58387,
+    "completion_tokens": 4287,
+    "api_calls": 13
+  }
+}

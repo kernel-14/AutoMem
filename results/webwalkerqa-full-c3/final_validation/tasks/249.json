@@ -1,0 +1,399 @@
+{
+  "agent_result": "370",
+  "judgement": "incorrect",
+  "judge_unjudged": false,
+  "judge_fallback": null,
+  "task_score": 0.0,
+  "success": false,
+  "item_index": 249,
+  "task_identity": "26498c23dd241d66352e71fbedf017bc02394fdd5e017a74c30bb7b73dcfb86c",
+  "question": "How many days are there between the dates of the Joint Navigation Conference in 2025 and 2027?",
+  "enhanced_question": "You are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: How many days are there between the dates of the Joint Navigation Conference in 2025 and 2027?\n\nStarting URL: https://www.ion.org/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://www.ion.org/\n",
+  "golden_answer": "735 days",
+  "root_url": "https://www.ion.org/",
+  "domain": "conference",
+  "difficulty": "medium",
+  "language": "en",
+  "type": "single_source",
+  "source_websites": [
+    "https://www.ion.org/jnc/future-meetings.cfm"
+  ],
+  "golden_path": [
+    "root->Joint Navigation Conference->Future Meetings"
+  ],
+  "status": "success",
+  "agent_trajectory": [
+    {
+      "name": "plan",
+      "value": "**Memory Assessment:**\n- APPLY: [memory:4c6a4f67-cce6-4cc8-9a8d-739c47471659] (TIP, conference navigation) — Apply-when: begin from known primary conference-root site and crawl navigation to locate event listings; THIS task starts at https://www.ion.org/ (ION conference root) to find Joint Navigation Conference dates. \n- APPLY: [memory:7ec22f94-cc80-4ae0-99b4-60fb04d2bf00] (TIP, fallback search) — Apply-when: site crawl does not reveal relevant event pages; broad web search may surface official/mirror pages. Useful as fallback if crawl misses JNC 2025/2027.\n- DISCARD: [memory:a0ba854e-32e0-463e-9888-f04b15b5159f] (TRAJECTORY, hierarchy crawl for chairs/venue) — Source-domain differs (prior was chairs/venue not date gaps) and instruction is for unrelated detail; treat as inspiration only, not copied.\n\n---\n\n## Goal 1: Locate Joint Navigation Conference 2025 Date\n- Path 1.1: Crawl ION root and navigate to Conferences/Events section to find JNC 2025 page\n  - Success: Official ION page for JNC 2025 is accessed and explicit start/end (or single) date is extracted\n- Path 1.2: Web search \"ION Joint Navigation Conference 2025 date site:ion.org\" and crawl result\n  - Success: Search returns official ION JNC 2025 page; date confirmed via crawl\n\n## Goal 2: Locate Joint Navigation Conference 2027 Date\n- Path 2.1: Crawl ION root events listing to find JNC 2027 edition page\n  - Success: Official ION JNC 2027 page retrieved with stated conference date(s)\n- Path 2.2: Web search \"ION JNC 2027 Joint Navigation Conference dates\" and verify via crawl\n  - Success: Official or mirrored ION page with 2027 date is found and date extracted\n\n## Goal 3: Compute Day Difference Between JNC 2025 and JNC 2027 Dates\n- Path 3.1: Using extracted dates from Goal 1 and 2, calculate absolute day gap (assuming single dates or use start-date to start-date)\n  - Success: Integer number of days between the two conference dates produced with clear basis (e.g., start date to start date)\n- Path 3.2: If only date ranges found, compute using midpoint or start-to-start and state assumption explicitly\n  - Success: Day count delivered with documented assumption if range-based",
+      "think": "",
+      "cot_think": "",
+      "memory_guidance": "[Past experience, for reference only] It may help to begin from the known primary conference-root site and crawl its navigation to locate event listings, since web search can return irrelevant hits for niche conference details [memory:4c6a4f67-cce6-4cc8-9a8d-739c47471659]. If the site crawl does not immediately reveal the relevant event pages for the named conference editions, a broad web search might surface official or mirror event pages that can then be crawled for date information [memory:7ec22f94-cc80-4ae0-99b4-60fb04d2bf00]. Once an official conference root or event subpage is found, a hierarchy crawl could be used to extract edition-specific date details, though the prior use was for chairs and venue rather than day-count gaps [memory:a0ba854e-32e0-463e-9888-f04b15b5159f]."
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://www.ion.org/",
+            "query": "Joint Navigation Conference 2025 and 2027 dates, conference listings, events"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "ION Joint Navigation Conference 2025 date site:ion.org"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "ION Joint Navigation Conference 2027 date site:ion.org"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://www.ion.org/', 'query': 'Joint Navigation Conference 2025 and 2027 dates, conference listings, events'}':\nRelevant content extracted from https://www.ion.org/ matching the query \"Joint Navigation Conference 2025 and 2027 dates, conference listings, events\":\n\n**Joint Navigation Conference (JNC) Listings & Events**\n- The site includes JNC under \"Meetings\" with a dedicated page: [Joint Navigation Conference](https://www.ion.org/jnc/index.cfm)\n- Homepage carousel shows a slide for JNC 2026: \"[Slide background](https://www.ion.org/jnc/images/JNC26-Carousel-Background.png) [View Program and Register Online](https://www.ion.org/jnc/)\" — indicates JNC 2026 event exists with program/registration live, but no explicit dates provided on this page.\n- No mention of Joint Navigation Conference 2025 or 2027 dates anywhere in the provided content.\n\n**Conference Listings (ION Meetings)**\nFrom the Meetings menu and homepage highlights:\n- International Technical Meeting (ITM): [ITM 2027 Jan 25–28, 2027, Anaheim, CA](https://www.ion.org/itm/index.cfm); ITM 2027 Call for Abstracts listed\n- PTTI Systems and Applications Meeting: [PTTI 2027 Jan 25–28, 2027, Anaheim, CA](https://www.ion.org/ptti/index.cfm); PTTI 2027 Call for Abstracts listed\n- IEEE/ION PLANS: [PLANS 2027 Apr 12–15, 2027, Portland, Oregon](https://www.ion.org/plans/index.cfm); Call for Abstracts listed\n- ION GNSS+: [ION GNSS+ 2026 Sep 14–18, 2026, Orlando, Florida](https://www.ion.org/gnss/index.cfm); registration open (early rates end Aug 14)\n- Pacific PNT: listed as a meeting category, no dates given\n- Joint Navigation Conference: listed as a meeting category (link to JNC page); JNC 2026 carousel present\n\n**Summary of Query Match**\n- JNC 2025: No relevant information\n- JNC 2027: No relevant information\n- JNC 2026: Referenced via carousel (\"View Program and Register Online\") but no dates stated\n- Conference listings/events: ION lists JNC, ITM, PTTI, PLANS, GNSS+, Pacific PNT as conferences; 2027 dates found only for ITM, PTTI, PLANS; 2026 for GNSS+ and JNC (no date).\n\nResults for tool call 'web_search' with arguments '{'query': 'ION Joint Navigation Conference 2025 date site:ion.org'}':\nNo results found for 'ION Joint Navigation Conference 2025 date site:ion.org'.\n\nResults for tool call 'web_search' with arguments '{'query': 'ION Joint Navigation Conference 2027 date site:ion.org'}':\n1. [Home [www.ionorchard.com]](https://www.ionorchard.com/en.html)\nSource: DuckDuckGo\n   Delve into a world of luxury, fashion, and culinary delights with our curated selection of partners, exclusively tailored for you. …\n\n2. [Shop - ION Orchard](https://www.ionorchard.com/en/shop.html)\nSource: DuckDuckGo\n   Orchard Turn Retail Investment Pte Ltd. A joint venture company between CapitaLand & Sun Hung Kai Properties.\n\n3. [Ion - Wikipedia](https://en.wikipedia.org/wiki/Ion)\nSource: DuckDuckGo\n   A cation is a positively charged ion with fewer electrons than protons [2] (e.g. K + (potassium ion)) while an anion is a negatively …\n\n4. [Ion | Definition, Chemistry, Examples, & Facts | Britannica](https://www.britannica.com/science/ion-physics)\nSource: DuckDuckGo\n   Aug 13, 2026 · Ion, any atom or group of atoms that bears one or more positive or negative electrical charges. Positively charged …\n\n5. [ION](https://iontelevision.com/)\nSource: DuckDuckGo\n   ION is the destination for your favorite binge-worthy dramas! Anchored by a collection of critically acclaimed shows to keep you …",
+      "think": "I have three goals: (1) find JNC 2025 date, (2) find JNC 2027 date, (3) compute day difference. Per the plan, I must start by accessing https://www.ion.org/ (Goal shared starting point), then locate both conference dates. The most efficient parallel approach: crawl the ION root to find conference navigation, and simultaneously do targeted web searches for JNC 2025 and JNC 2027 official dates. These are independent goals so I execute them in parallel. Path 1.1 and 2.1: crawl root + search both years. I'll start with root crawl and two web searches in parallel.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://www.ion.org/jnc/index.cfm",
+            "query": "Joint Navigation Conference 2025 and 2027 dates, past and future conference editions with dates"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "Joint Navigation Conference 2025 ION dates"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "Joint Navigation Conference 2027 ION dates"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://www.ion.org/jnc/index.cfm', 'query': 'Joint Navigation Conference 2025 and 2027 dates, past and future conference editions with dates'}':\nRelevant content extracted from the web page (https://www.ion.org/jnc/index.cfm) matching the query:\n\n- **JNC 2027 (Future Edition)**:\n  - The Military Division of the Institute of Navigation will host the 2027 Joint Navigation Conference (JNC 2027) for the U.S. military and Department of Homeland Security.\n  - 2027 marks the JNC's 50th conference (link provided to milestones page: https://www.ion.org/jnc/JNC-Celebrates-50-Years.cfm).\n  - Theme: \"Robust, Resilient, Assured PNT for Warfighters and Homeland Security\".\n  - The JNC’s DTS conference ID is N20150610734.\n  - No specific dates (e.g., month/day) for JNC 2027 are listed on this page.\n\n- **JNC 2025 (Query mentions 2025, but page shows)**:\n  - No explicit mention of \"JNC 2025\" on this page.\n  - The page references a \"2026 Technical Program\" (link: https://www.ion.org/jnc/program.cfm) under \"For Attendees\", implying the current/next listed edition is 2026, not 2025.\n  - Copyright in footer shows \"© 1995-2026\", and the subsite banner image is \"JNC 2027 Subsite Banner\". No 2025 dates or edition detailed.\n\n- **Past and Future Conference Editions with Dates**:\n  - The page includes links under \"Other Years\":\n    - Future Meetings: https://www.ion.org/jnc/future-meetings.cfm\n    - Past Meetings: https://www.ion.org/jnc/past-meetings.cfm\n  - No past or future meeting dates (including 2025 or others) are directly provided in the extracted content; only the navigation links to those pages exist.\n  - Explicit editions referenced: JNC 2026 (via 2026 Technical Program link), JNC 2027 (detailed above, 50th anniversary). No 2025 edition content present.\n\nSummary: The page confirms JNC 2027 details (50th edition, theme, host, DTS ID) but gives no specific 2027 dates. It does not contain JNC 2025 information or a dated list of past/future editions; only pointers to separate Future/Past Meetings pages.\n\nResults for tool call 'web_search' with arguments '{'query': 'Joint Navigation Conference 2025 ION dates'}':\nNo results found for 'Joint Navigation Conference 2025 ION dates'.\n\nResults for tool call 'web_search' with arguments '{'query': 'Joint Navigation Conference 2027 ION dates'}':\nNo results found for 'Joint Navigation Conference 2027 ION dates'.",
+      "think": "From the first action: the ION root crawl revealed a dedicated JNC page at https://www.ion.org/jnc/index.cfm, but no 2025/2027 dates. The site search returned irrelevant hits. Per memory 4c6a4f67 (crawl navigation) and 7ec22f94 (fallback search), I should now crawl the JNC index page directly (Goal 1 & 2 path 1.1 continuation) to find edition-specific date links, and also run broader web searches for JNC 2025 and 2027 dates as fallback (Path 1.2 / 2.2). These are independent goals and can be executed in parallel: crawl JNC page, web search JNC 2025 dates, web search JNC 2027 dates.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://www.ion.org/jnc/past-meetings.cfm",
+            "query": "Joint Navigation Conference 2025 date (month day year)"
+          }
+        },
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://www.ion.org/jnc/future-meetings.cfm",
+            "query": "Joint Navigation Conference 2027 date (month day year)"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://www.ion.org/jnc/past-meetings.cfm', 'query': 'Joint Navigation Conference 2025 date (month day year)'}':\n- Joint Navigation Conference 2025: June 2-5, 2025 (month: June, day: 2-5, year: 2025)\n- Location: Northern Kentucky Convention Center, Covington, Kentucky\n- Related link: [Onsite Printed Conference Program and Exhibitor List](https://www.ion.org/jnc/upload/JNC25-OnsiteProg.pdf)\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://www.ion.org/jnc/future-meetings.cfm', 'query': 'Joint Navigation Conference 2027 date (month day year)'}':\n- Joint Navigation Conference (JNC) 2027 date: June 7–10, 2027\n  - Source text: \"June 7-10, 2027\" under \"Joint Navigation Conference\" section and under \"JNC 2027: Celebrating its 50th Meeting\"\n  - Location: Covington, Kentucky (Greater Cincinnati Area / Northern Kentucky Convention Center)\n  - Note: JNC 2027 celebrates its 50th meeting; classified session at AFIT, WPAFB",
+      "think": "From previous steps: JNC root page gave links to Future Meetings (https://www.ion.org/jnc/future-meetings.cfm) and Past Meetings (https://www.ion.org/jnc/past-meetings.cfm). The JNC 2025 date is likely on Past Meetings, and JNC 2027 date on Future Meetings. I need to crawl both pages to extract the specific conference dates. These are independent goals (Goal 1: get 2025 date from past-meetings; Goal 2: get 2027 date from future-meetings), so I execute both crawls in parallel. Web searches for exact dates returned nothing useful, so I rely on the official ION subpages.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": {
+            "answer": "370"
+          }
+        }
+      ],
+      "obs": "370",
+      "think": "All goals are now resolved. Goal 1 found JNC 2025 date: June 2-5, 2025 (using start date June 2, 2025). Goal 2 found JNC 2027 date: June 7-10, 2027 (using start date June 7, 2027). Goal 3 requires computing days between the conference dates. Using start dates: from June 2, 2025 to June 7, 2027. Calculation: From June 2, 2025 to June 2, 2027 = 365 days (2026 is not a leap year, Feb 2026 has 28 days; the span crosses only one Feb 2026, so 365 days). Then June 2 to June 7, 2027 = +5 days. Total = 370 days. Alternatively, if using end dates (June 5, 2025 to June 10, 2027): June 5 2025 to June 5 2027 = 365 days, +5 = 370 days. Both give 370 days. Thus the answer is 370 days. I will call final_answer with just the number as per format rules.",
+      "cot_think": null,
+      "memory_guidance": null
+    }
+  ],
+  "agent_messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "New task:\nYou are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: How many days are there between the dates of the Joint Navigation Conference in 2025 and 2027?\n\nStarting URL: https://www.ion.org/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://www.ion.org/\n"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "————Memory System Guidance————\nThe memories below were retrieved from PRIOR tasks. They are HINTS, not authoritative facts. Most retrieved memories are WEAK MATCHES — you must actively decide which (if any) apply.\n\n★ DEFAULT TO IGNORE (toxic-memory fix 2026-04-30):\nIf a memory's Apply-when does not OBVIOUSLY fit THIS question, IGNORE\nit and answer from your own knowledge. Following an irrelevant memory\nis worse than having no memory. In particular:\n  • [Match: VERY_LOW] memories should be ignored unless Apply-when\n    is a precise semantic fit (not just keyword overlap).\n  • Memories whose Source domain differs from THIS task should be\n    treated as INSPIRATION only — never copy their tool sequences.\n  • If you can't write a 1-sentence concrete reason a memory helps\n    THIS specific question, ignore it.\n\nCommon keyword traps (memory fires on surface keywords but applies\nto a totally different operation):\n  • 'first year stock crossed $50' ≠ 'first or earliest publication'\n  • 'King of Pop fifth single' is NOT a name-format question\n  • 'museum accession of a portrait' is NOT a taxonomic lookup\n  • 'COUNTING visual elements in video' ≠ 'IDENTIFYING species in video'\nIf the memory's instruction would not directly improve your answer,\ndiscard it explicitly and proceed without it.\n\nField semantics:\n  • [TYPE] tag — TIP=heuristic, WORKFLOW=tool chain, TRAJECTORY=past episode,\n                 INSIGHT=failure lesson, SHORTCUT=parameterized macro\n  • → Use:     — type-specific guidance on HOW to apply this memory\n  • Apply when — observable triggers; ALL conditions must match THIS\n                 question (not just one keyword overlap).\n  • Avoid when — anti-triggers; if any matches, IGNORE this memory\n  • Source domain — abstracted prior-task category. Differing domain\n                    = treat as inspiration only, not a recipe.\n  • [Match: HIGH/MEDIUM/VERY_LOW] — pre-filtered confidence band.\n                    VERY_LOW means almost certainly off-topic.\n  • Judge note — distilled action / rationale (1 sentence)\n  • [TRAJECTORY ⚠ NEGATIVE EXAMPLE] — DO NOT replay; learn what to AVOID\n\nUsage protocol (follow strictly):\n  1. Scan each memory; check Apply-when / Avoid-when / Source domain /\n     Match-band. EXPECT to discard most.\n  2. For the few applicable ones, integrate the principle / workflow\n     into your plan. NEVER copy specifics from a Trajectory verbatim;\n     adapt to the current task.\n  3. If memories conflict or look irrelevant, IGNORE them and answer\n     using your own knowledge directly.\n  4. Memories are advisory only — your reasoning over the current\n     question remains primary, and 'no applicable memory' is a\n     valid conclusion.\n\n[Past experience, for reference only] It may help to begin from the known primary conference-root site and crawl its navigation to locate event listings, since web search can return irrelevant hits for niche conference details [memory:4c6a4f67-cce6-4cc8-9a8d-739c47471659]. If the site crawl does not immediately reveal the relevant event pages for the named conference editions, a broad web search might surface official or mirror event pages that can then be crawled for date information [memory:7ec22f94-cc80-4ae0-99b4-60fb04d2bf00]. Once an official conference root or event subpage is found, a hierarchy crawl could be used to extract edition-specific date details, though the prior use was for chairs and venue rather than day-count gaps [memory:a0ba854e-32e0-463e-9888-f04b15b5159f].\n————End Memory————"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Before planning, briefly state in your reasoning:\n  - Which 1-2 memories you will APPLY (cite [TYPE] + topic and the matching Apply-when).\n  - Which memories you will DISCARD (cite reason: e.g. Source-domain mismatch, Avoid-when triggered, conflicting advice).\nThen proceed with the plan."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Now, begin your planning analysis for this task!"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "[PLAN]:\n**Memory Assessment:**\n- APPLY: [memory:4c6a4f67-cce6-4cc8-9a8d-739c47471659] (TIP, conference navigation) — Apply-when: begin from known primary conference-root site and crawl navigation to locate event listings; THIS task starts at https://www.ion.org/ (ION conference root) to find Joint Navigation Conference dates. \n- APPLY: [memory:7ec22f94-cc80-4ae0-99b4-60fb04d2bf00] (TIP, fallback search) — Apply-when: site crawl does not reveal relevant event pages; broad web search may surface official/mirror pages. Useful as fallback if crawl misses JNC 2025/2027.\n- DISCARD: [memory:a0ba854e-32e0-463e-9888-f04b15b5159f] (TRAJECTORY, hierarchy crawl for chairs/venue) — Source-domain differs (prior was chairs/venue not date gaps) and instruction is for unrelated detail; treat as inspiration only, not copied.\n\n---\n\n## Goal 1: Locate Joint Navigation Conference 2025 Date\n- Path 1.1: Crawl ION root and navigate to Conferences/Events section to find JNC 2025 page\n  - Success: Official ION page for JNC 2025 is accessed and explicit start/end (or single) date is extracted\n- Path 1.2: Web search \"ION Joint Navigation Conference 2025 date site:ion.org\" and crawl result\n  - Success: Search returns official ION JNC 2025 page; date confirmed via crawl\n\n## Goal 2: Locate Joint Navigation Conference 2027 Date\n- Path 2.1: Crawl ION root events listing to find JNC 2027 edition page\n  - Success: Official ION JNC 2027 page retrieved with stated conference date(s)\n- Path 2.2: Web search \"ION JNC 2027 Joint Navigation Conference dates\" and verify via crawl\n  - Success: Official or mirrored ION page with 2027 date is found and date extracted\n\n## Goal 3: Compute Day Difference Between JNC 2025 and JNC 2027 Dates\n- Path 3.1: Using extracted dates from Goal 1 and 2, calculate absolute day gap (assuming single dates or use start-date to start-date)\n  - Success: Integer number of days between the two conference dates produced with clear basis (e.g., start date to start date)\n- Path 3.2: If only date ranges found, compute using midpoint or start-to-start and state assumption explicitly\n  - Success: Day count delivered with documented assumption if range-based"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://www.ion.org/', 'query': 'Joint Navigation Conference 2025 and 2027 dates, conference listings, events'}}, {'name': 'web_search', 'arguments': {'query': 'ION Joint Navigation Conference 2025 date site:ion.org'}}, {'name': 'web_search', 'arguments': {'query': 'ION Joint Navigation Conference 2027 date site:ion.org'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://www.ion.org/', 'query': 'Joint Navigation Conference 2025 and 2027 dates, conference listings, events'}':\nRelevant content extracted from https://www.ion.org/ matching the query \"Joint Navigation Conference 2025 and 2027 dates, conference listings, events\":\n\n**Joint Navigation Conference (JNC) Listings & Events**\n- The site includes JNC under \"Meetings\" with a dedicated page: [Joint Navigation Conference](https://www.ion.org/jnc/index.cfm)\n- Homepage carousel shows a slide for JNC 2026: \"[Slide background](https://www.ion.org/jnc/images/JNC26-Carousel-Background.png) [View Program and Register Online](https://www.ion.org/jnc/)\" — indicates JNC 2026 event exists with program/registration live, but no explicit dates provided on this page.\n- No mention of Joint Navigation Conference 2025 or 2027 dates anywhere in the provided content.\n\n**Conference Listings (ION Meetings)**\nFrom the Meetings menu and homepage highlights:\n- International Technical Meeting (ITM): [ITM 2027 Jan 25–28, 2027, Anaheim, CA](https://www.ion.org/itm/index.cfm); ITM 2027 Call for Abstracts listed\n- PTTI Systems and Applications Meeting: [PTTI 2027 Jan 25–28, 2027, Anaheim, CA](https://www.ion.org/ptti/index.cfm); PTTI 2027 Call for Abstracts listed\n- IEEE/ION PLANS: [PLANS 2027 Apr 12–15, 2027, Portland, Oregon](https://www.ion.org/plans/index.cfm); Call for Abstracts listed\n- ION GNSS+: [ION GNSS+ 2026 Sep 14–18, 2026, Orlando, Florida](https://www.ion.org/gnss/index.cfm); registration open (early rates end Aug 14)\n- Pacific PNT: listed as a meeting category, no dates given\n- Joint Navigation Conference: listed as a meeting category (link to JNC page); JNC 2026 carousel present\n\n**Summary of Query Match**\n- JNC 2025: No relevant information\n- JNC 2027: No relevant information\n- JNC 2026: Referenced via carousel (\"View Program and Register Online\") but no dates stated\n- Conference listings/events: ION lists JNC, ITM, PTTI, PLANS, GNSS+, Pacific PNT as conferences; 2027 dates found only for ITM, PTTI, PLANS; 2026 for GNSS+ and JNC (no date).\n\nResults for tool call 'web_search' with arguments '{'query': 'ION Joint Navigation Conference 2025 date site:ion.org'}':\nNo results found for 'ION Joint Navigation Conference 2025 date site:ion.org'.\n\nResults for tool call 'web_search' with arguments '{'query': 'ION Joint Navigation Conference 2027 date site:ion.org'}':\n1. [Home [www.ionorchard.com]](https://www.ionorchard.com/en.html)\nSource: DuckDuckGo\n   Delve into a world of luxury, fashion, and culinary delights with our curated selection of partners, exclusively tailored for you. …\n\n2. [Shop - ION Orchard](https://www.ionorchard.com/en/shop.html)\nSource: DuckDuckGo\n   Orchard Turn Retail Investment Pte Ltd. A joint venture company between CapitaLand & Sun Hung Kai Properties.\n\n3. [Ion - Wikipedia](https://en.wikipedia.org/wiki/Ion)\nSource: DuckDuckGo\n   A cation is a positively charged ion with fewer electrons than protons [2] (e.g. K + (potassium ion)) while an anion is a negatively …\n\n4. [Ion | Definition, Chemistry, Examples, & Facts | Britannica](https://www.britannica.com/science/ion-physics)\nSource: DuckDuckGo\n   Aug 13, 2026 · Ion, any atom or group of atoms that bears one or more positive or negative electrical charges. Positively charged …\n\n5. [ION](https://iontelevision.com/)\nSource: DuckDuckGo\n   ION is the destination for your favorite binge-worthy dramas! Anchored by a collection of critically acclaimed shows to keep you …"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://www.ion.org/jnc/index.cfm', 'query': 'Joint Navigation Conference 2025 and 2027 dates, past and future conference editions with dates'}}, {'name': 'web_search', 'arguments': {'query': 'Joint Navigation Conference 2025 ION dates'}}, {'name': 'web_search', 'arguments': {'query': 'Joint Navigation Conference 2027 ION dates'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://www.ion.org/jnc/index.cfm', 'query': 'Joint Navigation Conference 2025 and 2027 dates, past and future conference editions with dates'}':\nRelevant content extracted from the web page (https://www.ion.org/jnc/index.cfm) matching the query:\n\n- **JNC 2027 (Future Edition)**:\n  - The Military Division of the Institute of Navigation will host the 2027 Joint Navigation Conference (JNC 2027) for the U.S. military and Department of Homeland Security.\n  - 2027 marks the JNC's 50th conference (link provided to milestones page: https://www.ion.org/jnc/JNC-Celebrates-50-Years.cfm).\n  - Theme: \"Robust, Resilient, Assured PNT for Warfighters and Homeland Security\".\n  - The JNC’s DTS conference ID is N20150610734.\n  - No specific dates (e.g., month/day) for JNC 2027 are listed on this page.\n\n- **JNC 2025 (Query mentions 2025, but page shows)**:\n  - No explicit mention of \"JNC 2025\" on this page.\n  - The page references a \"2026 Technical Program\" (link: https://www.ion.org/jnc/program.cfm) under \"For Attendees\", implying the current/next listed edition is 2026, not 2025.\n  - Copyright in footer shows \"© 1995-2026\", and the subsite banner image is \"JNC 2027 Subsite Banner\". No 2025 dates or edition detailed.\n\n- **Past and Future Conference Editions with Dates**:\n  - The page includes links under \"Other Years\":\n    - Future Meetings: https://www.ion.org/jnc/future-meetings.cfm\n    - Past Meetings: https://www.ion.org/jnc/past-meetings.cfm\n  - No past or future meeting dates (including 2025 or others) are directly provided in the extracted content; only the navigation links to those pages exist.\n  - Explicit editions referenced: JNC 2026 (via 2026 Technical Program link), JNC 2027 (detailed above, 50th anniversary). No 2025 edition content present.\n\nSummary: The page confirms JNC 2027 details (50th edition, theme, host, DTS ID) but gives no specific 2027 dates. It does not contain JNC 2025 information or a dated list of past/future editions; only pointers to separate Future/Past Meetings pages.\n\nResults for tool call 'web_search' with arguments '{'query': 'Joint Navigation Conference 2025 ION dates'}':\nNo results found for 'Joint Navigation Conference 2025 ION dates'.\n\nResults for tool call 'web_search' with arguments '{'query': 'Joint Navigation Conference 2027 ION dates'}':\nNo results found for 'Joint Navigation Conference 2027 ION dates'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://www.ion.org/jnc/past-meetings.cfm', 'query': 'Joint Navigation Conference 2025 date (month day year)'}}, {'name': 'crawl_page', 'arguments': {'url': 'https://www.ion.org/jnc/future-meetings.cfm', 'query': 'Joint Navigation Conference 2027 date (month day year)'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://www.ion.org/jnc/past-meetings.cfm', 'query': 'Joint Navigation Conference 2025 date (month day year)'}':\n- Joint Navigation Conference 2025: June 2-5, 2025 (month: June, day: 2-5, year: 2025)\n- Location: Northern Kentucky Convention Center, Covington, Kentucky\n- Related link: [Onsite Printed Conference Program and Exhibitor List](https://www.ion.org/jnc/upload/JNC25-OnsiteProg.pdf)\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://www.ion.org/jnc/future-meetings.cfm', 'query': 'Joint Navigation Conference 2027 date (month day year)'}':\n- Joint Navigation Conference (JNC) 2027 date: June 7–10, 2027\n  - Source text: \"June 7-10, 2027\" under \"Joint Navigation Conference\" section and under \"JNC 2027: Celebrating its 50th Meeting\"\n  - Location: Covington, Kentucky (Greater Cincinnati Area / Northern Kentucky Convention Center)\n  - Note: JNC 2027 celebrates its 50th meeting; classified session at AFIT, WPAFB"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'final_answer', 'arguments': {'answer': '370'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\n370"
+        }
+      ]
+    }
+  ],
+  "memory_metrics": {
+    "storage_backend": "json",
+    "retrieval_strategy": "contrastive",
+    "management_preset": "tool_manager",
+    "num_extracted": 0,
+    "num_memory_units": 303,
+    "num_inserted": 0,
+    "num_deduped": 0,
+    "num_retrieved": 3,
+    "num_retrieved_pre_judge": 3,
+    "self_retrieval_filtered": 0,
+    "judge_dropped_all_count": 0,
+    "retrieval_calls": 1,
+    "query_planner_calls": 1,
+    "query_planner_model_calls": 1,
+    "query_planner_fallbacks": 0,
+    "query_planner_input_tokens": 630,
+    "query_planner_output_tokens": 29,
+    "context_composer_calls": 1,
+    "context_composer_model_calls": 1,
+    "context_composer_candidates": 3,
+    "context_composer_selected": 3,
+    "context_composer_fallbacks": 0,
+    "context_composer_no_guidance": 0,
+    "context_composer_input_tokens": 956,
+    "context_composer_output_tokens": 156,
+    "runtime_usage_in_task_metrics": true,
+    "rerank_input_tokens": 0,
+    "rerank_output_tokens": 0,
+    "rerank_calls": 0,
+    "rerank_usage_in_task_metrics": false,
+    "llm_graph_input_tokens": 0,
+    "llm_graph_output_tokens": 0,
+    "llm_graph_calls": 0,
+    "llm_graph_usage_in_task_metrics": false,
+    "phase_refresh_denied": 0,
+    "phase_refresh_seen_dropped": 0,
+    "duplicate_guidance_dropped": 0,
+    "management_ops_triggered": 2,
+    "management_results": [
+      {
+        "phase": "post_task",
+        "op_name": "access_stats_update",
+        "triggered": true,
+        "units_affected": 1,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 113.9836311340332,
+        "details": {
+          "used_ids_count": 1,
+          "modified": 1,
+          "missing": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "boost_on_success",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0,
+        "details": {},
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "penalize_on_failure",
+        "triggered": true,
+        "units_affected": 1,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 93.92166137695312,
+        "details": {
+          "confidence_penalty": 0.15,
+          "used_unit_ids": [
+            "6d7150b2-b719-49b6-86fc-d6d880fd5821"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "shortcut_promotion",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0059604644775390625,
+        "details": {},
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.17642974853515625,
+        "details": {
+          "total_active_scanned": 267,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      }
+    ],
+    "retriever_name": "ContrastiveRetriever",
+    "graph_nodes": null,
+    "graph_edges": null,
+    "injection_type": "context_composer",
+    "avg_kept_confidence": 0.6303792982549999,
+    "kept_units_stale_count": 0,
+    "injection_failed_signal": false,
+    "num_memory_units_by_store": {
+      "json": 303
+    },
+    "type_counts": {
+      "tip": 108,
+      "trajectory": 59,
+      "workflow": 63,
+      "shortcut": 73
+    },
+    "judge_decisions_total": 3,
+    "noise_injection_rate": 0.0,
+    "actionable_usefulness_rate": 1.0,
+    "judge_input_tokens": 956,
+    "judge_output_tokens": 156,
+    "judge_api_calls": 1,
+    "runtime_input_tokens": 1586,
+    "runtime_output_tokens": 185,
+    "runtime_api_calls": 2,
+    "injection_stats": {
+      "renderer": "context_composer",
+      "candidates": 3,
+      "selected": 3,
+      "fallbacks": 0
+    }
+  },
+  "metrics": {
+    "elapsed_time": 286.2326710084453,
+    "total_tokens": 37284,
+    "prompt_tokens": 34043,
+    "completion_tokens": 3241,
+    "api_calls": 11
+  }
+}

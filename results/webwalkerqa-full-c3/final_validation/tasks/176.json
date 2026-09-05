@@ -1,0 +1,397 @@
+{
+  "agent_result": "加拿大阿尔伯塔大学的Witold Pedrycz（维托尔德·佩德雷茨）教授；其主要研究方向涉及计算智能、模糊建模、粒计算和数据挖掘。",
+  "judgement": "correct",
+  "judge_unjudged": false,
+  "judge_fallback": null,
+  "task_score": 1.0,
+  "success": true,
+  "item_index": 176,
+  "task_identity": "d1ec36fab3f832e3b1dea346f346803ec6fc6ada07924bb19cf8eb0350f84b62",
+  "question": "广州大学计算机科学与网络工程学院2019年5月14日，加拿大阿尔伯塔大学的哪位教授在广州大学的行政西楼前座428会议室进行了主题为“Graduate Studies and Research”的学术报告，其主要研究方向涉及哪些领域？",
+  "enhanced_question": "You are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: 广州大学计算机科学与网络工程学院2019年5月14日，加拿大阿尔伯塔大学的哪位教授在广州大学的行政西楼前座428会议室进行了主题为“Graduate Studies and Research”的学术报告，其主要研究方向涉及哪些领域？\n\nStarting URL: https://jsj.gzhu.edu.cn/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://jsj.gzhu.edu.cn/\n",
+  "golden_answer": "Witold Pedrycz教授；计算智能、模糊建模、粒计算和数据挖掘",
+  "root_url": "https://jsj.gzhu.edu.cn/",
+  "domain": "education",
+  "difficulty": "easy",
+  "language": "",
+  "type": "single_source",
+  "source_websites": [
+    "https://jsj.gzhu.edu.cn/info/1232/1671.htm"
+  ],
+  "golden_path": [
+    "root->加拿大阿尔伯塔大学Witold Pedrycz教授应邀来我院..."
+  ],
+  "status": "success",
+  "agent_trajectory": [
+    {
+      "name": "plan",
+      "value": "**Memory Analysis:**\n- APPLY: [WORKFLOW] memory:5fe5f7ee-07af-401d-8f04-078d1d0dd3bd (root-to-detail crawl sequence for institution event notices) and [WORKFLOW] memory:11d0fea6-e787-4a24-8334-d6cf8f6bc99c (crawl listing then detail to extract speaker name and research fields). Apply-when: identifying a person and research areas from an institution site via dated event notices — matches this task exactly (Guangzhou University CS school site, dated 2019-05-14 event, need professor name + research fields).\n- DISCARD: None of the other listed memories are present in this context beyond the two above; no conflicting or off-topic memories provided. The default toxic-memory rule does not trigger as these two are relevant HIGH/MEDIUM matches with precise Apply-when fit.\n\n---\n\n## Goal 1: Locate the specific event notice from 2019-05-14 on the school website\n- Path 1.1: Crawl root URL and follow news/announcement navigation\n  - Success: Root page https://jsj.gzhu.edu.cn/ accessed and links to news/notice listing (e.g., /xwzx/ or /tzgg/) identified containing May 2019 entries\n- Path 1.2: Web search for site-specific query\n  - Success: Search \"site:jsj.gzhu.edu.cn 2019年5月14日 Graduate Studies and Research\" returns URL of the relevant event detail page\n\n## Goal 2: Extract professor name and research fields from the event detail page\n- Path 2.1: Crawl the identified detail page from Goal 1\n  - Success: Page content shows professor from University of Alberta, name, and research areas; room 428 West Front Admin Building confirmed\n- Path 2.2: Cross-verify via web search of professor name + Alberta + research\n  - Success: External or internal source confirms same professor and lists main research domains (e.g., CS subfields)\n\n## Goal 3: Confirm room and theme consistency\n- Path 3.1: Re-crawl detail page filtering for \"行政西楼前座428\" and \"Graduate Studies and Research\"\n  - Success: Both the room and theme string exactly match the question's constraints on the extracted page",
+      "think": "",
+      "cot_think": "",
+      "memory_guidance": "[Past experience, for reference only] When a query requires identifying a person and their research areas from an institution site via dated event notices, it may help to begin by crawling the institution's root page to locate news or announcement navigation links [memory:5fe5f7ee-07af-401d-8f04-078d1d0dd3bd]. Subsequent steps might involve crawling a listing page of events or reports to find the specific dated entry, then crawling the detail page to extract the speaker name and research fields [memory:11d0fea6-e787-4a24-8334-d6cf8f6bc99c]. These workflows suggest a root-to-detail crawl sequence rather than relying on a single search call, though arguments must be adapted to the current entity and date [memory:5fe5f7ee-07af-401d-8f04-078d1d0dd3bd][memory:11d0fea6-e787-4a24-8334-d6cf8f6bc99c]."
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://jsj.gzhu.edu.cn/",
+            "query": "news or announcement links related to 2019年5月14日 academic report Graduate Studies and Research"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "site:jsj.gzhu.edu.cn 2019年5月14日 \"Graduate Studies and Research\" 阿尔伯塔大学"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://jsj.gzhu.edu.cn/', 'query': 'news or announcement links related to 2019年5月14日 academic report Graduate Studies and Research'}':\nBased on the provided web page content from https://jsj.gzhu.edu.cn/, the search query asks for news or announcement links related to \"2019年5月14日 academic report Graduate Studies and Research\".\n\nRelevant items found:\n- The page includes an \"学术活动通知\" (Academic Activity Notices) section with a link for an academic report on 2019.5.14:\n  - [学术报告（Prof.Witold Pedrycz，2019.5.14，周二）](https://jsj.gzhu.edu.cn/info/1102/1399.htm \"学术报告（Prof.Witold Pedrycz，2019.5.14，周二）\")\n  This is an academic report (学术报告) dated May 14, 2019 (2019年5月14日), matching the date and academic report part of the query.\n\n- Regarding \"Graduate Studies and Research\" (研究生教育/学术科研): The page has a \"研究生教育\" (Graduate Education) menu and \"学术科研\" (Academic Research) section, but no news or announcement links on the page are dated 2019年5月14日 under those categories. The only 2019-05-14 dated item is the academic report above (under academic activities). The \"招生考试信息\" (Admission & Exam Info) subsection under Graduate Studies shows a 2019/05/27 notice (计算机学院2019年博士研究生拟录取考生名单变更公示) but not 05/14.\n\nSummary of matching links:\n1. Academic report on 2019-05-14: https://jsj.gzhu.edu.cn/info/1102/1399.htm (Prof. Witold Pedrycz, Tuesday, 2019.5.14) — listed under 学术活动通知.\n\nNo other news or announcement links on the page match both \"2019年5月14日\" and \"academic report\" or explicitly combine that date with Graduate Studies and Research. The query is satisfied by the single academic report link above.\n\nResults for tool call 'web_search' with arguments '{'query': 'site:jsj.gzhu.edu.cn 2019年5月14日 \"Graduate Studies and Research\" 阿尔伯塔大学'}':\nNo results found for 'site:jsj.gzhu.edu.cn 2019年5月14日 \"Graduate Studies and Research\" 阿尔伯塔大学'.",
+      "think": "I need to begin by accessing the root URL as required, and simultaneously run a targeted web search to locate the specific event. These are independent actions that can be done in parallel. Goal 1 (locate event) uses Path 1.1 (crawl root) and Path 1.2 (web search) — I'll start both in parallel since they are independent discovery methods. The crawl of root will help find news/notice navigation; the web search may directly reveal the detail page URL.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://jsj.gzhu.edu.cn/info/1102/1399.htm",
+            "query": "教授姓名、所属学校（加拿大阿尔伯塔大学）、会议室（行政西楼前座428）、报告主题（Graduate Studies and Research）、主要研究方向领域"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://jsj.gzhu.edu.cn/info/1102/1399.htm', 'query': '教授姓名、所属学校（加拿大阿尔伯塔大学）、会议室（行政西楼前座428）、报告主题（Graduate Studies and Research）、主要研究方向领域'}':\n- 教授姓名：Witold Pedrycz（维托尔德·佩德雷茨，Prof. Witold Pedrycz）\n- 所属学校：加拿大阿尔伯塔大学（University of Alberta, Canada）；同时担任加拿大计算智能研究中心主任，波兰科学院院士、加拿大皇家学院院士，IEEE学会会士\n- 会议室：行政西楼前座428室（计算机学院会议室，行政西楼前座428室）\n- 报告主题：Graduate Studies and Research（如何进行计算机培养和学习）\n- 主要研究方向领域：计算智能、模糊建模、粒计算和数据挖掘",
+      "think": "From the root crawl, I found the academic report link for 2019.5.14: https://jsj.gzhu.edu.cn/info/1102/1399.htm featuring Prof. Witold Pedrycz. This is the detail page (Goal 2 / Path 2.1) I need to crawl to extract the professor's name, affiliation (University of Alberta), the room (行政西楼前座428), the theme (Graduate Studies and Research), and his main research fields. The web search returned no results, so I will rely on crawling the detail page. I will crawl that detail page now to confirm all required info.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": {
+            "answer": "加拿大阿尔伯塔大学的Witold Pedrycz（维托尔德·佩德雷茨）教授；其主要研究方向涉及计算智能、模糊建模、粒计算和数据挖掘。"
+          }
+        }
+      ],
+      "obs": "加拿大阿尔伯塔大学的Witold Pedrycz（维托尔德·佩德雷茨）教授；其主要研究方向涉及计算智能、模糊建模、粒计算和数据挖掘。",
+      "think": "All goals have been satisfied. Goal 1: Found the event link from root page (https://jsj.gzhu.edu.cn/info/1102/1399.htm). Goal 2: Crawled the detail page and extracted professor name (Witold Pedrycz) and research fields (计算智能、模糊建模、粒计算和数据挖掘). Goal 3: Confirmed room (行政西楼前座428) and theme (Graduate Studies and Research) match exactly. The answer is fully verified from the official school page. I will now call final_answer with the consolidated result in Chinese.",
+      "cot_think": null,
+      "memory_guidance": null
+    }
+  ],
+  "agent_messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "New task:\nYou are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: 广州大学计算机科学与网络工程学院2019年5月14日，加拿大阿尔伯塔大学的哪位教授在广州大学的行政西楼前座428会议室进行了主题为“Graduate Studies and Research”的学术报告，其主要研究方向涉及哪些领域？\n\nStarting URL: https://jsj.gzhu.edu.cn/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://jsj.gzhu.edu.cn/\n"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "————Memory System Guidance————\nThe memories below were retrieved from PRIOR tasks. They are HINTS, not authoritative facts. Most retrieved memories are WEAK MATCHES — you must actively decide which (if any) apply.\n\n★ DEFAULT TO IGNORE (toxic-memory fix 2026-04-30):\nIf a memory's Apply-when does not OBVIOUSLY fit THIS question, IGNORE\nit and answer from your own knowledge. Following an irrelevant memory\nis worse than having no memory. In particular:\n  • [Match: VERY_LOW] memories should be ignored unless Apply-when\n    is a precise semantic fit (not just keyword overlap).\n  • Memories whose Source domain differs from THIS task should be\n    treated as INSPIRATION only — never copy their tool sequences.\n  • If you can't write a 1-sentence concrete reason a memory helps\n    THIS specific question, ignore it.\n\nCommon keyword traps (memory fires on surface keywords but applies\nto a totally different operation):\n  • 'first year stock crossed $50' ≠ 'first or earliest publication'\n  • 'King of Pop fifth single' is NOT a name-format question\n  • 'museum accession of a portrait' is NOT a taxonomic lookup\n  • 'COUNTING visual elements in video' ≠ 'IDENTIFYING species in video'\nIf the memory's instruction would not directly improve your answer,\ndiscard it explicitly and proceed without it.\n\nField semantics:\n  • [TYPE] tag — TIP=heuristic, WORKFLOW=tool chain, TRAJECTORY=past episode,\n                 INSIGHT=failure lesson, SHORTCUT=parameterized macro\n  • → Use:     — type-specific guidance on HOW to apply this memory\n  • Apply when — observable triggers; ALL conditions must match THIS\n                 question (not just one keyword overlap).\n  • Avoid when — anti-triggers; if any matches, IGNORE this memory\n  • Source domain — abstracted prior-task category. Differing domain\n                    = treat as inspiration only, not a recipe.\n  • [Match: HIGH/MEDIUM/VERY_LOW] — pre-filtered confidence band.\n                    VERY_LOW means almost certainly off-topic.\n  • Judge note — distilled action / rationale (1 sentence)\n  • [TRAJECTORY ⚠ NEGATIVE EXAMPLE] — DO NOT replay; learn what to AVOID\n\nUsage protocol (follow strictly):\n  1. Scan each memory; check Apply-when / Avoid-when / Source domain /\n     Match-band. EXPECT to discard most.\n  2. For the few applicable ones, integrate the principle / workflow\n     into your plan. NEVER copy specifics from a Trajectory verbatim;\n     adapt to the current task.\n  3. If memories conflict or look irrelevant, IGNORE them and answer\n     using your own knowledge directly.\n  4. Memories are advisory only — your reasoning over the current\n     question remains primary, and 'no applicable memory' is a\n     valid conclusion.\n\n[Past experience, for reference only] When a query requires identifying a person and their research areas from an institution site via dated event notices, it may help to begin by crawling the institution's root page to locate news or announcement navigation links [memory:5fe5f7ee-07af-401d-8f04-078d1d0dd3bd]. Subsequent steps might involve crawling a listing page of events or reports to find the specific dated entry, then crawling the detail page to extract the speaker name and research fields [memory:11d0fea6-e787-4a24-8334-d6cf8f6bc99c]. These workflows suggest a root-to-detail crawl sequence rather than relying on a single search call, though arguments must be adapted to the current entity and date [memory:5fe5f7ee-07af-401d-8f04-078d1d0dd3bd][memory:11d0fea6-e787-4a24-8334-d6cf8f6bc99c].\n————End Memory————"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Before planning, briefly state in your reasoning:\n  - Which 1-2 memories you will APPLY (cite [TYPE] + topic and the matching Apply-when).\n  - Which memories you will DISCARD (cite reason: e.g. Source-domain mismatch, Avoid-when triggered, conflicting advice).\nThen proceed with the plan."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Now, begin your planning analysis for this task!"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "[PLAN]:\n**Memory Analysis:**\n- APPLY: [WORKFLOW] memory:5fe5f7ee-07af-401d-8f04-078d1d0dd3bd (root-to-detail crawl sequence for institution event notices) and [WORKFLOW] memory:11d0fea6-e787-4a24-8334-d6cf8f6bc99c (crawl listing then detail to extract speaker name and research fields). Apply-when: identifying a person and research areas from an institution site via dated event notices — matches this task exactly (Guangzhou University CS school site, dated 2019-05-14 event, need professor name + research fields).\n- DISCARD: None of the other listed memories are present in this context beyond the two above; no conflicting or off-topic memories provided. The default toxic-memory rule does not trigger as these two are relevant HIGH/MEDIUM matches with precise Apply-when fit.\n\n---\n\n## Goal 1: Locate the specific event notice from 2019-05-14 on the school website\n- Path 1.1: Crawl root URL and follow news/announcement navigation\n  - Success: Root page https://jsj.gzhu.edu.cn/ accessed and links to news/notice listing (e.g., /xwzx/ or /tzgg/) identified containing May 2019 entries\n- Path 1.2: Web search for site-specific query\n  - Success: Search \"site:jsj.gzhu.edu.cn 2019年5月14日 Graduate Studies and Research\" returns URL of the relevant event detail page\n\n## Goal 2: Extract professor name and research fields from the event detail page\n- Path 2.1: Crawl the identified detail page from Goal 1\n  - Success: Page content shows professor from University of Alberta, name, and research areas; room 428 West Front Admin Building confirmed\n- Path 2.2: Cross-verify via web search of professor name + Alberta + research\n  - Success: External or internal source confirms same professor and lists main research domains (e.g., CS subfields)\n\n## Goal 3: Confirm room and theme consistency\n- Path 3.1: Re-crawl detail page filtering for \"行政西楼前座428\" and \"Graduate Studies and Research\"\n  - Success: Both the room and theme string exactly match the question's constraints on the extracted page"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://jsj.gzhu.edu.cn/', 'query': 'news or announcement links related to 2019年5月14日 academic report Graduate Studies and Research'}}, {'name': 'web_search', 'arguments': {'query': 'site:jsj.gzhu.edu.cn 2019年5月14日 \"Graduate Studies and Research\" 阿尔伯塔大学'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://jsj.gzhu.edu.cn/', 'query': 'news or announcement links related to 2019年5月14日 academic report Graduate Studies and Research'}':\nBased on the provided web page content from https://jsj.gzhu.edu.cn/, the search query asks for news or announcement links related to \"2019年5月14日 academic report Graduate Studies and Research\".\n\nRelevant items found:\n- The page includes an \"学术活动通知\" (Academic Activity Notices) section with a link for an academic report on 2019.5.14:\n  - [学术报告（Prof.Witold Pedrycz，2019.5.14，周二）](https://jsj.gzhu.edu.cn/info/1102/1399.htm \"学术报告（Prof.Witold Pedrycz，2019.5.14，周二）\")\n  This is an academic report (学术报告) dated May 14, 2019 (2019年5月14日), matching the date and academic report part of the query.\n\n- Regarding \"Graduate Studies and Research\" (研究生教育/学术科研): The page has a \"研究生教育\" (Graduate Education) menu and \"学术科研\" (Academic Research) section, but no news or announcement links on the page are dated 2019年5月14日 under those categories. The only 2019-05-14 dated item is the academic report above (under academic activities). The \"招生考试信息\" (Admission & Exam Info) subsection under Graduate Studies shows a 2019/05/27 notice (计算机学院2019年博士研究生拟录取考生名单变更公示) but not 05/14.\n\nSummary of matching links:\n1. Academic report on 2019-05-14: https://jsj.gzhu.edu.cn/info/1102/1399.htm (Prof. Witold Pedrycz, Tuesday, 2019.5.14) — listed under 学术活动通知.\n\nNo other news or announcement links on the page match both \"2019年5月14日\" and \"academic report\" or explicitly combine that date with Graduate Studies and Research. The query is satisfied by the single academic report link above.\n\nResults for tool call 'web_search' with arguments '{'query': 'site:jsj.gzhu.edu.cn 2019年5月14日 \"Graduate Studies and Research\" 阿尔伯塔大学'}':\nNo results found for 'site:jsj.gzhu.edu.cn 2019年5月14日 \"Graduate Studies and Research\" 阿尔伯塔大学'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://jsj.gzhu.edu.cn/info/1102/1399.htm', 'query': '教授姓名、所属学校（加拿大阿尔伯塔大学）、会议室（行政西楼前座428）、报告主题（Graduate Studies and Research）、主要研究方向领域'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://jsj.gzhu.edu.cn/info/1102/1399.htm', 'query': '教授姓名、所属学校（加拿大阿尔伯塔大学）、会议室（行政西楼前座428）、报告主题（Graduate Studies and Research）、主要研究方向领域'}':\n- 教授姓名：Witold Pedrycz（维托尔德·佩德雷茨，Prof. Witold Pedrycz）\n- 所属学校：加拿大阿尔伯塔大学（University of Alberta, Canada）；同时担任加拿大计算智能研究中心主任，波兰科学院院士、加拿大皇家学院院士，IEEE学会会士\n- 会议室：行政西楼前座428室（计算机学院会议室，行政西楼前座428室）\n- 报告主题：Graduate Studies and Research（如何进行计算机培养和学习）\n- 主要研究方向领域：计算智能、模糊建模、粒计算和数据挖掘"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'final_answer', 'arguments': {'answer': '加拿大阿尔伯塔大学的Witold Pedrycz（维托尔德·佩德雷茨）教授；其主要研究方向涉及计算智能、模糊建模、粒计算和数据挖掘。'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\n加拿大阿尔伯塔大学的Witold Pedrycz（维托尔德·佩德雷茨）教授；其主要研究方向涉及计算智能、模糊建模、粒计算和数据挖掘。"
+        }
+      ]
+    }
+  ],
+  "memory_metrics": {
+    "storage_backend": "json",
+    "retrieval_strategy": "contrastive",
+    "management_preset": "tool_manager",
+    "num_extracted": 4,
+    "num_memory_units": 133,
+    "num_inserted": 4,
+    "num_deduped": 0,
+    "num_retrieved": 2,
+    "num_retrieved_pre_judge": 3,
+    "self_retrieval_filtered": 0,
+    "judge_dropped_all_count": 0,
+    "retrieval_calls": 1,
+    "query_planner_calls": 1,
+    "query_planner_model_calls": 1,
+    "query_planner_fallbacks": 0,
+    "query_planner_input_tokens": 685,
+    "query_planner_output_tokens": 39,
+    "context_composer_calls": 1,
+    "context_composer_model_calls": 1,
+    "context_composer_candidates": 3,
+    "context_composer_selected": 2,
+    "context_composer_fallbacks": 0,
+    "context_composer_no_guidance": 0,
+    "context_composer_input_tokens": 1106,
+    "context_composer_output_tokens": 147,
+    "runtime_usage_in_task_metrics": true,
+    "rerank_input_tokens": 0,
+    "rerank_output_tokens": 0,
+    "rerank_calls": 0,
+    "rerank_usage_in_task_metrics": false,
+    "llm_graph_input_tokens": 0,
+    "llm_graph_output_tokens": 0,
+    "llm_graph_calls": 0,
+    "llm_graph_usage_in_task_metrics": false,
+    "phase_refresh_denied": 0,
+    "phase_refresh_seen_dropped": 0,
+    "duplicate_guidance_dropped": 0,
+    "management_ops_triggered": 4,
+    "management_results": [
+      {
+        "phase": "on_insert",
+        "op_name": "shortcut_validation",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 40.9696102142334,
+        "details": {
+          "validated": 0,
+          "rejected": 1,
+          "scanned": 1,
+          "reject_reasons_sample": [
+            "step 0 consumes runtime placeholder <SOURCE_URL> not produced by any earlier step's intent"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.10251998901367188,
+        "details": {
+          "total_active_scanned": 133,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "conflict_detection",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 1.8072128295898438,
+        "details": {
+          "threshold": 0.85,
+          "targets_scanned": 4,
+          "candidates_scanned": 133,
+          "conflict_pairs": 0,
+          "deactivated_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "access_stats_update",
+        "triggered": true,
+        "units_affected": 2,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 2,
+        "duration_ms": 76.0033130645752,
+        "details": {
+          "used_ids_count": 2,
+          "modified": 2,
+          "missing": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "boost_on_success",
+        "triggered": true,
+        "units_affected": 2,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 2,
+        "duration_ms": 73.57335090637207,
+        "details": {
+          "success_boost": 0.05,
+          "used_unit_ids": [
+            "5fe5f7ee-07af-401d-8f04-078d1d0dd3bd",
+            "11d0fea6-e787-4a24-8334-d6cf8f6bc99c"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "penalize_on_failure",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0,
+        "details": {},
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "shortcut_promotion",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.016689300537109375,
+        "details": {
+          "shortcut_boost": 0.1,
+          "boosted_unit_ids": [],
+          "promoted_unit_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.059604644775390625,
+        "details": {
+          "total_active_scanned": 133,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      }
+    ],
+    "retriever_name": "ContrastiveRetriever",
+    "graph_nodes": null,
+    "graph_edges": null,
+    "injection_type": "context_composer",
+    "avg_kept_confidence": 0.35600000000000004,
+    "kept_units_stale_count": 0,
+    "injection_failed_signal": false,
+    "num_memory_units_by_store": {
+      "json": 133
+    },
+    "type_counts": {
+      "tip": 58,
+      "trajectory": 19,
+      "workflow": 23,
+      "shortcut": 33
+    },
+    "judge_decisions_total": 3,
+    "noise_injection_rate": 0.3333,
+    "actionable_usefulness_rate": 0.6667,
+    "judge_input_tokens": 1106,
+    "judge_output_tokens": 147,
+    "judge_api_calls": 1,
+    "runtime_input_tokens": 1791,
+    "runtime_output_tokens": 186,
+    "runtime_api_calls": 2,
+    "injection_stats": {
+      "renderer": "context_composer",
+      "candidates": 3,
+      "selected": 2,
+      "fallbacks": 0
+    }
+  },
+  "metrics": {
+    "elapsed_time": 360.3743856931105,
+    "total_tokens": 44900,
+    "prompt_tokens": 41330,
+    "completion_tokens": 3570,
+    "api_calls": 12
+  }
+}

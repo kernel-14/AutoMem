@@ -1,0 +1,820 @@
+{
+  "agent_result": "合作作者：Xinglin Lyu, Min Zhang, Chenchen Ding, Hideki Tanaka, Masao Utiyama（李军辉本人为作者之一）；发表会议/期刊：IEEE/ACM Transactions on Audio, Speech, and Language Processing (IEEE/ACM TASLP)。",
+  "judgement": "correct",
+  "judge_unjudged": false,
+  "judge_fallback": null,
+  "task_score": 1.0,
+  "success": true,
+  "item_index": 271,
+  "task_identity": "be7866ec324e3169a4d1628e610448285c667b07701586b254494e0a8b4b3827",
+  "question": "李军辉教授在2023年发表的关于未来智能神经机器翻译的一篇论文中提到的合作作者有哪些，并在哪个会议上发表？",
+  "enhanced_question": "You are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: 李军辉教授在2023年发表的关于未来智能神经机器翻译的一篇论文中提到的合作作者有哪些，并在哪个会议上发表？\n\nStarting URL: https://scst.suda.edu.cn/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://scst.suda.edu.cn/\n",
+  "golden_answer": "合作作者包括Xinglin Lyu, Min Zhang, Chenchen Ding, Hideki Tanaka, 和Masao Utiyama，论文在IEEE/ACM TASLP会议上发表。",
+  "root_url": "https://scst.suda.edu.cn/",
+  "domain": "education",
+  "difficulty": "medium",
+  "language": "zh",
+  "type": "single_source",
+  "source_websites": [
+    "https://scst.suda.edu.cn/11/68/c11250a528744/page.htm"
+  ],
+  "golden_path": [
+    "root->导师简介->李军辉教授"
+  ],
+  "status": "success",
+  "agent_trajectory": [
+    {
+      "name": "plan",
+      "value": "**Memory Analysis:**\n- APPLY: Memory [8f481946-4855-4b80-a5cd-2b468096607c] ([TYPE] likely TRAJECTORY/TIP, topic: site navigation to faculty/people listing for publication info). Apply-when: starting page crawl does not directly reveal target publication/author → locate faculty or people listing via navigation, then open profile. This matches our task: start at https://scst.suda.edu.cn/, find Prof. Li Junhui's 2023 paper on future intelligent NMT, likely via faculty profile.\n- DISCARD: No other memories provided; the single memory is a weak/inspirational match but its Apply-when fits (start page may not show paper directly), so we keep it as a planning hint. No conflicting or Avoid-when memories present.\n\n---\n\n## Goal 1: Locate Li Junhui's Faculty Profile on scst.suda.edu.cn\n- Path 1.1: Crawl homepage and extract navigation links to \"师资/教师/people\" section\n  - Success: Identify a faculty/people listing URL containing Li Junhui (李军辉) from the starting page or its menu\n- Path 1.2: Use web_search with query \"李军辉 苏州大学 计算机科学与技术等 师资\" to find direct profile link\n  - Success: Obtain a suda.edu.cn profile URL for Li Junhui that can be crawled for publications\n\n## Goal 2: Find the 2023 Paper on Future Intelligent Neural Machine Translation and Its Coauthors/Conference\n- Path 2.1: Crawl Li Junhui's profile page and scan publication list for 2023 title containing \"未来智能神经机器翻译\" or English equivalent\n  - Success: Extract paper title, coauthor names, and venue/conference name from the profile page\n- Path 2.2: Web-search \"李军辉 2023 未来智能神经机器翻译 合作作者 会议\" to locate the paper metadata externally and cross-verify via crawl of result\n  - Success: Confirm coauthors and conference from a credible source (e.g., IEEE/ACL/Springer or university page)\n- Path 2.3: If profile incomplete, crawl linked publication/detail page from faculty profile or search result\n  - Success: Retrieve full paper abstract page showing authors and conference\n\n## Goal 3: Verify Extracted Information Accuracy\n- Path 3.1: Crawl the conference or publisher page of the identified paper to verify author list and conference name\n  - Success: Publisher/conference site matches the coauthors and venue found in Goal 2\n- Path 3.2: Cross-check via second web_search with paper title + \"authors conference\" to ensure consistency\n  - Success: Independent search result agrees with previously extracted coauthors and conference",
+      "think": "",
+      "cot_think": "",
+      "memory_guidance": "[Past experience, for reference only] If the starting page crawl does not directly reveal the target publication or author details, it may help to locate a faculty or people listing through the site's navigation menu and then open the relevant profile page to find publication or coauthor information [memory:8f481946-4855-4b80-a5cd-2b468096607c]."
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/",
+            "query": "李军辉 教师 师资 教授 个人主页 导航链接"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "李军辉 苏州大学 教授 未来智能神经机器翻译 2023"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/', 'query': '李军辉 教师 师资 教授 个人主页 导航链接'}':\nNo relevant information\n\nResults for tool call 'web_search' with arguments '{'query': '李军辉 苏州大学 教授 未来智能神经机器翻译 2023'}':\nNo results found for '李军辉 苏州大学 教授 未来智能神经机器翻译 2023'.",
+      "think": "I need to start from the required root URL https://scst.suda.edu.cn/ as mandated, and simultaneously run a web search to locate Prof. Li Junhui's profile. These are independent actions that can be done in parallel. Goal 1 is to find the faculty profile; Goal 2 is to find the 2023 paper. Starting with crawling the homepage and searching for the professor's name will help me navigate. I'll execute both in parallel.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "李军辉 苏州大学 计算机学院 教师"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "Junhui Li Soochow University future intelligent neural machine translation 2023"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "李军辉 未来智能神经机器翻译 合作作者 会议 2023"
+          }
+        },
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/szdw1.htm",
+            "query": "李军辉 教师列表 教授 链接"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'web_search' with arguments '{'query': '李军辉 苏州大学 计算机学院 教师'}':\nNo results found for '李军辉 苏州大学 计算机学院 教师'.\n\nResults for tool call 'web_search' with arguments '{'query': 'Junhui Li Soochow University future intelligent neural machine translation 2023'}':\nNo results found for 'Junhui Li Soochow University future intelligent neural machine translation 2023'.\n\nResults for tool call 'web_search' with arguments '{'query': '李军辉 未来智能神经机器翻译 合作作者 会议 2023'}':\nNo results found for '李军辉 未来智能神经机器翻译 合作作者 会议 2023'.\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/szdw1.htm', 'query': '李军辉 教师列表 教授 链接'}':\nError reading page: No content extracted from https://scst.suda.edu.cn/szdw1.htm",
+      "think": "The initial crawl of the homepage and the specific web search returned no useful results. Per the memory hint, I should locate a faculty/people listing. The site is the School of Computer Science and Technology at Soochow University (scst.suda.edu.cn). I need to find Li Junhui's (李军辉) profile. Let me try broader web searches to locate his faculty page and the paper. I'll run multiple searches in parallel: one for his name + suda faculty page, one for the paper topic in English (future intelligent neural machine translation), and one directly for his name with publication year. Also try crawling a likely faculty listing URL.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/szdw.htm",
+            "query": "李军辉 教师 教授 个人主页链接"
+          }
+        },
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/yjsjl.htm",
+            "query": "李军辉 导师 教师列表"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "Li Junhui Soochow University professor"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "site:scst.suda.edu.cn 李军辉"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/szdw.htm', 'query': '李军辉 教师 教授 个人主页链接'}':\nNo relevant information\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/yjsjl.htm', 'query': '李军辉 导师 教师列表'}':\nNo relevant information\n\nResults for tool call 'web_search' with arguments '{'query': 'Li Junhui Soochow University professor'}':\nNo results found for 'Li Junhui Soochow University professor'.\n\nResults for tool call 'web_search' with arguments '{'query': 'site:scst.suda.edu.cn 李军辉'}':\n1. [L_202500105DE.000101.fmx.xml - EUR-Lex](https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=OJ:L_202500105)\nSource: DuckDuckGo\n   Jan 23, 2025 · Der Durchführungsbeschluss (EU) 2018/1538 harmonisiert darüber hinaus die technischen …\n\n2. [Bundesnetzagentur - Frequenzplan](https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Frequenzen/Grundlagen/Frequenzplan/start.html)\nSource: DuckDuckGo\n   Der Frequenzplan basiert auf der Frequenzverordnung (bisher Frequenzbereichszuweisungsplanverordnung) und enthält Angaben zu …\n\n3. [Bundesnetzagentur - Frequenzen](https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Frequenzen/start.html)\nSource: DuckDuckGo\n   Elektromagnetische Wellen eignen sich in einem begrenzten Frequenzbereich zur drahtlosen Übertragung von Signalen. Zur …\n\n4. [L_2022029DE.01001701.xml - EUR-Lex](https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32022D0180)\nSource: DuckDuckGo\n   Diese neuen Einträge sollen die Nutzung von Funkfrequenzen für geschlossene Kernspinresonanz-Anwendungen (Nuclear Magnetic …\n\n5. [Short Range Device – Wikipedia](https://de.wikipedia.org/wiki/Short_Range_Device)\nSource: DuckDuckGo\n   Funkanwendungen in diesem Bereich wurden vormals Low Power Device bzw. LPD genannt. Deren Sprachübertragungsvarianten …",
+      "think": "Previous attempts to crawl the homepage and guess faculty URL failed, and direct searches for the paper returned nothing. I need to better understand the site structure. The school is 'scst.suda.edu.cn' (School of Computer Science and Technology, Soochow University). I should try common Chinese navigation paths for faculty (师资队伍, 教师队伍) and also search more broadly for Li Junhui's English name and publications. Let me try crawling likely sub-pages and broaden the web search to just the professor's name with Soochow University.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/",
+            "query": "Extract all navigation menu links, especially faculty, teachers, professors, research, publications"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "未来智能神经机器翻译 2023 论文"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "李军辉 神经机器翻译"
+          }
+        },
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "Junhui Li neural machine translation 2023 conference"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/', 'query': 'Extract all navigation menu links, especially faculty, teachers, professors, research, publications'}':\nBased on the search query for navigation menu links—especially faculty, teachers, professors, research, and publications—the following navigation menu links were extracted from the web page (https://scst.suda.edu.cn/):\n\n**Top Navigation Menu (Main)**\n- 网站首页: http://scst.suda.edu.cn/main.htm\n- 学院概况: https://scst.suda.edu.cn/11195/list.htm\n  - 学院简介: https://scst.suda.edu.cn/11238/list.htm\n  - 历史沿革: https://scst.suda.edu.cn/11241/list.htm\n  - 现任领导: https://scst.suda.edu.cn/11240/list.htm\n  - 机构设置: https://scst.suda.edu.cn/11239/list.htm\n  - 办学资源: https://scst.suda.edu.cn/11242/list.htm\n  - 学科情况: https://scst.suda.edu.cn/xkqk/list.htm\n  - 联系方式: https://scst.suda.edu.cn/11243/list.htm\n  - 师生意见箱: https://scst.suda.edu.cn/ssyjx/list.htm\n- **师资中心 (Faculty/Teachers/Professors)**: https://scst.suda.edu.cn/11197/list.htm\n  - 师资概况: https://scst.suda.edu.cn/11248/list.htm\n  - 教职工名单: https://scst.suda.edu.cn/11249/list.htm\n  - 导师简介: https://scst.suda.edu.cn/11250/list.htm\n  - 兼职师资: https://scst.suda.edu.cn/11251/list.htm\n- **科学研究 (Research)**: https://scst.suda.edu.cn/11198/list.htm\n  - 研究中心: https://scst.suda.edu.cn/yjzx/list.htm\n  - 科研机构: https://scst.suda.edu.cn/11253/list.htm\n  - 科研项目: https://scst.suda.edu.cn/11254/list.htm\n  - 科研论文 (Publications): https://scst.suda.edu.cn/11255/list.htm\n  - 知识产权: https://scst.suda.edu.cn/11256/list.htm\n  - 科研政策: https://scst.suda.edu.cn/11257/list.htm\n- 人才培养: https://scst.suda.edu.cn/11199/list.htm\n- 党群工作: https://scst.suda.edu.cn/11201/list.htm\n- 学生工作: https://scst.suda.edu.cn/11200/list.htm\n- 合作交流: https://scst.suda.edu.cn/xqhz/list.htm\n- 保密学院: https://scst.suda.edu.cn/bmxy/list.htm\n- 继续教育: https://scst.suda.edu.cn/11232/list.htm\n- 校友工作: https://scst.suda.edu.cn/xyfw/list.htm\n\n**Quick Navigation (Footer)**\n- 苏大首页: https://www.suda.edu.cn/\n- 公共服务: https://www.suda.edu.cn/home/jzyg.jsp\n- 教育辅助平台: http://csteaching.suda.edu.cn/...\n- 教学科研成果申报: http://42.244.43.76:8080/\n- 学院经费系统: http://192.168.125.2:9088/tm/Default.aspx\n- 邮件系统: http://mail.suda.edu.cn/\n- 下载专区: http://scst.suda.edu.cn/28197/list.htm\n- 智慧学工: http://xg.sams.suda.edu.cn\n\n**Specifically matched query interests:**\n- Faculty/teachers/professors: 师资中心 + sub-links (师资概况, 教职工名单, 导师简介, 兼职师资)\n- Research: 科学研究 + sub-links (研究中心, 科研机构, 科研项目, 科研政策, etc.)\n- Publications: 科研论文 (under 科学研究)\n\nNo separate \"professors\" or dedicated \"publications\" top-level menu exists beyond the above. All extracted links are from the page's navigation menus.\n\nResults for tool call 'web_search' with arguments '{'query': '未来智能神经机器翻译 2023 论文'}':\nNo results found for '未来智能神经机器翻译 2023 论文'.\n\nResults for tool call 'web_search' with arguments '{'query': '李军辉 神经机器翻译'}':\nNo results found for '李军辉 神经机器翻译'.\n\nResults for tool call 'web_search' with arguments '{'query': 'Junhui Li neural machine translation 2023 conference'}':\nNo results found for 'Junhui Li neural machine translation 2023 conference'.",
+      "think": "Previous attempts to crawl the homepage and guessed faculty URLs returned no relevant info, and direct searches for Li Junhui (李军辉) with the paper topic found nothing. The site may use a different structure or the name may be in English/pinyin. I need to better understand the site structure from the root and try broader searches. I will: (1) crawl the root again with a focus on extracting any navigation/menu links (Goal 1, path retry), (2) search for the Chinese term '未来智能神经机器翻译' alone to see if the paper exists anywhere (Goal 2), (3) search '李军辉 神经机器翻译' to find any publication by this author, (4) search 'Junhui Li neural machine translation 2023' in English. These are parallel independent discovery actions.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/11250/list.htm",
+            "query": "李军辉 教授 个人主页链接"
+          }
+        },
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/11249/list.htm",
+            "query": "李军辉 教授 联系方式或主页"
+          }
+        },
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/11255/list.htm",
+            "query": "2023 神经机器翻译 李军辉 论文 作者 会议"
+          }
+        },
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/11197/list.htm",
+            "query": "李军辉 师资中心 教授链接"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11250/list.htm', 'query': '李军辉 教授 个人主页链接'}':\n根据搜索查询“李军辉 教授 个人主页链接”，从网页内容中提取到的相关信息如下：\n\n- **姓名**：李军辉\n- **职称**：教授\n- **个人主页链接**：https://scst.suda.edu.cn/11/68/c11250a528744/page.htm\n- **页面标题/alt文本**：李军辉 教授\n- **头像图片**：https://scst.suda.edu.cn/_upload/article/images/aa/a7/ce39f3e54bf69221ffc78501a17f/e1889320-985f-48b5-a3d9-afe47807dd6a.jpg\n- **所属栏目**：苏州大学计算机科学与技术学院（软件学院）师资中心 > 导师简介（https://scst.suda.edu.cn/11250/list.htm）\n\n该条目在“导师简介”人员列表中以卡片形式呈现，点击姓名或图片均可跳转至上述个人主页链接。网页中未提供其他关于李军辉教授的详细介绍（如研究方向、联系方式等），仅包含名录级信息。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11249/list.htm', 'query': '李军辉 教授 联系方式或主页'}':\n根据搜索查询“李军辉 教授 联系方式或主页”，从提供的网页内容（苏州大学计算机科学与技术学院教职工名单页）中提取到以下相关信息：\n\n- **姓名**：李军辉\n- **身份**：网页中列于“专任教师”名单下，未直接标注“教授”职称，但属苏州大学计算机科学与技术学院师资（该页为教职工/专任教师列表）。\n- **个人主页链接**：https://scst.suda.edu.cn/49/7d/c29544a543101/page.htm （网页中对应条目的详情页 URL，为其个人主页）\n- **头像图片**：https://scst.suda.edu.cn/_upload/article/images/df/00/939371fb40b2aa459105b2bbcddf/8910fc14-6d15-4495-acd3-ad3e61ed436e.jpg\n- **联系方式**：本页未提供李军辉个人的电话或邮箱；网页底部仅给出学院级联系方式：\n  - 学院联系电话：0512-65113107\n  - 联系地址：苏州市干将东路333号\n  - 邮编：215008\n  - 院长信箱：scst@suda.edu.cn\n\n总结：该页包含李军辉的专任教师条目及个人主页链接，无直接个人联系方式，仅含学院统一联系方式。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11255/list.htm', 'query': '2023 神经机器翻译 李军辉 论文 作者 会议'}':\n根据提供的网页内容（url: https://scst.suda.edu.cn/11255/list.htm，即苏州大学计算机科学与技术学院“科研论文”列表页），搜索查询为“2023 神经机器翻译 李军辉 论文 作者 会议”。网页中仅包含各年度论文清单的链接入口，未列出具体论文详情。\n\n相关匹配内容如下：\n- 网页显示“2023年部分论文”条目：发布日期 2024-03-09，标题“2023年部分论文”，所属“计算机科学与技术学院”，链接 https://scst.suda.edu.cn/8f/78/c11255a692088/page.htm（对应 2023 年论文清单入口）。\n- 该页面为论文列表索引，未直接展示 2023 年内的具体论文（如神经机器翻译、作者李军辉、会议等信息），需点击进入子页面才能查看详细内容，但当前提供的网页文本不包含子页面数据。\n- 其他年度论文清单（如2022、2021等）及导航菜单均与“2023 神经机器翻译 李军辉”无直接匹配。\n\n结论：本页仅含 2023 年论文清单链接，无具体“神经机器翻译”“李军辉”“作者”“会议”等内容。若需提取具体论文，须访问上述 2023 年子页面。基于给定文本，未包含查询所指的具体论文信息。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11197/list.htm', 'query': '李军辉 师资中心 教授链接'}':\nNo relevant information",
+      "think": "From the previous crawl of the homepage, I extracted the faculty center link (师资中心: https://scst.suda.edu.cn/11197/list.htm) and its sub-links including 导师简介 (https://scst.suda.edu.cn/11250/list.htm) and 教职工名单 (https://scst.suda.edu.cn/11249/list.htm). I need to navigate these to find Prof. Li Junhui's profile. Also, the 科研论文 (publications) link is https://scst.suda.edu.cn/11255/list.htm. I will crawl the faculty sub-pages and the publications page in parallel to locate Li Junhui and his 2023 paper on future intelligent NMT. Web searches for the name alone returned nothing, so site navigation is the primary path.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/11/68/c11250a528744/page.htm",
+            "query": "2023 未来智能神经机器翻译 论文 合作作者 会议 发表"
+          }
+        },
+        {
+          "name": "crawl_page",
+          "arguments": {
+            "url": "https://scst.suda.edu.cn/8f/78/c11255a692088/page.htm",
+            "query": "李军辉 未来智能神经机器翻译 2023 合作作者 会议"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11/68/c11250a528744/page.htm', 'query': '2023 未来智能神经机器翻译 论文 合作作者 会议 发表'}':\n- **论文标题**：Refining History for Future-Aware Neural Machine Translation（对应查询中的“未来智能神经机器翻译”，实为“Future-Aware Neural Machine Translation”）\n- **发表年份**：2023\n- **合作作者**：Xinglin Lyu, Junhui Li（李军辉）, Min Zhang, Chenchen Ding, Hideki Tanaka, Masao Utiyama\n- **发表会议/期刊**：IEEE/ACM TASLP（IEEE/ACM Transactions on Audio, Speech, and Language Processing，属期刊/会议论文）\n- **来源页面**：苏州大学计算机科学与技术学院导师简介页（李军辉，发布时间2023-04-10），列为李军辉代表作之一\n- **其他相关信息**：李军辉为苏州大学计算机科学与技术学院教授，研究方向含机器翻译；该论文为其2023年发表的神经机器翻译相关代表作。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/8f/78/c11255a692088/page.htm', 'query': '李军辉 未来智能神经机器翻译 2023 合作作者 会议'}':\nNo relevant information",
+      "think": "I have located Li Junhui's profile page links and the 2023 paper list entry. The faculty profile at https://scst.suda.edu.cn/11/68/c11250a528744/page.htm and the 2023 partial paper list at https://scst.suda.edu.cn/8f/78/c11255a692088/page.htm are the key targets. I will crawl both in parallel to find the specific paper on future intelligent neural machine translation, its coauthors, and the conference. This aligns with Goal 2 (find paper details) using Path 2.1 via faculty profile and the paper list page.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "web_search",
+          "arguments": {
+            "query": "Refining History for Future-Aware Neural Machine Translation authors IEEE ACM TASLP"
+          }
+        }
+      ],
+      "obs": "Results for tool call 'web_search' with arguments '{'query': 'Refining History for Future-Aware Neural Machine Translation authors IEEE ACM TASLP'}':\nNo results found for 'Refining History for Future-Aware Neural Machine Translation authors IEEE ACM TASLP'.",
+      "think": "From the previous crawl of Li Junhui's profile page (https://scst.suda.edu.cn/11/68/c11250a528744/page.htm), I already obtained the needed information: the 2023 paper 'Refining History for Future-Aware Neural Machine Translation' (future-aware NMT matches '未来智能神经机器翻译'), its coauthors (Xinglin Lyu, Junhui Li, Min Zhang, Chenchen Ding, Hideki Tanaka, Masao Utiyama), and its publication venue (IEEE/ACM TASLP - IEEE/ACM Transactions on Audio, Speech, and Language Processing). The task asks for coauthors and the conference it was published in. TASLP is a journal/transaction, not a conference, but that is what the source states. To verify accuracy per the plan's Goal 3, I will cross-check via a web search of the paper title to confirm authors and venue before finalizing.",
+      "cot_think": null,
+      "memory_guidance": null
+    },
+    {
+      "name": "action",
+      "tool_calls": [
+        {
+          "name": "final_answer",
+          "arguments": {
+            "answer": "合作作者：Xinglin Lyu, Min Zhang, Chenchen Ding, Hideki Tanaka, Masao Utiyama（李军辉本人为作者之一）；发表会议/期刊：IEEE/ACM Transactions on Audio, Speech, and Language Processing (IEEE/ACM TASLP)。"
+          }
+        }
+      ],
+      "obs": "合作作者：Xinglin Lyu, Min Zhang, Chenchen Ding, Hideki Tanaka, Masao Utiyama（李军辉本人为作者之一）；发表会议/期刊：IEEE/ACM Transactions on Audio, Speech, and Language Processing (IEEE/ACM TASLP)。",
+      "think": "From the previous crawl of Li Junhui's profile page (https://scst.suda.edu.cn/11/68/c11250a528744/page.htm), I extracted the needed information: the 2023 paper 'Refining History for Future-Aware Neural Machine Translation' (future-aware NMT matches '未来智能神经机器翻译'), with coauthors Xinglin Lyu, Junhui Li, Min Zhang, Chenchen Ding, Hideki Tanaka, Masao Utiyama, published in IEEE/ACM TASLP. The task asks for coauthors and the conference/venue. TASLP is a journal/transactions, not a conference, but the page lists it as the publication venue. I have enough verified info from the official university site. I will provide the final answer in Chinese as required.",
+      "cot_think": null,
+      "memory_guidance": null
+    }
+  ],
+  "agent_messages": [
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "New task:\nYou are tasked with answering a question that requires navigating through a website to find the information.\n\nQuestion: 李军辉教授在2023年发表的关于未来智能神经机器翻译的一篇论文中提到的合作作者有哪些，并在哪个会议上发表？\n\nStarting URL: https://scst.suda.edu.cn/\n\nPlease:\n1. Start from the provided root URL\n2. Navigate through the website to find the information needed\n3. Use web search and page crawling tools to explore the site\n4. Provide a clear and accurate answer based on what you find\n\nImportant: You MUST begin by accessing https://scst.suda.edu.cn/\n"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "————Memory System Guidance————\nThe memories below were retrieved from PRIOR tasks. They are HINTS, not authoritative facts. Most retrieved memories are WEAK MATCHES — you must actively decide which (if any) apply.\n\n★ DEFAULT TO IGNORE (toxic-memory fix 2026-04-30):\nIf a memory's Apply-when does not OBVIOUSLY fit THIS question, IGNORE\nit and answer from your own knowledge. Following an irrelevant memory\nis worse than having no memory. In particular:\n  • [Match: VERY_LOW] memories should be ignored unless Apply-when\n    is a precise semantic fit (not just keyword overlap).\n  • Memories whose Source domain differs from THIS task should be\n    treated as INSPIRATION only — never copy their tool sequences.\n  • If you can't write a 1-sentence concrete reason a memory helps\n    THIS specific question, ignore it.\n\nCommon keyword traps (memory fires on surface keywords but applies\nto a totally different operation):\n  • 'first year stock crossed $50' ≠ 'first or earliest publication'\n  • 'King of Pop fifth single' is NOT a name-format question\n  • 'museum accession of a portrait' is NOT a taxonomic lookup\n  • 'COUNTING visual elements in video' ≠ 'IDENTIFYING species in video'\nIf the memory's instruction would not directly improve your answer,\ndiscard it explicitly and proceed without it.\n\nField semantics:\n  • [TYPE] tag — TIP=heuristic, WORKFLOW=tool chain, TRAJECTORY=past episode,\n                 INSIGHT=failure lesson, SHORTCUT=parameterized macro\n  • → Use:     — type-specific guidance on HOW to apply this memory\n  • Apply when — observable triggers; ALL conditions must match THIS\n                 question (not just one keyword overlap).\n  • Avoid when — anti-triggers; if any matches, IGNORE this memory\n  • Source domain — abstracted prior-task category. Differing domain\n                    = treat as inspiration only, not a recipe.\n  • [Match: HIGH/MEDIUM/VERY_LOW] — pre-filtered confidence band.\n                    VERY_LOW means almost certainly off-topic.\n  • Judge note — distilled action / rationale (1 sentence)\n  • [TRAJECTORY ⚠ NEGATIVE EXAMPLE] — DO NOT replay; learn what to AVOID\n\nUsage protocol (follow strictly):\n  1. Scan each memory; check Apply-when / Avoid-when / Source domain /\n     Match-band. EXPECT to discard most.\n  2. For the few applicable ones, integrate the principle / workflow\n     into your plan. NEVER copy specifics from a Trajectory verbatim;\n     adapt to the current task.\n  3. If memories conflict or look irrelevant, IGNORE them and answer\n     using your own knowledge directly.\n  4. Memories are advisory only — your reasoning over the current\n     question remains primary, and 'no applicable memory' is a\n     valid conclusion.\n\n[Past experience, for reference only] If the starting page crawl does not directly reveal the target publication or author details, it may help to locate a faculty or people listing through the site's navigation menu and then open the relevant profile page to find publication or coauthor information [memory:8f481946-4855-4b80-a5cd-2b468096607c].\n————End Memory————"
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Before planning, briefly state in your reasoning:\n  - Which 1-2 memories you will APPLY (cite [TYPE] + topic and the matching Apply-when).\n  - Which memories you will DISCARD (cite reason: e.g. Source-domain mismatch, Avoid-when triggered, conflicting advice).\nThen proceed with the plan."
+        }
+      ]
+    },
+    {
+      "role": "user",
+      "content": [
+        {
+          "type": "text",
+          "text": "Now, begin your planning analysis for this task!"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "[PLAN]:\n**Memory Analysis:**\n- APPLY: Memory [8f481946-4855-4b80-a5cd-2b468096607c] ([TYPE] likely TRAJECTORY/TIP, topic: site navigation to faculty/people listing for publication info). Apply-when: starting page crawl does not directly reveal target publication/author → locate faculty or people listing via navigation, then open profile. This matches our task: start at https://scst.suda.edu.cn/, find Prof. Li Junhui's 2023 paper on future intelligent NMT, likely via faculty profile.\n- DISCARD: No other memories provided; the single memory is a weak/inspirational match but its Apply-when fits (start page may not show paper directly), so we keep it as a planning hint. No conflicting or Avoid-when memories present.\n\n---\n\n## Goal 1: Locate Li Junhui's Faculty Profile on scst.suda.edu.cn\n- Path 1.1: Crawl homepage and extract navigation links to \"师资/教师/people\" section\n  - Success: Identify a faculty/people listing URL containing Li Junhui (李军辉) from the starting page or its menu\n- Path 1.2: Use web_search with query \"李军辉 苏州大学 计算机科学与技术等 师资\" to find direct profile link\n  - Success: Obtain a suda.edu.cn profile URL for Li Junhui that can be crawled for publications\n\n## Goal 2: Find the 2023 Paper on Future Intelligent Neural Machine Translation and Its Coauthors/Conference\n- Path 2.1: Crawl Li Junhui's profile page and scan publication list for 2023 title containing \"未来智能神经机器翻译\" or English equivalent\n  - Success: Extract paper title, coauthor names, and venue/conference name from the profile page\n- Path 2.2: Web-search \"李军辉 2023 未来智能神经机器翻译 合作作者 会议\" to locate the paper metadata externally and cross-verify via crawl of result\n  - Success: Confirm coauthors and conference from a credible source (e.g., IEEE/ACL/Springer or university page)\n- Path 2.3: If profile incomplete, crawl linked publication/detail page from faculty profile or search result\n  - Success: Retrieve full paper abstract page showing authors and conference\n\n## Goal 3: Verify Extracted Information Accuracy\n- Path 3.1: Crawl the conference or publisher page of the identified paper to verify author list and conference name\n  - Success: Publisher/conference site matches the coauthors and venue found in Goal 2\n- Path 3.2: Cross-check via second web_search with paper title + \"authors conference\" to ensure consistency\n  - Success: Independent search result agrees with previously extracted coauthors and conference"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/', 'query': '李军辉 教师 师资 教授 个人主页 导航链接'}}, {'name': 'web_search', 'arguments': {'query': '李军辉 苏州大学 教授 未来智能神经机器翻译 2023'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/', 'query': '李军辉 教师 师资 教授 个人主页 导航链接'}':\nNo relevant information\n\nResults for tool call 'web_search' with arguments '{'query': '李军辉 苏州大学 教授 未来智能神经机器翻译 2023'}':\nNo results found for '李军辉 苏州大学 教授 未来智能神经机器翻译 2023'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'web_search', 'arguments': {'query': '李军辉 苏州大学 计算机学院 教师'}}, {'name': 'web_search', 'arguments': {'query': 'Junhui Li Soochow University future intelligent neural machine translation 2023'}}, {'name': 'web_search', 'arguments': {'query': '李军辉 未来智能神经机器翻译 合作作者 会议 2023'}}, {'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/szdw1.htm', 'query': '李军辉 教师列表 教授 链接'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'web_search' with arguments '{'query': '李军辉 苏州大学 计算机学院 教师'}':\nNo results found for '李军辉 苏州大学 计算机学院 教师'.\n\nResults for tool call 'web_search' with arguments '{'query': 'Junhui Li Soochow University future intelligent neural machine translation 2023'}':\nNo results found for 'Junhui Li Soochow University future intelligent neural machine translation 2023'.\n\nResults for tool call 'web_search' with arguments '{'query': '李军辉 未来智能神经机器翻译 合作作者 会议 2023'}':\nNo results found for '李军辉 未来智能神经机器翻译 合作作者 会议 2023'.\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/szdw1.htm', 'query': '李军辉 教师列表 教授 链接'}':\nError reading page: No content extracted from https://scst.suda.edu.cn/szdw1.htm"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/szdw.htm', 'query': '李军辉 教师 教授 个人主页链接'}}, {'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/yjsjl.htm', 'query': '李军辉 导师 教师列表'}}, {'name': 'web_search', 'arguments': {'query': 'Li Junhui Soochow University professor'}}, {'name': 'web_search', 'arguments': {'query': 'site:scst.suda.edu.cn 李军辉'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/szdw.htm', 'query': '李军辉 教师 教授 个人主页链接'}':\nNo relevant information\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/yjsjl.htm', 'query': '李军辉 导师 教师列表'}':\nNo relevant information\n\nResults for tool call 'web_search' with arguments '{'query': 'Li Junhui Soochow University professor'}':\nNo results found for 'Li Junhui Soochow University professor'.\n\nResults for tool call 'web_search' with arguments '{'query': 'site:scst.suda.edu.cn 李军辉'}':\n1. [L_202500105DE.000101.fmx.xml - EUR-Lex](https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=OJ:L_202500105)\nSource: DuckDuckGo\n   Jan 23, 2025 · Der Durchführungsbeschluss (EU) 2018/1538 harmonisiert darüber hinaus die technischen …\n\n2. [Bundesnetzagentur - Frequenzplan](https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Frequenzen/Grundlagen/Frequenzplan/start.html)\nSource: DuckDuckGo\n   Der Frequenzplan basiert auf der Frequenzverordnung (bisher Frequenzbereichszuweisungsplanverordnung) und enthält Angaben zu …\n\n3. [Bundesnetzagentur - Frequenzen](https://www.bundesnetzagentur.de/DE/Fachthemen/Telekommunikation/Frequenzen/start.html)\nSource: DuckDuckGo\n   Elektromagnetische Wellen eignen sich in einem begrenzten Frequenzbereich zur drahtlosen Übertragung von Signalen. Zur …\n\n4. [L_2022029DE.01001701.xml - EUR-Lex](https://eur-lex.europa.eu/legal-content/DE/TXT/HTML/?uri=CELEX:32022D0180)\nSource: DuckDuckGo\n   Diese neuen Einträge sollen die Nutzung von Funkfrequenzen für geschlossene Kernspinresonanz-Anwendungen (Nuclear Magnetic …\n\n5. [Short Range Device – Wikipedia](https://de.wikipedia.org/wiki/Short_Range_Device)\nSource: DuckDuckGo\n   Funkanwendungen in diesem Bereich wurden vormals Low Power Device bzw. LPD genannt. Deren Sprachübertragungsvarianten …"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/', 'query': 'Extract all navigation menu links, especially faculty, teachers, professors, research, publications'}}, {'name': 'web_search', 'arguments': {'query': '未来智能神经机器翻译 2023 论文'}}, {'name': 'web_search', 'arguments': {'query': '李军辉 神经机器翻译'}}, {'name': 'web_search', 'arguments': {'query': 'Junhui Li neural machine translation 2023 conference'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/', 'query': 'Extract all navigation menu links, especially faculty, teachers, professors, research, publications'}':\nBased on the search query for navigation menu links—especially faculty, teachers, professors, research, and publications—the following navigation menu links were extracted from the web page (https://scst.suda.edu.cn/):\n\n**Top Navigation Menu (Main)**\n- 网站首页: http://scst.suda.edu.cn/main.htm\n- 学院概况: https://scst.suda.edu.cn/11195/list.htm\n  - 学院简介: https://scst.suda.edu.cn/11238/list.htm\n  - 历史沿革: https://scst.suda.edu.cn/11241/list.htm\n  - 现任领导: https://scst.suda.edu.cn/11240/list.htm\n  - 机构设置: https://scst.suda.edu.cn/11239/list.htm\n  - 办学资源: https://scst.suda.edu.cn/11242/list.htm\n  - 学科情况: https://scst.suda.edu.cn/xkqk/list.htm\n  - 联系方式: https://scst.suda.edu.cn/11243/list.htm\n  - 师生意见箱: https://scst.suda.edu.cn/ssyjx/list.htm\n- **师资中心 (Faculty/Teachers/Professors)**: https://scst.suda.edu.cn/11197/list.htm\n  - 师资概况: https://scst.suda.edu.cn/11248/list.htm\n  - 教职工名单: https://scst.suda.edu.cn/11249/list.htm\n  - 导师简介: https://scst.suda.edu.cn/11250/list.htm\n  - 兼职师资: https://scst.suda.edu.cn/11251/list.htm\n- **科学研究 (Research)**: https://scst.suda.edu.cn/11198/list.htm\n  - 研究中心: https://scst.suda.edu.cn/yjzx/list.htm\n  - 科研机构: https://scst.suda.edu.cn/11253/list.htm\n  - 科研项目: https://scst.suda.edu.cn/11254/list.htm\n  - 科研论文 (Publications): https://scst.suda.edu.cn/11255/list.htm\n  - 知识产权: https://scst.suda.edu.cn/11256/list.htm\n  - 科研政策: https://scst.suda.edu.cn/11257/list.htm\n- 人才培养: https://scst.suda.edu.cn/11199/list.htm\n- 党群工作: https://scst.suda.edu.cn/11201/list.htm\n- 学生工作: https://scst.suda.edu.cn/11200/list.htm\n- 合作交流: https://scst.suda.edu.cn/xqhz/list.htm\n- 保密学院: https://scst.suda.edu.cn/bmxy/list.htm\n- 继续教育: https://scst.suda.edu.cn/11232/list.htm\n- 校友工作: https://scst.suda.edu.cn/xyfw/list.htm\n\n**Quick Navigation (Footer)**\n- 苏大首页: https://www.suda.edu.cn/\n- 公共服务: https://www.suda.edu.cn/home/jzyg.jsp\n- 教育辅助平台: http://csteaching.suda.edu.cn/...\n- 教学科研成果申报: http://42.244.43.76:8080/\n- 学院经费系统: http://192.168.125.2:9088/tm/Default.aspx\n- 邮件系统: http://mail.suda.edu.cn/\n- 下载专区: http://scst.suda.edu.cn/28197/list.htm\n- 智慧学工: http://xg.sams.suda.edu.cn\n\n**Specifically matched query interests:**\n- Faculty/teachers/professors: 师资中心 + sub-links (师资概况, 教职工名单, 导师简介, 兼职师资)\n- Research: 科学研究 + sub-links (研究中心, 科研机构, 科研项目, 科研政策, etc.)\n- Publications: 科研论文 (under 科学研究)\n\nNo separate \"professors\" or dedicated \"publications\" top-level menu exists beyond the above. All extracted links are from the page's navigation menus.\n\nResults for tool call 'web_search' with arguments '{'query': '未来智能神经机器翻译 2023 论文'}':\nNo results found for '未来智能神经机器翻译 2023 论文'.\n\nResults for tool call 'web_search' with arguments '{'query': '李军辉 神经机器翻译'}':\nNo results found for '李军辉 神经机器翻译'.\n\nResults for tool call 'web_search' with arguments '{'query': 'Junhui Li neural machine translation 2023 conference'}':\nNo results found for 'Junhui Li neural machine translation 2023 conference'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/11250/list.htm', 'query': '李军辉 教授 个人主页链接'}}, {'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/11249/list.htm', 'query': '李军辉 教授 联系方式或主页'}}, {'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/11255/list.htm', 'query': '2023 神经机器翻译 李军辉 论文 作者 会议'}}, {'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/11197/list.htm', 'query': '李军辉 师资中心 教授链接'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11250/list.htm', 'query': '李军辉 教授 个人主页链接'}':\n根据搜索查询“李军辉 教授 个人主页链接”，从网页内容中提取到的相关信息如下：\n\n- **姓名**：李军辉\n- **职称**：教授\n- **个人主页链接**：https://scst.suda.edu.cn/11/68/c11250a528744/page.htm\n- **页面标题/alt文本**：李军辉 教授\n- **头像图片**：https://scst.suda.edu.cn/_upload/article/images/aa/a7/ce39f3e54bf69221ffc78501a17f/e1889320-985f-48b5-a3d9-afe47807dd6a.jpg\n- **所属栏目**：苏州大学计算机科学与技术学院（软件学院）师资中心 > 导师简介（https://scst.suda.edu.cn/11250/list.htm）\n\n该条目在“导师简介”人员列表中以卡片形式呈现，点击姓名或图片均可跳转至上述个人主页链接。网页中未提供其他关于李军辉教授的详细介绍（如研究方向、联系方式等），仅包含名录级信息。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11249/list.htm', 'query': '李军辉 教授 联系方式或主页'}':\n根据搜索查询“李军辉 教授 联系方式或主页”，从提供的网页内容（苏州大学计算机科学与技术学院教职工名单页）中提取到以下相关信息：\n\n- **姓名**：李军辉\n- **身份**：网页中列于“专任教师”名单下，未直接标注“教授”职称，但属苏州大学计算机科学与技术学院师资（该页为教职工/专任教师列表）。\n- **个人主页链接**：https://scst.suda.edu.cn/49/7d/c29544a543101/page.htm （网页中对应条目的详情页 URL，为其个人主页）\n- **头像图片**：https://scst.suda.edu.cn/_upload/article/images/df/00/939371fb40b2aa459105b2bbcddf/8910fc14-6d15-4495-acd3-ad3e61ed436e.jpg\n- **联系方式**：本页未提供李军辉个人的电话或邮箱；网页底部仅给出学院级联系方式：\n  - 学院联系电话：0512-65113107\n  - 联系地址：苏州市干将东路333号\n  - 邮编：215008\n  - 院长信箱：scst@suda.edu.cn\n\n总结：该页包含李军辉的专任教师条目及个人主页链接，无直接个人联系方式，仅含学院统一联系方式。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11255/list.htm', 'query': '2023 神经机器翻译 李军辉 论文 作者 会议'}':\n根据提供的网页内容（url: https://scst.suda.edu.cn/11255/list.htm，即苏州大学计算机科学与技术学院“科研论文”列表页），搜索查询为“2023 神经机器翻译 李军辉 论文 作者 会议”。网页中仅包含各年度论文清单的链接入口，未列出具体论文详情。\n\n相关匹配内容如下：\n- 网页显示“2023年部分论文”条目：发布日期 2024-03-09，标题“2023年部分论文”，所属“计算机科学与技术学院”，链接 https://scst.suda.edu.cn/8f/78/c11255a692088/page.htm（对应 2023 年论文清单入口）。\n- 该页面为论文列表索引，未直接展示 2023 年内的具体论文（如神经机器翻译、作者李军辉、会议等信息），需点击进入子页面才能查看详细内容，但当前提供的网页文本不包含子页面数据。\n- 其他年度论文清单（如2022、2021等）及导航菜单均与“2023 神经机器翻译 李军辉”无直接匹配。\n\n结论：本页仅含 2023 年论文清单链接，无具体“神经机器翻译”“李军辉”“作者”“会议”等内容。若需提取具体论文，须访问上述 2023 年子页面。基于给定文本，未包含查询所指的具体论文信息。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11197/list.htm', 'query': '李军辉 师资中心 教授链接'}':\nNo relevant information"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/11/68/c11250a528744/page.htm', 'query': '2023 未来智能神经机器翻译 论文 合作作者 会议 发表'}}, {'name': 'crawl_page', 'arguments': {'url': 'https://scst.suda.edu.cn/8f/78/c11255a692088/page.htm', 'query': '李军辉 未来智能神经机器翻译 2023 合作作者 会议'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/11/68/c11250a528744/page.htm', 'query': '2023 未来智能神经机器翻译 论文 合作作者 会议 发表'}':\n- **论文标题**：Refining History for Future-Aware Neural Machine Translation（对应查询中的“未来智能神经机器翻译”，实为“Future-Aware Neural Machine Translation”）\n- **发表年份**：2023\n- **合作作者**：Xinglin Lyu, Junhui Li（李军辉）, Min Zhang, Chenchen Ding, Hideki Tanaka, Masao Utiyama\n- **发表会议/期刊**：IEEE/ACM TASLP（IEEE/ACM Transactions on Audio, Speech, and Language Processing，属期刊/会议论文）\n- **来源页面**：苏州大学计算机科学与技术学院导师简介页（李军辉，发布时间2023-04-10），列为李军辉代表作之一\n- **其他相关信息**：李军辉为苏州大学计算机科学与技术学院教授，研究方向含机器翻译；该论文为其2023年发表的神经机器翻译相关代表作。\n\nResults for tool call 'crawl_page' with arguments '{'url': 'https://scst.suda.edu.cn/8f/78/c11255a692088/page.htm', 'query': '李军辉 未来智能神经机器翻译 2023 合作作者 会议'}':\nNo relevant information"
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'web_search', 'arguments': {'query': 'Refining History for Future-Aware Neural Machine Translation authors IEEE ACM TASLP'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\nResults for tool call 'web_search' with arguments '{'query': 'Refining History for Future-Aware Neural Machine Translation authors IEEE ACM TASLP'}':\nNo results found for 'Refining History for Future-Aware Neural Machine Translation authors IEEE ACM TASLP'."
+        }
+      ]
+    },
+    {
+      "role": "assistant",
+      "content": [
+        {
+          "type": "text",
+          "text": "Calling tools:\n{'tools': [{'name': 'final_answer', 'arguments': {'answer': '合作作者：Xinglin Lyu, Min Zhang, Chenchen Ding, Hideki Tanaka, Masao Utiyama（李军辉本人为作者之一）；发表会议/期刊：IEEE/ACM Transactions on Audio, Speech, and Language Processing (IEEE/ACM TASLP)。'}}]}"
+        }
+      ]
+    },
+    {
+      "role": "tool-response",
+      "content": [
+        {
+          "type": "text",
+          "text": "Tool calling observation:\n合作作者：Xinglin Lyu, Min Zhang, Chenchen Ding, Hideki Tanaka, Masao Utiyama（李军辉本人为作者之一）；发表会议/期刊：IEEE/ACM Transactions on Audio, Speech, and Language Processing (IEEE/ACM TASLP)。"
+        }
+      ]
+    }
+  ],
+  "memory_metrics": {
+    "storage_backend": "json",
+    "retrieval_strategy": "contrastive",
+    "management_preset": "tool_manager",
+    "num_extracted": 4,
+    "num_memory_units": 353,
+    "num_inserted": 4,
+    "num_deduped": 0,
+    "num_retrieved": 1,
+    "num_retrieved_pre_judge": 3,
+    "self_retrieval_filtered": 0,
+    "judge_dropped_all_count": 0,
+    "retrieval_calls": 1,
+    "query_planner_calls": 1,
+    "query_planner_model_calls": 1,
+    "query_planner_fallbacks": 0,
+    "query_planner_input_tokens": 656,
+    "query_planner_output_tokens": 41,
+    "context_composer_calls": 1,
+    "context_composer_model_calls": 1,
+    "context_composer_candidates": 3,
+    "context_composer_selected": 1,
+    "context_composer_fallbacks": 0,
+    "context_composer_no_guidance": 0,
+    "context_composer_input_tokens": 1004,
+    "context_composer_output_tokens": 79,
+    "runtime_usage_in_task_metrics": true,
+    "rerank_input_tokens": 0,
+    "rerank_output_tokens": 0,
+    "rerank_calls": 0,
+    "rerank_usage_in_task_metrics": false,
+    "llm_graph_input_tokens": 0,
+    "llm_graph_output_tokens": 0,
+    "llm_graph_calls": 0,
+    "llm_graph_usage_in_task_metrics": false,
+    "phase_refresh_denied": 0,
+    "phase_refresh_seen_dropped": 0,
+    "duplicate_guidance_dropped": 0,
+    "management_ops_triggered": 11,
+    "management_results": [
+      {
+        "phase": "on_insert",
+        "op_name": "shortcut_validation",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 1,
+        "duration_ms": 111.03177070617676,
+        "details": {
+          "validated": 0,
+          "rejected": 1,
+          "scanned": 1,
+          "reject_reasons_sample": [
+            "step 0 consumes runtime placeholder <SOURCE_URL> not produced by any earlier step's intent"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.22220611572265625,
+        "details": {
+          "total_active_scanned": 311,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "on_insert",
+        "op_name": "conflict_detection",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 4.196882247924805,
+        "details": {
+          "threshold": 0.85,
+          "targets_scanned": 4,
+          "candidates_scanned": 311,
+          "conflict_pairs": 0,
+          "deactivated_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "access_stats_update",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0064373016357421875,
+        "details": {},
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "boost_on_success",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.10991096496582031,
+        "details": {
+          "success_boost": 0.05,
+          "used_unit_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "penalize_on_failure",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0,
+        "details": {},
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "shortcut_promotion",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.0045299530029296875,
+        "details": {
+          "shortcut_boost": 0.1,
+          "boosted_unit_ids": [],
+          "promoted_unit_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "post_task",
+        "op_name": "signature_dedup",
+        "triggered": false,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.13113021850585938,
+        "details": {
+          "total_active_scanned": 311,
+          "duplicate_groups": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "periodic",
+        "op_name": "time_decay",
+        "triggered": true,
+        "units_affected": 311,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 94,
+        "duration_ms": 10117.748498916626,
+        "details": {
+          "total_active": 311,
+          "modified": 94,
+          "decay_rate": 0.95,
+          "access_refresh": 0.1
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "periodic",
+        "op_name": "semantic_dedup",
+        "triggered": true,
+        "units_affected": 10,
+        "units_created": 0,
+        "units_deleted": 5,
+        "units_modified": 5,
+        "duration_ms": 1117.905616760254,
+        "details": {
+          "threshold": 0.88,
+          "total_active_with_embedding": 311,
+          "deactivated_ids": [
+            "d2975b6c-19a7-47c5-894a-78fe8b2855a0",
+            "8fc4719b-18d7-4593-a937-83af692193a2",
+            "a134b8d3-9e7a-45ae-9e94-66d58d4b843c",
+            "07365d49-d947-49a6-ab2c-f306eeb44ff0",
+            "ff77b693-2b07-4b06-96dd-b5767928b769"
+          ]
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "periodic",
+        "op_name": "trajectory_to_workflow",
+        "triggered": true,
+        "units_affected": 0,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.26988983154296875,
+        "details": {
+          "total_trajectories": 353,
+          "qualifying_trajectories": 1,
+          "workflows_created": 0
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "periodic",
+        "op_name": "score_based_prune",
+        "triggered": true,
+        "units_affected": 306,
+        "units_created": 0,
+        "units_deleted": 2,
+        "units_modified": 0,
+        "duration_ms": 217.16046333312988,
+        "details": {
+          "total_before": 306,
+          "phase1_pruned": 2,
+          "phase2_pruned": 0,
+          "total_pruned": 2,
+          "remaining_active": 304,
+          "min_effective_score": 0.05,
+          "max_memory_count": 500
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "periodic",
+        "op_name": "quality_curation",
+        "triggered": true,
+        "units_affected": 41,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 24,
+        "duration_ms": 2686.774492263794,
+        "details": {
+          "total_active": 304,
+          "candidates_with_usage": 41,
+          "modified": 24,
+          "bayesian_weight": 0.7
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "periodic",
+        "op_name": "utility_audit",
+        "triggered": true,
+        "units_affected": 304,
+        "units_created": 0,
+        "units_deleted": 0,
+        "units_modified": 0,
+        "duration_ms": 0.20074844360351562,
+        "details": {
+          "total_active": 304,
+          "eligible_for_audit": 13,
+          "deactivated_harmful": 0,
+          "deactivated_stale_unused": 0,
+          "deactivated_due_to_leakage": 0,
+          "min_usage_count": 3,
+          "harmful_threshold": 0.3,
+          "leakage_bumps": {
+            "high": 0.2,
+            "medium": 0.1
+          },
+          "stale_unused_age_hours": 24.0,
+          "handle_stale_unused": false,
+          "require_negative_lift": true,
+          "provider_baseline": 0.6158,
+          "deactivated_ids": []
+        },
+        "store_type": "json"
+      },
+      {
+        "phase": "periodic",
+        "op_name": "size_capped_prune",
+        "triggered": true,
+        "units_affected": 304,
+        "units_created": 0,
+        "units_deleted": 49,
+        "units_modified": 0,
+        "duration_ms": 5310.525894165039,
+        "details": {
+          "active_pool_before": 304,
+          "active_pool_after": 255,
+          "cap": 300,
+          "shrink_to_ratio": 0.85,
+          "target_size": 255,
+          "deactivated_ids": [
+            "8311d564-0d59-4a40-9a36-63d3f85de2f7",
+            "3b6a057c-3a9a-4491-a28b-2e8556844e51",
+            "056cf57c-b4e2-4e47-9dd7-13b0f55740c2",
+            "bb8c9c52-5538-4d7e-a11f-5b75c8e81369",
+            "61347cfd-6233-47c6-b519-e7d2beb238d6",
+            "508b065d-60e5-4014-a014-520dd7a13bc5",
+            "947c534c-3971-4fa7-8955-4cec655b32f0",
+            "e50816fc-fc45-42f3-acd2-e6ac250d053f",
+            "78c22aa7-d175-4ac5-8fe6-91c27f1b1d35",
+            "72b9c5df-81d9-429a-b836-b410c4487748",
+            "c99a0372-d8dc-4cce-b4b3-0379930bdba9",
+            "2ee44243-b829-4b30-9bd7-3d0678b61431",
+            "c98b6f18-4dc3-4a5a-a786-58bc77ebae75",
+            "8c285695-c49e-40d9-909a-c3204ffbdb78",
+            "db0dc7f0-cfc3-48d0-bcaf-2801a28cedeb",
+            "11b647c7-112d-42b1-9c94-0e26ec04336f",
+            "121991f6-c975-4dce-aad9-c593d9ee4fa3",
+            "a6d84c4f-1acc-4b6d-bfea-17e42864f5b1",
+            "6b3bd379-f683-4333-b821-188919832d5a",
+            "3c432fec-c779-4d82-9d01-05ff44039640",
+            "4b2b7789-8738-4f3b-acbc-6c0122542757",
+            "64dc7b40-9ca2-428b-a2de-eda29ce18dac",
+            "2e7aba5b-50d8-4347-ac01-7e3c11374a52",
+            "4549fc23-0999-44cc-a4a6-7a590fc03ede",
+            "131bf2e8-cf74-4409-8556-4b88c62d3dec",
+            "dfaefe7c-57d7-4eb6-a3e7-0f236b4ebbd2",
+            "ee38e043-d329-4527-a192-ab01471b3ab2",
+            "4eb5b848-a2a4-4953-9404-30417491577b",
+            "c3c4a465-259d-40e2-9282-a85acc2f96f4",
+            "1607834b-1da2-428d-b063-bd8bd92b0b60",
+            "95c10c4c-c98d-41f1-931a-5ac78e0e9214",
+            "fc23951b-b27e-4668-8299-ff8975bcbbea"
+          ],
+          "selection_breakdown": {
+            "by_conflict": 0,
+            "by_negative": 0,
+            "by_zero_usage": 49
+          }
+        },
+        "store_type": "json"
+      }
+    ],
+    "retriever_name": "ContrastiveRetriever",
+    "graph_nodes": null,
+    "graph_edges": null,
+    "injection_type": "context_composer",
+    "avg_kept_confidence": 0.6589999999999999,
+    "kept_units_stale_count": 0,
+    "injection_failed_signal": false,
+    "num_memory_units_by_store": {
+      "json": 353
+    },
+    "type_counts": {
+      "tip": 121,
+      "trajectory": 71,
+      "workflow": 76,
+      "shortcut": 85
+    },
+    "judge_decisions_total": 3,
+    "noise_injection_rate": 0.6667,
+    "actionable_usefulness_rate": 0.3333,
+    "judge_input_tokens": 1004,
+    "judge_output_tokens": 79,
+    "judge_api_calls": 1,
+    "runtime_input_tokens": 1660,
+    "runtime_output_tokens": 120,
+    "runtime_api_calls": 2,
+    "injection_stats": {
+      "renderer": "context_composer",
+      "candidates": 3,
+      "selected": 1,
+      "fallbacks": 0
+    }
+  },
+  "metrics": {
+    "elapsed_time": 503.8661074982956,
+    "total_tokens": 144352,
+    "prompt_tokens": 137187,
+    "completion_tokens": 7165,
+    "api_calls": 25
+  }
+}
